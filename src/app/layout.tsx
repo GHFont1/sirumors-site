@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   description:
     "The all-in-one tracker for the road to superintelligence: AI news, leaks and rumors rated by confidence, release history with next-release estimates, Codex resets, robotics and robotaxis.",
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/favicon.ico" }], apple: "/apple-touch-icon.png" },
-  openGraph: { siteName: "SI Rumors", type: "website", url: "https://sirumors.com/" },
-  twitter: { card: "summary_large_image" },
+  openGraph: { siteName: "SI Rumors", type: "website", url: "https://sirumors.com/", images: [{ url: "/og.png", width: 1200, height: 630, alt: "SI Rumors: superintelligence news, before it's news" }] },
+  twitter: { card: "summary_large_image", images: ["/og.png"] },
   alternates: { canonical: "/" },
 };
 

@@ -121,7 +121,8 @@
       "id": "importai",
       "name": "Import AI",
       "type": "analysis",
-      "url": "https://importai.substack.com/feed"
+      "url": "https://importai.substack.com/feed",
+      "optional": true
     },
     {
       "id": "rundown",
