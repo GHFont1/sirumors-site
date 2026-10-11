@@ -1,0 +1,367 @@
+{
+  "feeds": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "type": "official",
+      "company": "openai",
+      "url": "https://openai.com/news/rss.xml"
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "type": "official",
+      "company": "anthropic",
+      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml"
+    },
+    {
+      "id": "deepmind",
+      "name": "Google DeepMind",
+      "type": "official",
+      "company": "google",
+      "url": "https://deepmind.google/blog/rss.xml"
+    },
+    {
+      "id": "google-ai",
+      "name": "Google AI Blog",
+      "type": "official",
+      "company": "google",
+      "url": "https://blog.google/technology/ai/rss/"
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA Blog",
+      "type": "official",
+      "company": "nvidia",
+      "url": "https://blogs.nvidia.com/feed/"
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "type": "official",
+      "url": "https://huggingface.co/blog/feed.xml"
+    },
+    {
+      "id": "meta",
+      "name": "Meta Newsroom",
+      "type": "official",
+      "company": "meta",
+      "url": "https://about.fb.com/news/feed/",
+      "requireTopic": true
+    },
+    {
+      "id": "waymo",
+      "name": "Waymo Blog",
+      "type": "official",
+      "company": "waymo",
+      "url": "https://waymo.com/blog/rss.xml"
+    },
+    {
+      "id": "verge",
+      "name": "The Verge",
+      "type": "press",
+      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
+    },
+    {
+      "id": "techcrunch",
+      "name": "TechCrunch",
+      "type": "press",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/"
+    },
+    {
+      "id": "ars",
+      "name": "Ars Technica",
+      "type": "press",
+      "url": "https://arstechnica.com/ai/feed/"
+    },
+    {
+      "id": "mittr",
+      "name": "MIT Technology Review",
+      "type": "press",
+      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed"
+    },
+    {
+      "id": "wired",
+      "name": "WIRED",
+      "type": "press",
+      "url": "https://www.wired.com/feed/tag/ai/latest/rss"
+    },
+    {
+      "id": "electrek",
+      "name": "Electrek",
+      "type": "press",
+      "company": "tesla",
+      "url": "https://electrek.co/guides/tesla/feed/",
+      "requireTopic": true
+    },
+    {
+      "id": "teslarati",
+      "name": "Teslarati",
+      "type": "press",
+      "company": "tesla",
+      "url": "https://www.teslarati.com/feed/",
+      "requireTopic": true
+    },
+    {
+      "id": "notateslaapp",
+      "name": "Not a Tesla App",
+      "type": "press",
+      "company": "tesla",
+      "url": "https://www.notateslaapp.com/rss",
+      "requireTopic": true
+    },
+    {
+      "id": "simonw",
+      "name": "Simon Willison",
+      "type": "analysis",
+      "url": "https://simonwillison.net/atom/everything/",
+      "requireMatch": true
+    },
+    {
+      "id": "importai",
+      "name": "Import AI",
+      "type": "analysis",
+      "url": "https://importai.substack.com/feed"
+    },
+    {
+      "id": "rundown",
+      "name": "The Rundown AI",
+      "type": "analysis",
+      "url": "https://rss.beehiiv.com/feeds/2R3C6Bt5wj.xml"
+    },
+    {
+      "id": "r-singularity",
+      "name": "r/singularity",
+      "type": "community",
+      "url": "https://www.reddit.com/r/singularity/hot.rss",
+      "optional": true
+    },
+    {
+      "id": "r-openai",
+      "name": "r/OpenAI",
+      "type": "community",
+      "company": "openai",
+      "url": "https://www.reddit.com/r/OpenAI/hot.rss",
+      "optional": true
+    },
+    {
+      "id": "r-claudeai",
+      "name": "r/ClaudeAI",
+      "type": "community",
+      "company": "anthropic",
+      "url": "https://www.reddit.com/r/ClaudeAI/hot.rss",
+      "optional": true
+    },
+    {
+      "id": "r-codex",
+      "name": "r/codex",
+      "type": "community",
+      "url": "https://www.reddit.com/r/codex/hot.rss",
+      "optional": true
+    },
+    {
+      "id": "r-teslamotors",
+      "name": "r/teslamotors",
+      "type": "community",
+      "company": "tesla",
+      "url": "https://www.reddit.com/r/teslamotors/hot.rss",
+      "optional": true,
+      "requireTopic": true
+    }
+  ],
+  "newsQueries": [
+    {
+      "id": "gn-rumors",
+      "name": "Google News",
+      "q": "(OpenAI OR Anthropic OR Gemini OR xAI OR Grok) (leak OR leaked OR rumor OR reportedly OR \"people familiar\")"
+    },
+    {
+      "id": "gn-releases",
+      "name": "Google News",
+      "q": "(GPT-6 OR \"GPT-5\" OR \"Claude\" OR \"Gemini 3\" OR \"Gemini 4\" OR \"Grok 5\" OR \"Llama 5\") release"
+    },
+    {
+      "id": "gn-anthropic",
+      "name": "Google News",
+      "q": "Anthropic Claude"
+    },
+    {
+      "id": "gn-codex",
+      "name": "Google News",
+      "q": "OpenAI Codex (limits OR reset OR update OR launch)"
+    },
+    {
+      "id": "gn-optimus",
+      "name": "Google News",
+      "q": "Tesla Optimus"
+    },
+    {
+      "id": "gn-cybercab",
+      "name": "Google News",
+      "q": "Tesla Cybercab OR robotaxi"
+    },
+    {
+      "id": "gn-superintelligence",
+      "name": "Google News",
+      "q": "superintelligence"
+    },
+    {
+      "id": "gn-xai",
+      "name": "Google News",
+      "q": "xAI Grok"
+    },
+    {
+      "id": "gn-figure",
+      "name": "Google News",
+      "q": "\"Figure AI\" humanoid"
+    },
+    {
+      "id": "gn-nvidia",
+      "name": "Google News",
+      "q": "Nvidia AI chips"
+    }
+  ],
+  "hnQueries": [
+    "OpenAI",
+    "Anthropic",
+    "Claude",
+    "Gemini",
+    "Codex",
+    "GPT",
+    "LLM",
+    "Grok",
+    "DeepSeek",
+    "superintelligence",
+    "AGI"
+  ],
+  "githubRepos": [
+    {
+      "repo": "openai/codex",
+      "name": "Codex CLI",
+      "company": "openai"
+    },
+    {
+      "repo": "anthropics/claude-code",
+      "name": "Claude Code",
+      "company": "anthropic"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "name": "Gemini CLI",
+      "company": "google"
+    }
+  ],
+  "youtube": [
+    {
+      "name": "OpenAI",
+      "channelId": "UCXZCJLdBC09xxGZ6gcdrc6A",
+      "company": "openai",
+      "type": "official"
+    },
+    {
+      "name": "Anthropic",
+      "handle": "@anthropic-ai",
+      "company": "anthropic",
+      "type": "official"
+    },
+    {
+      "name": "Google DeepMind",
+      "handle": "@googledeepmind",
+      "company": "google",
+      "type": "official"
+    },
+    {
+      "name": "xAI",
+      "handle": "@xai",
+      "company": "xai",
+      "type": "official"
+    },
+    {
+      "name": "NVIDIA",
+      "handle": "@NVIDIA",
+      "company": "nvidia",
+      "type": "official"
+    },
+    {
+      "name": "Tesla",
+      "handle": "@tesla",
+      "company": "tesla",
+      "type": "official"
+    },
+    {
+      "name": "Figure",
+      "handle": "@figureai",
+      "company": "figure",
+      "type": "official"
+    },
+    {
+      "name": "Lex Fridman",
+      "handle": "@lexfridman",
+      "type": "creator"
+    },
+    {
+      "name": "Dwarkesh Patel",
+      "handle": "@DwarkeshPatel",
+      "type": "creator"
+    },
+    {
+      "name": "AI Explained",
+      "handle": "@aiexplained-official",
+      "type": "creator"
+    },
+    {
+      "name": "Andrej Karpathy",
+      "handle": "@AndrejKarpathy",
+      "type": "creator"
+    },
+    {
+      "name": "Two Minute Papers",
+      "handle": "@TwoMinutePapers",
+      "type": "creator"
+    },
+    {
+      "name": "Matthew Berman",
+      "handle": "@matthew_berman",
+      "type": "creator"
+    },
+    {
+      "name": "Wes Roth",
+      "handle": "@WesRoth",
+      "type": "creator"
+    },
+    {
+      "name": "All-In Podcast",
+      "handle": "@allin",
+      "type": "creator"
+    },
+    {
+      "name": "Y Combinator",
+      "handle": "@ycombinator",
+      "type": "creator"
+    },
+    {
+      "name": "CNBC Television",
+      "handle": "@CNBCtelevision",
+      "type": "creator",
+      "requireMatch": true
+    }
+  ],
+  "blockSources": [
+    "tech-insider.org",
+    "24/7 wall st",
+    "247wallst.com",
+    "stocktwits",
+    "coincentral",
+    "benzinga",
+    "msn.com",
+    "yahoo finance",
+    "tradingview",
+    "economictimes.com/markets",
+    "investing.com",
+    "gurufocus",
+    "marketbeat",
+    "zacks",
+    "fool.com",
+    "insidermonkey"
+  ]
+}

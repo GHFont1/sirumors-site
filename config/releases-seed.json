@@ -1,0 +1,440 @@
+{
+  "_note": "Well-documented historical releases used before official feeds cover them, and for labs with no feed. New releases are detected automatically from official feeds (first official mention) and news coverage.",
+  "lines": [
+    {
+      "id": "openai-gpt",
+      "name": "OpenAI GPT",
+      "company": "openai",
+      "kind": "model",
+      "detect": {
+        "sources": [
+          "openai"
+        ],
+        "pattern": "\\bGPT[-\u2011 ]?(\\d+(?:\\.\\d+)?)(o)?\\b",
+        "min": 4,
+        "newsFallback": true,
+        "backfill": "OpenAI GPT (launches OR releases OR introduces)"
+      }
+    },
+    {
+      "id": "openai-reasoning",
+      "name": "OpenAI o-series",
+      "company": "openai",
+      "kind": "model",
+      "retired": "Folded into GPT-5 (August 2025); OpenAI now ships reasoning inside the GPT line."
+    },
+    {
+      "id": "claude-opus",
+      "name": "Claude Opus",
+      "company": "anthropic",
+      "kind": "model",
+      "detect": {
+        "sources": [
+          "anthropic"
+        ],
+        "pattern": "\\bClaude (?:Opus (\\d+(?:\\.\\d+)?)|(\\d+(?:\\.\\d+)?) Opus)\\b",
+        "newsFallback": true,
+        "backfill": "Anthropic Claude (launches OR releases OR introduces)"
+      }
+    },
+    {
+      "id": "claude-sonnet",
+      "name": "Claude Sonnet",
+      "company": "anthropic",
+      "kind": "model",
+      "detect": {
+        "sources": [
+          "anthropic"
+        ],
+        "pattern": "\\bClaude (?:Sonnet (\\d+(?:\\.\\d+)?)|(\\d+(?:\\.\\d+)?) Sonnet)\\b",
+        "newsFallback": true,
+        "backfill": "Anthropic Claude (launches OR releases OR introduces)"
+      }
+    },
+    {
+      "id": "claude-haiku",
+      "name": "Claude Haiku",
+      "company": "anthropic",
+      "kind": "model",
+      "detect": {
+        "sources": [
+          "anthropic"
+        ],
+        "pattern": "\\bClaude (?:Haiku (\\d+(?:\\.\\d+)?)|(\\d+(?:\\.\\d+)?) Haiku)\\b",
+        "newsFallback": true,
+        "backfill": "Anthropic Claude (launches OR releases OR introduces)"
+      }
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini",
+      "company": "google",
+      "kind": "model",
+      "detect": {
+        "sources": [
+          "deepmind",
+          "google-ai"
+        ],
+        "pattern": "\\bGemini (\\d+(?:\\.\\d+)?)\\b",
+        "newsFallback": true,
+        "backfill": "Google Gemini (launches OR releases OR introduces)"
+      }
+    },
+    {
+      "id": "grok",
+      "name": "xAI Grok",
+      "company": "xai",
+      "kind": "model",
+      "detect": {
+        "news": true,
+        "pattern": "\\bGrok[- ](\\d+(?:\\.\\d+)?)\\b",
+        "minSources": 3,
+        "launchWords": true,
+        "backfill": "Grok xAI (launches OR releases OR unveils OR \"now available\")"
+      }
+    },
+    {
+      "id": "llama",
+      "name": "Meta Llama",
+      "company": "meta",
+      "kind": "model",
+      "detect": {
+        "news": true,
+        "pattern": "\\bLlama[- ](\\d+(?:\\.\\d+)?)\\b",
+        "minSources": 3,
+        "launchWords": true,
+        "backfill": "Meta Llama (releases OR launches OR \"now available\")"
+      }
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "company": "deepseek",
+      "kind": "model",
+      "detect": {
+        "news": true,
+        "pattern": "\\bDeepSeek[- ]((?:V|R)\\d+(?:\\.\\d+)?)\\b",
+        "minSources": 3,
+        "launchWords": true,
+        "backfill": "DeepSeek (releases OR launches OR unveils) model"
+      }
+    },
+    {
+      "id": "optimus",
+      "name": "Tesla Optimus",
+      "company": "tesla",
+      "kind": "robot",
+      "detect": {
+        "news": true,
+        "pattern": "\\bOptimus (?:Gen(?:eration)?|V)[ -]?(\\d+)\\b",
+        "minSources": 3,
+        "launchWords": true,
+        "backfill": "Tesla Optimus (unveils OR shows OR \"Gen 3\" OR V3)"
+      }
+    },
+    {
+      "id": "figure",
+      "name": "Figure humanoid",
+      "company": "figure",
+      "kind": "robot",
+      "detect": {
+        "news": true,
+        "pattern": "\\bFigure 0?(\\d+)\\b",
+        "minSources": 3,
+        "launchWords": true,
+        "backfill": "\"Figure AI\" (unveils OR launches) robot"
+      }
+    },
+    {
+      "id": "tesla-autonomy",
+      "name": "Tesla FSD & Robotaxi",
+      "company": "tesla",
+      "kind": "autonomy"
+    }
+  ],
+  "releases": [
+    {
+      "line": "openai-gpt",
+      "name": "ChatGPT (GPT-3.5)",
+      "version": "3.5",
+      "date": "2022-11-30"
+    },
+    {
+      "line": "openai-gpt",
+      "name": "GPT-4",
+      "version": "4",
+      "date": "2023-03-14"
+    },
+    {
+      "line": "openai-gpt",
+      "name": "GPT-4o",
+      "version": "4o",
+      "date": "2024-05-13"
+    },
+    {
+      "line": "openai-gpt",
+      "name": "GPT-4.5",
+      "version": "4.5",
+      "date": "2025-02-27"
+    },
+    {
+      "line": "openai-gpt",
+      "name": "GPT-4.1",
+      "version": "4.1",
+      "date": "2025-04-14"
+    },
+    {
+      "line": "openai-gpt",
+      "name": "GPT-5",
+      "version": "5",
+      "date": "2025-08-07"
+    },
+    {
+      "line": "openai-gpt",
+      "name": "GPT-5.1",
+      "version": "5.1",
+      "date": "2025-11-12"
+    },
+    {
+      "line": "openai-reasoning",
+      "name": "o1-preview",
+      "version": "o1-preview",
+      "date": "2024-09-12"
+    },
+    {
+      "line": "openai-reasoning",
+      "name": "o1",
+      "version": "o1",
+      "date": "2024-12-05"
+    },
+    {
+      "line": "openai-reasoning",
+      "name": "o3-mini",
+      "version": "o3-mini",
+      "date": "2025-01-31"
+    },
+    {
+      "line": "openai-reasoning",
+      "name": "o3 and o4-mini",
+      "version": "o3",
+      "date": "2025-04-16"
+    },
+    {
+      "line": "claude-opus",
+      "name": "Claude 3 Opus",
+      "version": "3",
+      "date": "2024-03-04"
+    },
+    {
+      "line": "claude-opus",
+      "name": "Claude Opus 4",
+      "version": "4",
+      "date": "2025-05-22"
+    },
+    {
+      "line": "claude-opus",
+      "name": "Claude Opus 4.1",
+      "version": "4.1",
+      "date": "2025-08-05"
+    },
+    {
+      "line": "claude-sonnet",
+      "name": "Claude 3 Sonnet",
+      "version": "3",
+      "date": "2024-03-04"
+    },
+    {
+      "line": "claude-sonnet",
+      "name": "Claude 3.5 Sonnet",
+      "version": "3.5",
+      "date": "2024-06-20"
+    },
+    {
+      "line": "claude-sonnet",
+      "name": "Claude 3.7 Sonnet",
+      "version": "3.7",
+      "date": "2025-02-24"
+    },
+    {
+      "line": "claude-sonnet",
+      "name": "Claude Sonnet 4",
+      "version": "4",
+      "date": "2025-05-22"
+    },
+    {
+      "line": "claude-sonnet",
+      "name": "Claude Sonnet 4.5",
+      "version": "4.5",
+      "date": "2025-09-29"
+    },
+    {
+      "line": "claude-haiku",
+      "name": "Claude 3 Haiku",
+      "version": "3",
+      "date": "2024-03-13"
+    },
+    {
+      "line": "claude-haiku",
+      "name": "Claude 3.5 Haiku",
+      "version": "3.5",
+      "date": "2024-10-22"
+    },
+    {
+      "line": "claude-haiku",
+      "name": "Claude Haiku 4.5",
+      "version": "4.5",
+      "date": "2025-10-15"
+    },
+    {
+      "line": "gemini",
+      "name": "Gemini 1.0",
+      "version": "1.0",
+      "date": "2023-12-06"
+    },
+    {
+      "line": "gemini",
+      "name": "Gemini 1.5",
+      "version": "1.5",
+      "date": "2024-02-15"
+    },
+    {
+      "line": "gemini",
+      "name": "Gemini 2.0",
+      "version": "2.0",
+      "date": "2024-12-11"
+    },
+    {
+      "line": "gemini",
+      "name": "Gemini 2.5",
+      "version": "2.5",
+      "date": "2025-03-25"
+    },
+    {
+      "line": "gemini",
+      "name": "Gemini 3",
+      "version": "3",
+      "date": "2025-11-18"
+    },
+    {
+      "line": "grok",
+      "name": "Grok-1",
+      "version": "1",
+      "date": "2023-11-04"
+    },
+    {
+      "line": "grok",
+      "name": "Grok-1.5",
+      "version": "1.5",
+      "date": "2024-03-28"
+    },
+    {
+      "line": "grok",
+      "name": "Grok-2",
+      "version": "2",
+      "date": "2024-08-13"
+    },
+    {
+      "line": "grok",
+      "name": "Grok 3",
+      "version": "3",
+      "date": "2025-02-17"
+    },
+    {
+      "line": "grok",
+      "name": "Grok 4",
+      "version": "4",
+      "date": "2025-07-09"
+    },
+    {
+      "line": "grok",
+      "name": "Grok 4.1",
+      "version": "4.1",
+      "date": "2025-11-17"
+    },
+    {
+      "line": "llama",
+      "name": "LLaMA",
+      "version": "1",
+      "date": "2023-02-24"
+    },
+    {
+      "line": "llama",
+      "name": "Llama 2",
+      "version": "2",
+      "date": "2023-07-18"
+    },
+    {
+      "line": "llama",
+      "name": "Llama 3",
+      "version": "3",
+      "date": "2024-04-18"
+    },
+    {
+      "line": "llama",
+      "name": "Llama 3.1",
+      "version": "3.1",
+      "date": "2024-07-23"
+    },
+    {
+      "line": "llama",
+      "name": "Llama 4",
+      "version": "4",
+      "date": "2025-04-05"
+    },
+    {
+      "line": "deepseek",
+      "name": "DeepSeek-V3",
+      "version": "V3",
+      "date": "2024-12-26"
+    },
+    {
+      "line": "deepseek",
+      "name": "DeepSeek-R1",
+      "version": "R1",
+      "date": "2025-01-20"
+    },
+    {
+      "line": "optimus",
+      "name": "Optimus prototype",
+      "version": "1",
+      "date": "2022-09-30"
+    },
+    {
+      "line": "optimus",
+      "name": "Optimus Gen 2",
+      "version": "2",
+      "date": "2023-12-12"
+    },
+    {
+      "line": "figure",
+      "name": "Figure 01",
+      "version": "1",
+      "date": "2023-03-02",
+      "precision": "month"
+    },
+    {
+      "line": "figure",
+      "name": "Figure 02",
+      "version": "2",
+      "date": "2024-08-06"
+    },
+    {
+      "line": "figure",
+      "name": "Figure 03",
+      "version": "3",
+      "date": "2025-10-09"
+    },
+    {
+      "line": "tesla-autonomy",
+      "name": "Cybercab unveiled (We, Robot)",
+      "version": "cybercab",
+      "date": "2024-10-10"
+    },
+    {
+      "line": "tesla-autonomy",
+      "name": "Robotaxi service launches in Austin",
+      "version": "robotaxi-austin",
+      "date": "2025-06-22"
+    }
+  ]
+}
