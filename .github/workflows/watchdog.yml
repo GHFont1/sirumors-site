@@ -52,3 +52,25 @@ jobs:
           fi
           gh workflow run update.yml -R "$REPO"
           exit 1
+
+  copy:
+    # Our own story write-ups come from the copywriter lane on the Mac (com.sirumors.copywriter).
+    # It retries every 20 minutes by itself; this keeps one open issue while it is behind.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check our write-ups are keeping up
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          body=$(curl -fsS -m 30 "https://sirumors.com/status.json?ts=$(date +%s)")
+          read age backlog < <(node -e 'const m=JSON.parse(process.argv[1]);console.log(((Date.now()-Date.parse(m.copyAt||0))/3600000).toFixed(1), m.copyBacklog??0)' "$body")
+          echo "copy age ${age}h, backlog ${backlog}"
+          open=$(gh issue list -R "$REPO" --label copywriter --state open --json number --jq '.[0].number')
+          if node -e "process.exit(($age < 6 || $backlog < 60) ? 0 : 1)"; then
+            [ -n "$open" ] && gh issue comment "$open" -R "$REPO" --body "Recovered: write-ups ${age}h old, backlog ${backlog}." && gh issue close "$open" -R "$REPO"
+            exit 0
+          fi
+          gh label create copywriter -R "$REPO" --color FBCA04 2>/dev/null || true
+          msg="Our write-ups are ${age}h old with ${backlog} stories waiting. The copywriter lane runs on the Mac (com.sirumors.copywriter, log ~/Library/Logs/sirumors-copywriter.log); stories show the publisher's summary on our own pages until it catches up."
+          if [ -z "$open" ]; then gh issue create -R "$REPO" --label copywriter --title "Copywriter lane is behind" --body "$msg"; else gh issue comment "$open" -R "$REPO" --body "$msg"; fi

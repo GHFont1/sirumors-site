@@ -113,6 +113,9 @@ try {
   writeFileSync(STATE, JSON.stringify({ lastRun: new Date().toISOString(), lastSuccess: new Date().toISOString(), failures: 0, added, queue: q.items.length }));
 } catch (e) {
   log("FAILED:", e.message);
-  writeFileSync(STATE, JSON.stringify({ ...state, lastRun: new Date().toISOString(), failures: (state.failures ?? 0) + 1, error: e.message.slice(0, 300) }));
+  const failures = (state.failures ?? 0) + 1;
+  writeFileSync(STATE, JSON.stringify({ ...state, lastRun: new Date().toISOString(), failures, error: e.message.slice(0, 300) }));
+  // Three failed runs in a row (an hour): say so on this Mac. The lane keeps retrying.
+  if (failures % 3 === 0) spawnSync("osascript", ["-e", `display notification "${e.message.slice(0, 120).replace(/"/g, "'")}" with title "SI Rumors copywriter failing (${failures} runs)"`]);
   process.exit(1);
 }
