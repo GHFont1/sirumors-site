@@ -123,7 +123,8 @@ export function BestTile({ b }: { b: Board }) {
   );
 }
 
-const PRODUCT_TONE: Record<string, string> = { Codex: "var(--accent)", Claude: "#d97757", ChatGPT: "var(--accent-2)", Gemini: "#3b82f6" };
+const PRODUCT_TONE: Record<string, string> = { OpenAI: "var(--accent-2)", Anthropic: "#d97757", Google: "#3b82f6" };
+const PRODUCT_SLUG: Record<string, string> = { OpenAI: "openai", Anthropic: "anthropic", Google: "google" };
 
 /** Past limit resets with the gap since the one before. */
 export function ResetList({ items, limit = 8 }: { items: ResetEvent[]; limit?: number }) {
@@ -142,7 +143,7 @@ export function ResetList({ items, limit = 8 }: { items: ResetEvent[]; limit?: n
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 text-[11px]">
-                <span className="rounded-full border px-2 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{r.product}</span>
+                <span className="inline-flex items-center gap-1 rounded-full border px-2 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{PRODUCT_SLUG[r.product] && <Logo slug={PRODUCT_SLUG[r.product]} name={r.product} size={11} />}{r.product}</span>
                 <span className="text-faint">{daysBetween(r.date, NOW)}d ago{gap != null ? ` · ${gap}d after last` : ""}</span>
               </div>
               <a href={r.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 line-clamp-2 text-[13px] font-semibold leading-snug link-hover">{r.title}</a>

@@ -18,7 +18,7 @@ export default function Home() {
   const next = upcoming();
   const soonest = next.find((l) => Date.parse(l.expectedNext!) >= NOW - 86400000) ?? next[0];
   const resetList = resetHistory();
-  const lastReset = resetList.find((r) => r.product === "Codex");
+  const lastReset = resetList.find((r) => r.product === "OpenAI");
   const best = ["overall", "coding", "agent", "open", "image", "video"].map((id) => boards.find((b) => b.id === id)).filter((b) => b != null);
   const odds = markets.slice(0, 3);
   const cli = repos.find((r) => r.repo === "openai/codex")?.releases.find((r) => !r.pre);
@@ -81,7 +81,7 @@ export default function Home() {
               <div className="py-3"><FollowButton kind="topic" slug="codex" label="Codex" size="sm" /> <span className="ml-1 text-xs text-faint">Get reset alerts</span></div>
             </div>
           </Section>
-          <Section title="Previous resets" kicker="Codex, Claude and ChatGPT" href="/codex/" linkLabel="History">
+          <Section title="Previous resets" kicker="OpenAI and Anthropic" href="/codex/" linkLabel="History">
             <div className="card px-4"><ResetList items={resetList} limit={7} /></div>
           </Section>
           {odds.length > 0 && (

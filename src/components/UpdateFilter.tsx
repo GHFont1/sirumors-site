@@ -7,7 +7,7 @@ const PILLS = [
   { k: "rumor", label: "◉ Rumors" },
   { k: "breaking", label: "⚡ Breaking" },
   { k: "official", label: "✓ From the labs" },
-  { k: "reset", label: "↻ Codex resets" },
+  { k: "reset", label: "↻ Resets" },
   { k: "update", label: "⬆ Version updates" },
   { k: "hot", label: "🔥 Hot" },
   { k: "video", label: "▶ Videos" },

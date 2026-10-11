@@ -195,12 +195,14 @@ export function allReleases() {
 
 export const logoFor = (slug: string) => `/logos/${slug}.png`;
 
-/** Actual limit resets (not policy chatter), newest first, one per product per day. */
+/** Actual limit resets (not policy chatter), newest first, one per company per day.
+ *  Codex and ChatGPT are both OpenAI, so they share one line and one "days since last" count. */
+const RESET_CO: Record<string, string> = { Codex: "OpenAI", ChatGPT: "OpenAI", Claude: "Anthropic", Gemini: "Google" };
 export function resetHistory() {
   const real = /\breset(s|ting)?\b|reset again|another reset|limits? removed/i;
   const chatter = /pledg|offering|or a full|rumou?r|losing|introduc|tests?\b|option|plans,|referral|how to|explained|what is|paid resets/i;
   const seen = new Set<string>();
-  return resets.map((r) => (/^(anthropic|claude)\b/i.test(r.title) ? { ...r, product: "Claude" } : r)).filter((r) => {
+  return resets.map((r) => ({ ...r, product: /^(anthropic|claude)\b/i.test(r.title) ? "Anthropic" : RESET_CO[r.product] ?? r.product })).filter((r) => {
     const k = `${r.product}|${r.date.slice(0, 10)}`;
     if (!real.test(r.title) || chatter.test(r.title) || seen.has(k)) return false;
     seen.add(k);

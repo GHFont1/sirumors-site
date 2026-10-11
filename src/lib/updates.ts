@@ -32,7 +32,7 @@ export const KIND_LABEL: Record<UpdateKind, string> = {
   breaking: "Breaking",
   rumor: "Rumors",
   official: "From the labs",
-  reset: "Codex resets",
+  reset: "Resets",
   update: "Version updates",
   hot: "Hot",
   video: "Videos",
@@ -88,7 +88,7 @@ function fromStory(s: Story): Update | null {
     source: s.source, sources: n, image: s.image, summary: s.summary, points: s.points,
     headline: cleanTitle(s.title, s.source),
   };
-  if (s.isReset) return { ...base, kind: "reset", badge: "Codex reset", weight: 70, discuss: discussLink("codex", s.title, s.url) };
+  if (s.isReset) return { ...base, kind: "reset", badge: base.company === "anthropic" ? "Anthropic reset" : "OpenAI reset", weight: 70, discuss: discussLink("codex", s.title, s.url) };
   if (s.isRumor && s.status) {
     const badge = s.status === "confirmed" ? "Confirmed" : s.status === "strong" ? "Strong rumor" : s.status === "developing" ? "Rumor" : "Whisper";
     const weight = s.status === "confirmed" ? 85 : s.status === "strong" ? 72 : s.status === "developing" ? 55 : 30;
@@ -152,7 +152,7 @@ export function allUpdates(days = 14): Update[] {
   for (const r of resets) {
     if (Date.parse(r.date) < horizon) continue;
     out.push({
-      id: `x-${r.id}`, kind: "reset", badge: `${r.product} reset`, headline: cleanTitle(r.title, r.source),
+      id: `x-${r.id}`, kind: "reset", badge: `${/^(codex|chatgpt)$/i.test(r.product) ? "OpenAI" : r.product} reset`, headline: cleanTitle(r.title, r.source),
       summary: "Usage limits were reset. Check your remaining quota.", url: r.url, date: r.date,
       company: "openai", companies: ["openai"], topics: ["codex"], people: [], source: r.source, sources: 1, weight: 70,
       discuss: discussLink("codex", r.title, r.url),

@@ -9,7 +9,7 @@ import { TimeAgo } from "@/components/TimeAgo";
 
 export const metadata: Metadata = {
   title: "Codex Tracker: Limit Resets, Releases and News",
-  description: "When were Codex usage limits last reset? Every reported reset for Codex, Claude Code and ChatGPT, plus Codex CLI release history and the latest coding-agent news.",
+  description: "When were Codex usage limits last reset? Every reported reset for OpenAI (Codex and ChatGPT) and Anthropic (Claude), plus Codex CLI release history and the latest coding-agent news.",
   alternates: { canonical: "/codex/" },
 };
 
@@ -52,7 +52,7 @@ export default function CodexPage() {
     <>
       <div className="kicker">Codex tracker</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Codex resets, releases and news</h1>
-      <p className="mt-1 max-w-2xl text-muted">Every reported usage-limit reset for Codex, Claude Code and ChatGPT, the Codex CLI&apos;s full release history, and coding-agent news as it breaks.</p>
+      <p className="mt-1 max-w-2xl text-muted">Every reported usage-limit reset for OpenAI (Codex and ChatGPT) and Anthropic (Claude), the Codex CLI&apos;s full release history, and coding-agent news as it breaks.</p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Last Codex reset story" value={days == null ? "—" : days === 0 ? "Today" : `${days}d ago`} sub={last ? fmtDate(last.date) : "None found yet"} tone="accent" />
