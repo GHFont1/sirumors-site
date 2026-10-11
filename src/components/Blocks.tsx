@@ -9,6 +9,8 @@ import { RumorMeter, StoryList } from "./Story";
 import { VideoGrid } from "./Video";
 import { ReleaseTimeline, Sparkline } from "./Charts";
 import { FollowButton } from "./auth/UserUI";
+import { updatesFor } from "@/lib/updates";
+import { UpdatesStream } from "./Updates";
 
 export function Section({ title, kicker, href, linkLabel = "See all", children, className = "" }: { title: string; kicker?: string; href?: string; linkLabel?: string; children: React.ReactNode; className?: string }) {
   return (
@@ -81,9 +83,9 @@ export function RumorList({ items, wide }: { items: ReturnType<typeof rumorsFor>
 /** Shared page body for a company, topic or person "super tab". */
 export function Hub({ filter, kind, slug, header }: { filter: Filter; kind: "c" | "t" | "p"; slug: string; header: React.ReactNode }) {
   const all = storiesFor(filter);
+  const ups = updatesFor(filter, 14).slice(0, 25);
   const top = topStories(all, 8);
-  const topIds = new Set(top.map((s) => s.id));
-  const latest = all.filter((s) => !topIds.has(s.id)).slice(0, 30);
+  const latest = all.slice(0, 25);
   const rum = rumorsFor(filter).slice(0, 8);
   const vids = videosFor(filter).slice(0, 6);
   const m = momentum(kind, slug);
@@ -113,10 +115,10 @@ export function Hub({ filter, kind, slug, header }: { filter: Filter; kind: "c" 
         <div className="mb-2 flex items-center justify-between text-xs text-muted"><span className="font-semibold">Daily mentions, last 60 days</span><span className="tabular">peak {Math.max(...s60.map((d) => d.value))}</span></div>
         <Sparkline data={s60} height={70} />
       </div>
-      <div className="mt-2 grid gap-x-10 lg:grid-cols-[1fr_340px]">
+      <div className="mt-2 grid grid-cols-1 gap-x-10 lg:grid-cols-[minmax(0,1fr)_340px] [&>*]:min-w-0">
         <div>
-          <Section title="Top stories" kicker="Most covered">
-            <div className="card px-4"><StoryList items={top} showSummary /></div>
+          <Section title="Updates" kicker="Releases, rumors and breaking news, 14 days">
+            {ups.length ? <UpdatesStream items={ups} filters={ups.length > 8} /> : <div className="card px-4"><StoryList items={top} showSummary /></div>}
           </Section>
           {lines.length > 0 && (
             <Section title="Release history" kicker="Every launch" href="/releases/" linkLabel="All labs">
@@ -130,7 +132,7 @@ export function Hub({ filter, kind, slug, header }: { filter: Filter; kind: "c" 
               </div>
             </Section>
           )}
-          <Section title="Latest">
+          <Section title="All news" kicker="Every article, newest first">
             <div className="card px-4"><StoryList items={latest} /></div>
           </Section>
         </div>
