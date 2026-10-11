@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NOW, companyBySlug, type Board, type Market, type ResetEvent } from "@/lib/data";
+import { NOW, companyBySlug, type Board, type Market, type XReset } from "@/lib/data";
 import { compact, daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "./Logo";
 
@@ -123,34 +123,52 @@ export function BestTile({ b }: { b: Board }) {
   );
 }
 
-const PRODUCT_TONE: Record<string, string> = { OpenAI: "var(--accent-2)", Anthropic: "#d97757", Google: "#3b82f6" };
-const PRODUCT_SLUG: Record<string, string> = { OpenAI: "openai", Anthropic: "anthropic", Google: "google" };
+const ago = (iso: string) => {
+  const h = Math.max(0, (NOW - Date.parse(iso)) / 3600000);
+  return h < 1 ? "just now" : h < 24 ? `${Math.round(h)}h ago` : `${Math.round(h / 24)}d ago`;
+};
 
-/** Past limit resets with the gap since the one before. */
-export function ResetList({ items, limit = 8 }: { items: ResetEvent[]; limit?: number }) {
+/** Codex resets as Tibo (or @Codexresets_) posted them, with the gap since the one before. */
+export function ResetList({ items, limit = 8, quotes = false }: { items: XReset[]; limit?: number; quotes?: boolean }) {
   if (!items.length) return <p className="py-3 text-sm text-muted">No resets recorded yet.</p>;
   return (
     <ol className="divide-y divide-line">
       {items.slice(0, limit).map((r, i) => {
-        const prev = items.slice(i + 1).find((x) => x.product === r.product);
-        const gap = prev ? daysBetween(prev.date, r.date) : null;
-        const tone = PRODUCT_TONE[r.product] ?? "var(--muted)";
+        const prev = items[i + 1];
+        const gap = prev ? daysBetween(prev.date.slice(0, 10), r.date.slice(0, 10)) : null;
+        const tone = r.banked ? "var(--accent)" : "var(--accent-2)";
         return (
           <li key={r.id} className="flex gap-3 py-2.5">
-            <div className="w-11 shrink-0 text-center">
+            <div className="w-10 shrink-0 text-center">
               <div className="text-[10px] font-bold uppercase text-faint">{fmtDate(r.date, false).split(" ")[0]}</div>
               <div className="tabular text-lg font-extrabold leading-none">{new Date(r.date).getUTCDate()}</div>
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2 text-[11px]">
-                <span className="inline-flex items-center gap-1 rounded-full border px-2 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{PRODUCT_SLUG[r.product] && <Logo slug={PRODUCT_SLUG[r.product]} name={r.product} size={11} />}{r.product}</span>
-                <span className="text-faint">{daysBetween(r.date, NOW)}d ago{gap != null ? ` · ${gap}d after last` : ""}</span>
+              <div className="flex flex-wrap items-center gap-x-2 text-[11px]">
+                <span className="rounded-full border px-2 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{r.status === "coming" ? "Coming" : r.banked ? "Banked" : "Reset"}</span>
+                <span className="text-faint">{ago(r.date)}{gap != null ? ` · ${gap === 0 ? "same day" : `${gap}d after last`}` : ""}</span>
               </div>
-              <a href={r.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 line-clamp-2 text-[13px] font-semibold leading-snug link-hover">{r.title}</a>
+              <a href={r.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 block text-[13px] font-semibold leading-snug link-hover">{r.title}</a>
+              {quotes && <p className="mt-0.5 line-clamp-2 text-xs text-muted">&ldquo;{r.quote}&rdquo; <span className="text-faint">@{r.by}</span></p>}
             </div>
           </li>
         );
       })}
     </ol>
+  );
+}
+
+/** "Last reset" status line for a sidebar card. */
+export function ResetStatus({ items }: { items: XReset[] }) {
+  const last = items.find((r) => r.status === "done");
+  const coming = items[0]?.status === "coming" ? items[0] : null;
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <div>
+        <div className="text-[11px] font-bold uppercase tracking-wider text-muted">{coming ? "Reset announced" : "Last Codex reset"}</div>
+        <div className="mt-0.5 text-2xl font-extrabold tracking-tight">{coming ? fmtDate(coming.date, false) : last ? ago(last.date) : "—"}</div>
+      </div>
+      {(coming ?? last) && <a href={(coming ?? last)!.url} target="_blank" rel="noopener noreferrer" className="chip text-xs font-semibold hover:text-accent">{(coming ?? last)!.by === "thsottiaux" ? "Tibo" : "@" + (coming ?? last)!.by} on X ↗</a>}
+    </div>
   );
 }

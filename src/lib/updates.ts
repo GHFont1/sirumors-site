@@ -1,4 +1,4 @@
-import { NOW, companyBySlug, releaseLines, repos, resets, stories, videos, type Filter, type Story } from "./data";
+import { NOW, companyBySlug, releaseLines, repos, stories, xresets, videos, type Filter, type Story } from "./data";
 
 // The Updates stream: the handful of things that actually happened, each with
 // a type badge. Plain single-source articles stay in /news.
@@ -88,7 +88,8 @@ function fromStory(s: Story): Update | null {
     source: s.source, sources: n, image: s.image, summary: s.summary, points: s.points,
     headline: cleanTitle(s.title, s.source),
   };
-  if (s.isReset) return { ...base, kind: "reset", badge: base.company === "anthropic" ? "Anthropic reset" : "OpenAI reset", weight: 70, discuss: discussLink("codex", s.title, s.url) };
+  // Resets come from X (Tibo), not from news write-ups of them.
+  if (s.isReset) return null;
   if (s.isRumor && s.status) {
     const badge = s.status === "confirmed" ? "Confirmed" : s.status === "strong" ? "Strong rumor" : s.status === "developing" ? "Rumor" : "Whisper";
     const weight = s.status === "confirmed" ? 85 : s.status === "strong" ? 72 : s.status === "developing" ? 55 : 30;
@@ -148,13 +149,13 @@ export function allUpdates(days = 14): Update[] {
     }
   }
 
-  // Codex reset reports.
-  for (const r of resets) {
+  // Codex resets, as Tibo posted them on X.
+  for (const r of xresets) {
     if (Date.parse(r.date) < horizon) continue;
     out.push({
-      id: `x-${r.id}`, kind: "reset", badge: `${/^(codex|chatgpt)$/i.test(r.product) ? "OpenAI" : r.product} reset`, headline: cleanTitle(r.title, r.source),
-      summary: "Usage limits were reset. Check your remaining quota.", url: r.url, date: r.date,
-      company: "openai", companies: ["openai"], topics: ["codex"], people: [], source: r.source, sources: 1, weight: 70,
+      id: r.id, kind: "reset", badge: r.status === "coming" ? "Reset coming" : r.banked ? "Banked reset" : "Codex reset", headline: r.title,
+      summary: `"${r.quote}" (@${r.by})`, url: r.url, date: r.date,
+      company: "openai", companies: ["openai"], topics: ["codex"], people: [], source: r.by === "thsottiaux" ? "Tibo on X" : `@${r.by}`, sources: 1, weight: 80,
       discuss: discussLink("codex", r.title, r.url),
     });
   }

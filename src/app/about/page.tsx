@@ -25,7 +25,7 @@ export default function AboutPage() {
           <p><span className="font-semibold text-text">One story, every source.</span> When several outlets cover the same news, we group them so it shows once with everyone reporting it. Headlines link to the original publisher.</p>
           <p><span className="font-semibold text-text">Rumors are rated.</span> Leaks get a confidence score from how many independent outlets report them and their track record, and flip to Confirmed when the lab makes it official. A score measures how widely and credibly something is reported, not whether it is true.</p>
           <p><span className="font-semibold text-text">Release estimates are math, not leaks.</span> Release dates come from the labs&apos; own announcements, or from launch coverage across three or more outlets for labs without a feed. The next date is the last release plus the median gap between that line&apos;s recent releases.</p>
-          <p><span className="font-semibold text-text">Codex resets</span> come from news and Hacker News reports, not an official OpenAI feed.</p>
+          <p><span className="font-semibold text-text">Codex resets</span> come straight from X: Tibo (@thsottiaux), who runs Codex at OpenAI and posts every reset, plus the @Codexresets_ tracker account.</p>
         </div>
       </Section>
       <Section title="Sources" kicker={`${rows.filter(([, h]) => h.ok).length} of ${rows.length} reporting right now`}>

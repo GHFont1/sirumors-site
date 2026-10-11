@@ -1,42 +1,83 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type Tab = { href: string; label: string; logo?: string; mono?: string };
 
 const NAV = [
-  { href: "/news/", label: "News" },
-  { href: "/rumors/", label: "Rumors" },
+  { href: "/", label: "Live updates" },
   { href: "/rankings/", label: "Rankings" },
-  { href: "/odds/", label: "Odds" },
+  { href: "/codex/", label: "Codex resets" },
   { href: "/releases/", label: "Releases" },
-  { href: "/codex/", label: "Codex" },
+  { href: "/rumors/", label: "Rumors" },
+  { href: "/odds/", label: "Odds" },
+];
+const MORE = [
+  { href: "/news/", label: "All news" },
   { href: "/videos/", label: "Videos" },
   { href: "/trends/", label: "Trends" },
-  { href: "/people/", label: "People" },
+  { href: "/people/", label: "People to follow" },
   { href: "/forums/", label: "Forums" },
+  { href: "/leaderboard/", label: "Leaderboard" },
 ];
 
 const norm = (p: string) => (p.endsWith("/") ? p : p + "/");
+const linkStyle = (active: boolean) => ({ color: active ? "var(--text)" : "var(--muted)", background: active ? "var(--chip)" : "transparent" });
 
-export function MainNav() {
-  const path = norm(usePathname() || "/");
+/** A nav dropdown. The panel is fixed-positioned so the scrolling nav row never clips it. */
+function Menu({ label, active, children }: { label: string; active: boolean; children: (close: () => void) => React.ReactNode }) {
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
+  const btn = useRef<HTMLButtonElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const path = usePathname();
+  useEffect(() => setPos(null), [path]);
+  useEffect(() => {
+    if (!pos) return;
+    const off = (e: Event) => { if (!panel.current?.contains(e.target as Node) && !btn.current?.contains(e.target as Node)) setPos(null); };
+    document.addEventListener("pointerdown", off);
+    window.addEventListener("scroll", off, true);
+    return () => { document.removeEventListener("pointerdown", off); window.removeEventListener("scroll", off, true); };
+  }, [pos]);
   return (
-    <nav aria-label="Sections" className="no-scrollbar -mx-1 flex gap-1 overflow-x-auto">
+    <>
+      <button ref={btn} type="button" aria-expanded={!!pos}
+        onClick={() => { const r = btn.current!.getBoundingClientRect(); setPos(pos ? null : { top: r.bottom + 6, left: Math.max(8, Math.min(r.left, window.innerWidth - 248)) }); }}
+        className="shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-semibold transition-colors" style={linkStyle(active || !!pos)}>
+        {label} <span aria-hidden className="text-[10px]">▾</span>
+      </button>
+      {pos && (
+        <div ref={panel} className="card fixed z-50 max-h-[70vh] w-60 overflow-y-auto p-1.5 shadow-xl" style={{ top: pos.top, left: pos.left }}>
+          {children(() => setPos(null))}
+        </div>
+      )}
+    </>
+  );
+}
+
+export function MainNav({ companies, logos }: { companies: Tab[]; logos: Record<string, boolean> }) {
+  const path = norm(usePathname() || "/");
+  const item = "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-semibold hover:bg-chip";
+  return (
+    <nav aria-label="Sections" className="no-scrollbar -mx-1 flex items-center gap-0.5 overflow-x-auto">
       {NAV.map((n) => {
-        const active = path.startsWith(n.href);
-        return (
-          <Link
-            key={n.href}
-            href={n.href}
-            className="shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-semibold transition-colors"
-            style={{ color: active ? "var(--text)" : "var(--muted)", background: active ? "var(--chip)" : "transparent" }}
-          >
-            {n.label}
-          </Link>
-        );
+        const active = n.href === "/" ? path === "/" : path.startsWith(n.href);
+        return <Link key={n.href} href={n.href} className="shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-semibold transition-colors" style={linkStyle(active)}>{n.label}</Link>;
       })}
+      <Menu label="Companies" active={path.startsWith("/c/") || path.startsWith("/t/")}>
+        {(close) => companies.map((t) => (
+          <Link key={t.href} href={t.href} onClick={close} className={item}>
+            {t.logo && logos[t.logo] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={`/logos/${t.logo}.png`} alt="" width={18} height={18} className="rounded-[4px] bg-white" />
+            ) : <span aria-hidden className="w-[18px] text-center">{t.mono ?? "•"}</span>}
+            {t.label}
+          </Link>
+        ))}
+      </Menu>
+      <Menu label="More" active={MORE.some((m) => path.startsWith(m.href))}>
+        {(close) => MORE.map((m) => <Link key={m.href} href={m.href} onClick={close} className={item}>{m.label}</Link>)}
+      </Menu>
     </nav>
   );
 }

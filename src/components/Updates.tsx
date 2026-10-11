@@ -95,24 +95,27 @@ function Who({ u }: { u: Update }) {
   );
 }
 
+/** One update, Credit Compound style: logo tile, badge and date, headline, two lines, Read more. */
 export function UpdateCard({ u }: { u: Update }) {
+  const c = u.company ? companyBySlug(u.company) : undefined;
   return (
-    <article data-kind={u.kind} className="card group flex gap-4 p-4 transition-colors hover:border-accent sm:p-5">
+    <article data-kind={u.kind} className="card flex gap-4 p-4 transition-colors hover:border-accent sm:p-5">
       <div className="hidden sm:block"><Emblem u={u} /></div>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <Badge u={u} />
           <TimingBadge u={u} />
-          <span className="text-faint"><TimeAgo iso={u.date} built={NOW} /></span>
+          <span className="tabular text-faint">{fmtDate(u.date, false)}</span>
         </div>
-        <h3 className="mt-2.5 text-[17px] font-bold leading-snug sm:text-lg"><Headline u={u} className="" /></h3>
+        <h3 className="mt-2 text-[17px] font-bold leading-snug"><Headline u={u} className="" /></h3>
         {u.summary && <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{u.summary}</p>}
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-          <Link href={u.discuss} className="text-sm font-bold text-accent hover:underline">Discuss →</Link>
-          <Who u={u} />
-          {u.sources > 1 && <span className="chip" style={{ padding: "2px 9px", fontSize: 10.5 }}>{u.sources} outlets</span>}
-          {u.points ? <span className="chip" style={{ padding: "2px 9px", fontSize: 10.5 }}>▲ {u.points} HN</span> : null}
-          <span className="text-faint">{u.source}</span>
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+          {ext(u.url)
+            ? <a href={u.url} target="_blank" rel="noopener noreferrer" className="mr-1 text-sm font-bold text-accent hover:underline">Read more →</a>
+            : <Link href={u.url} className="mr-1 text-sm font-bold text-accent hover:underline">Read more →</Link>}
+          {c && <Link href={`/c/${c.slug}/`} className="chip hover:text-accent" style={{ padding: "2px 9px", fontSize: 11 }}>{c.name.replace(/ AI$/, "")}</Link>}
+          {u.sources > 1 && <span className="chip" style={{ padding: "2px 9px", fontSize: 11 }}>{u.sources} outlets</span>}
+          <span className="chip" style={{ padding: "2px 9px", fontSize: 11 }}>{u.source}</span>
         </div>
       </div>
     </article>
@@ -171,39 +174,11 @@ export function JustIn({ items }: { items: Update[] }) {
   );
 }
 
-function dayLabel(iso: string) {
-  const d = new Date(iso).toISOString().slice(0, 10);
-  const today = new Date(NOW).toISOString().slice(0, 10);
-  const yest = new Date(NOW - 86400000).toISOString().slice(0, 10);
-  if (d === today) return "Today";
-  if (d === yest) return "Yesterday";
-  const wd = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][new Date(d + "T12:00:00Z").getUTCDay()];
-  return `${wd}, ${fmtDate(d, false)}`;
-}
-
-/** The full stream, grouped by day, with type filters. */
+/** The update list with type filters. */
 export function UpdatesStream({ items, filters = true }: { items: Update[]; filters?: boolean }) {
   if (!items.length) return <p className="card p-6 text-sm text-muted">No updates yet. Check back soon.</p>;
-  const days: { label: string; list: Update[] }[] = [];
-  for (const u of items) {
-    const label = dayLabel(u.date);
-    const last = days[days.length - 1];
-    if (last?.label === label) last.list.push(u); else days.push({ label, list: [u] });
-  }
   const counts: Record<string, number> = {};
   for (const u of items) counts[u.kind] = (counts[u.kind] ?? 0) + 1;
-  const body = (
-    <div className="space-y-5">
-      {days.map((d) => (
-        <div key={d.label} className="uday">
-          <div className="mb-2 flex items-center gap-3">
-            <h3 className="text-sm font-extrabold uppercase tracking-wide">{d.label}</h3>
-            <span className="h-px flex-1 bg-line" />
-          </div>
-          <div className="space-y-3">{d.list.map((u) => <UpdateCard key={u.id} u={u} />)}</div>
-        </div>
-      ))}
-    </div>
-  );
+  const body = <div className="space-y-3">{items.map((u) => <UpdateCard key={u.id} u={u} />)}</div>;
   return filters ? <UpdateFilter counts={counts}>{body}</UpdateFilter> : body;
 }

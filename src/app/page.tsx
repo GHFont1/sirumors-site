@@ -1,146 +1,124 @@
 import Link from "next/link";
-import { NOW, boards, companies, markets, momentum, releaseLines, repos, resetHistory, rumors, series, upcoming, videos, companyBySlug } from "@/lib/data";
-import { BestTile, MarketCard, ResetList } from "@/components/Boards";
-import { allUpdates, leadUpdates } from "@/lib/updates";
-import { daysBetween, pct } from "@/lib/format";
-import { NextUpCard, RumorList, Section } from "@/components/Blocks";
-import { JustIn, LeadCard, SubLead, UpdatesStream } from "@/components/Updates";
-import { VideoGrid } from "@/components/Video";
+import { NOW, boards, companyBySlug, markets, resetHistory, upcoming } from "@/lib/data";
+import { MarketCard, ResetList, ResetStatus } from "@/components/Boards";
+import { allUpdates } from "@/lib/updates";
+import { daysBetween, fmtDate } from "@/lib/format";
+import { UpdatesStream } from "@/components/Updates";
 import { Logo } from "@/components/Logo";
-import { ReleaseTimeline, Sparkline } from "@/components/Charts";
-import { FollowButton } from "@/components/auth/UserUI";
+
+// Credit Compound layout: a short header, one list of updates, and a sidebar
+// with the few things people come back for.
+
+function Side({ title, href, linkLabel, children }: { title: string; href?: string; linkLabel?: string; children: React.ReactNode }) {
+  return (
+    <section className="card p-4">
+      <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{title}</div>
+      {children}
+      {href && <Link href={href} className="mt-3 block text-center text-sm font-semibold text-accent hover:underline">{linkLabel} →</Link>}
+    </section>
+  );
+}
+
+const PICKS: [string, string][] = [["coding", "Coding"], ["agent", "Agents"], ["open", "Open model"], ["image", "Image"], ["video", "Video"]];
 
 export default function Home() {
-  const all = allUpdates(7);
-  const [lead, ...subs] = leadUpdates(all.filter((u) => NOW - Date.parse(u.date) < 3 * 86400000), 4);
-  const leadIds = new Set([lead, ...subs].filter(Boolean).map((u) => u.id));
-  const stream = all.filter((u) => !leadIds.has(u.id));
-  const next = upcoming();
-  const soonest = next.find((l) => Date.parse(l.expectedNext!) >= NOW - 86400000) ?? next[0];
-  const resetList = resetHistory();
-  const lastReset = resetList.find((r) => r.product === "OpenAI");
-  const best = ["overall", "coding", "agent", "open", "image", "video"].map((id) => boards.find((b) => b.id === id)).filter((b) => b != null);
-  const odds = markets.slice(0, 3);
-  const cli = repos.find((r) => r.repo === "openai/codex")?.releases.find((r) => !r.pre);
-  const trending = companies
-    .map((c) => ({ c, m: momentum("c", c.slug), s: series("c", c.slug, 30) }))
-    .filter((x) => x.m.last7 > 0)
-    .sort((a, b) => b.m.last7 - a.m.last7)
-    .slice(0, 8);
-  const vids = [...videos].filter((v) => NOW - Date.parse(v.publishedAt) < 10 * 86400000).sort((a, b) => (b.views ?? 0) - (a.views ?? 0)).slice(0, 6);
-  const majorLines = releaseLines.filter((l) => ["openai-gpt", "claude-opus", "claude-sonnet", "gemini", "grok", "deepseek"].includes(l.id));
-  const today = all.filter((u) => NOW - Date.parse(u.date) < 86400000).length;
+  const updates = allUpdates(7).slice(0, 40);
+  const top = boards.find((b) => b.id === "overall");
+  const leader = top?.top[0];
+  const leaderCo = leader?.company ? companyBySlug(leader.company) : undefined;
+  const picks = PICKS.map(([id, label]) => ({ label, b: boards.find((b) => b.id === id) })).filter((x) => x.b);
+  const resets = resetHistory();
+  const next = upcoming().find((l) => Date.parse(l.expectedNext!) >= NOW - 86400000);
+  const odds = markets[0];
 
   return (
     <>
-      <section className="flex flex-col gap-2 pt-1 sm:flex-row sm:items-end sm:justify-between">
+      <section className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="kicker">Updates · rumors · releases</div>
-          <h1 className="mt-1 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
-            Superintelligence news, <span className="grad-text">before it&apos;s news.</span>
-          </h1>
+          <div className="kicker">Independent AI intelligence</div>
+          <h1 className="mt-1 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">AI releases, rumors and resets</h1>
+          <p className="mt-2 max-w-xl text-muted">The newest useful changes first. Every update links to where it came from.</p>
         </div>
-        <div className="chip self-start sm:self-auto"><span className="live-dot" /> {today} updates today · {all.length} this week</div>
+        <div className="flex shrink-0 gap-2">
+          <Link href="/rankings/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Best AI models</Link>
+          <Link href="/codex/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Codex resets</Link>
+        </div>
       </section>
 
-      <div className="mt-4"><JustIn items={all.slice(0, 8)} /></div>
-
-      {lead && (
-        <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-[1.6fr_1fr] [&>*]:min-w-0">
-          <LeadCard u={lead} />
-          <div className="grid gap-3">{subs.map((u) => <SubLead key={u.id} u={u} />)}</div>
-        </div>
-      )}
-
-      {best.length > 0 && (
-        <Section title="Who's winning right now" kicker="Best AI models, live from Arena" href="/rankings/" linkLabel="Full rankings">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">{best.map((b) => <BestTile key={b.id} b={b} />)}</div>
-        </Section>
-      )}
-
-      <div className="grid grid-cols-1 gap-x-10 lg:grid-cols-[minmax(0,1fr)_330px] [&>*]:min-w-0">
-        <Section title="Every update" kicker="Newest first, last 7 days" href="/news/" linkLabel="All news">
-          <UpdatesStream items={stream} />
-        </Section>
-        <aside>
-          {soonest && (
-            <Section title="Next drop" kicker="Countdown" href="/releases/" linkLabel="Tracker">
-              <NextUpCard l={soonest} />
-            </Section>
-          )}
-          <Section title="Codex status" kicker="Resets and versions" href="/codex/" linkLabel="Tracker">
-            <div className="card divide-y divide-line px-4 text-sm">
-              <div className="flex items-center justify-between py-3">
-                <span className="text-muted">Last reset reported</span>
-                <span className="font-bold">{lastReset ? `${daysBetween(lastReset.date, NOW)}d ago` : "—"}</span>
-              </div>
-              <div className="flex items-center justify-between py-3">
-                <span className="text-muted">Codex CLI</span>
-                <a href={cli?.url} target="_blank" rel="noopener noreferrer" className="font-bold link-hover">{cli ? `v${cli.name.replace(/^v/, "")}` : "—"}</a>
-              </div>
-              <div className="py-3"><FollowButton kind="topic" slug="codex" label="Codex" size="sm" /> <span className="ml-1 text-xs text-faint">Get reset alerts</span></div>
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_320px] [&>*]:min-w-0">
+        <section>
+          <div className="mb-3 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-extrabold tracking-tight">Latest updates</h2>
+              <p className="text-sm text-muted">Newest first, last 7 days.</p>
             </div>
-          </Section>
-          <Section title="Previous resets" kicker="OpenAI and Anthropic" href="/codex/" linkLabel="History">
-            <div className="card px-4"><ResetList items={resetList} limit={7} /></div>
-          </Section>
-          {odds.length > 0 && (
-            <Section title="The odds" kicker="Polymarket, live" href="/odds/" linkLabel="All odds">
-              <div className="space-y-3">{odds.map((m) => <MarketCard key={m.id} m={m} rows={3} />)}</div>
-            </Section>
+            <Link href="/news/" className="shrink-0 text-sm font-semibold text-accent hover:underline">All news →</Link>
+          </div>
+          <UpdatesStream items={updates} />
+        </section>
+
+        <aside className="space-y-4">
+          {leader && top && (
+            <Side title="Best AI model right now" href="/rankings/" linkLabel="See all rankings">
+              <div className="flex items-center gap-3">
+                <Logo slug={leaderCo?.slug} name={leaderCo?.name ?? leader.org} size={48} />
+                <div className="min-w-0">
+                  <div className="truncate text-lg font-extrabold">👑 {leader.model}</div>
+                  <div className="text-xs text-muted">{leaderCo?.name ?? leader.org} · #1 on Arena · {leader.rating} Elo</div>
+                </div>
+              </div>
+            </Side>
           )}
-          <Section title="Rumor board" kicker="Rated by confidence" href="/rumors/">
-            <div className="card px-4"><RumorList items={rumors.slice(0, 6)} /></div>
-          </Section>
-          <Section title="Trending this week" kicker="Mentions, 7 days" href="/trends/">
-            <div className="card divide-y divide-line px-4">
-              {trending.map(({ c, m, s }) => (
-                <Link key={c.slug} href={`/c/${c.slug}/`} className="flex items-center gap-3 py-2.5 hover:text-accent">
-                  <Logo slug={c.slug} name={c.name} size={22} />
-                  <span className="w-24 truncate text-sm font-semibold">{c.name.replace(/ AI$/, "")}</span>
-                  <span className="min-w-0 flex-1"><Sparkline data={s} height={24} /></span>
-                  <span className="tabular w-10 text-right text-sm font-bold">{m.last7}</span>
-                  <span className="tabular w-12 text-right text-xs" style={{ color: m.change >= 0 ? "var(--good)" : "var(--bad)" }}>{m.hasBaseline ? pct(m.change) : "new"}</span>
-                </Link>
-              ))}
+
+          <Side title="Best at each job" href="/rankings/" linkLabel="See the full board">
+            <ol className="space-y-1">
+              {picks.map(({ label, b }, i) => {
+                const r = b!.top[0];
+                const co = r.company ? companyBySlug(r.company) : undefined;
+                return (
+                  <li key={b!.id}>
+                    <Link href={`/rankings/#${b!.id}`} className="flex items-center gap-3 rounded-lg p-1.5 hover:bg-chip">
+                      <span className="tabular w-4 text-xs font-bold text-faint">{i + 1}.</span>
+                      <Logo slug={co?.slug} name={co?.name ?? r.org} size={28} />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[11px] font-bold uppercase tracking-wider text-muted">{label}</span>
+                        <span className="block truncate text-sm font-bold">{r.model}</span>
+                      </span>
+                      <span aria-hidden className="text-faint">→</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ol>
+          </Side>
+
+          <Side title="Codex resets" href="/codex/" linkLabel="Full history">
+            <ResetStatus items={resets} />
+            <div className="mt-2 border-t border-line"><ResetList items={resets} limit={5} /></div>
+          </Side>
+
+          {next && (
+            <Side title="Next big release" href="/releases/" linkLabel="Release tracker">
+              <div className="flex items-center gap-3">
+                <Logo slug={next.company} name={next.name} size={36} />
+                <div className="min-w-0">
+                  <div className="truncate font-bold">{next.name}</div>
+                  <div className="text-xs text-muted">Expected around {fmtDate(next.expectedNext!, false)} · {Math.max(0, daysBetween(NOW, next.expectedNext!))}d</div>
+                </div>
+              </div>
+            </Side>
+          )}
+
+          {odds && (
+            <div>
+              <div className="mb-2 flex items-center justify-between px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                <span>The odds</span><Link href="/odds/" className="normal-case tracking-normal text-accent hover:underline">All odds →</Link>
+              </div>
+              <MarketCard m={odds} rows={3} />
             </div>
-          </Section>
+          )}
         </aside>
       </div>
-
-      <Section title="Next up: expected releases" kicker="Estimated from each lab's recent pace" href="/releases/" linkLabel="Release tracker">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {next.slice(0, 4).map((l) => <NextUpCard key={l.id} l={l} />)}
-        </div>
-      </Section>
-
-      <Section title="Release history" kicker="Frontier models, last 2 years" href="/releases/">
-        <div className="card p-4">
-          <ReleaseTimeline
-            lines={majorLines.map((l) => ({ ...l, href: `/c/${l.company}/` }))}
-            from={new Date(NOW - 730 * 86400000).toISOString().slice(0, 10)}
-            to={new Date(NOW + 120 * 86400000).toISOString().slice(0, 10)}
-            now={new Date(NOW).toISOString().slice(0, 10)}
-          />
-        </div>
-      </Section>
-
-      {vids.length > 0 && (
-        <Section title="Most watched" kicker="Videos, last 10 days" href="/videos/">
-          <VideoGrid items={vids} />
-        </Section>
-      )}
-
-      <Section title="Every super tab" kicker="Pick your feed">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {companies.map((c) => (
-            <Link key={c.slug} href={`/c/${c.slug}/`} className="card flex items-center gap-3 p-3 hover:border-accent">
-              <Logo slug={c.slug} name={c.name} size={28} />
-              <span className="text-sm font-semibold">{companyBySlug(c.slug)?.name}</span>
-            </Link>
-          ))}
-        </div>
-      </Section>
     </>
   );
 }

@@ -11,5 +11,7 @@ const feed = JSON.parse(readFileSync("data/feed.json", "utf8"));
 if (feed.items.length < 100) { console.error(`feed has only ${feed.items.length} items`); process.exit(1); }
 const rk = existsSync("data/rankings.json") ? JSON.parse(readFileSync("data/rankings.json", "utf8")) : { boards: [] };
 const mk = existsSync("data/markets.json") ? JSON.parse(readFileSync("data/markets.json", "utf8")) : { markets: [] };
+const xr = existsSync("data/xresets.json") ? JSON.parse(readFileSync("data/xresets.json", "utf8")) : { events: [] };
+if (xr.events.length < 3) { console.error(`only ${xr.events.length} Codex resets from X`); process.exit(1); }
 if (rk.boards.length < 4 || mk.markets.length < 3) { console.error(`rankings ${rk.boards.length} boards, ${mk.markets.length} markets`); process.exit(1); }
 console.log(`verified: ${must.length} key pages, ${stories} stories on home, ${feed.items.length} in feed`);

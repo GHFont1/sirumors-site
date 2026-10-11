@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { NOW, repos, resetHistory, resets, stories } from "@/lib/data";
+import { NOW, repos, resetHistory, stories } from "@/lib/data";
 import { ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Section, Stat } from "@/components/Blocks";
@@ -9,7 +9,7 @@ import { TimeAgo } from "@/components/TimeAgo";
 
 export const metadata: Metadata = {
   title: "Codex Tracker: Limit Resets, Releases and News",
-  description: "When were Codex usage limits last reset? Every reported reset for OpenAI (Codex and ChatGPT) and Anthropic (Claude), plus Codex CLI release history and the latest coding-agent news.",
+  description: "When were Codex usage limits last reset? Every Codex and ChatGPT usage reset, straight from Tibo on X, plus Codex CLI release history and the latest coding-agent news.",
   alternates: { canonical: "/codex/" },
 };
 
@@ -24,23 +24,10 @@ function weekly(dates: string[], weeks: number) {
   }
   return out;
 }
-function monthly(dates: string[], months: number) {
-  const out: { label: string; value: number; tip: string }[] = [];
-  const d0 = new Date(NOW); d0.setUTCDate(1); d0.setUTCMonth(d0.getUTCMonth() - (months - 1));
-  for (let i = 0; i < months; i++) {
-    const a = new Date(d0); a.setUTCMonth(d0.getUTCMonth() + i);
-    const b = new Date(a); b.setUTCMonth(a.getUTCMonth() + 1);
-    const n = dates.filter((d) => d >= a.toISOString() && d < b.toISOString()).length;
-    const label = fmtDate(a.toISOString(), false).split(" ")[0];
-    out.push({ label, value: n, tip: `${label} ${a.getUTCFullYear()}` });
-  }
-  return out;
-}
-
 export default function CodexPage() {
-  const codexResets = resets.filter((r) => r.product === "Codex");
+  const codexResets = resetHistory().filter((r) => r.status === "done");
   const last = codexResets[0];
-  const days = last ? daysBetween(last.date, NOW) : null;
+  const hours = last ? (NOW - Date.parse(last.date)) / 3600000 : null;
   const gaps = codexResets.slice(0, 8).map((r, i, a) => (i ? daysBetween(r.date, a[i - 1].date) : null)).filter((x): x is number => x != null && x > 0).sort((a, b) => a - b);
   const typicalGap = gaps.length ? gaps[Math.floor(gaps.length / 2)] : null;
   const codex = repos.find((r) => r.repo === "openai/codex");
@@ -52,26 +39,18 @@ export default function CodexPage() {
     <>
       <div className="kicker">Codex tracker</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Codex resets, releases and news</h1>
-      <p className="mt-1 max-w-2xl text-muted">Every reported usage-limit reset for OpenAI (Codex and ChatGPT) and Anthropic (Claude), the Codex CLI&apos;s full release history, and coding-agent news as it breaks.</p>
+      <p className="mt-1 max-w-2xl text-muted">Every Codex and ChatGPT usage reset, straight from Tibo on X, the Codex CLI&apos;s full release history, and coding-agent news as it breaks.</p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Stat label="Last Codex reset story" value={days == null ? "—" : days === 0 ? "Today" : `${days}d ago`} sub={last ? fmtDate(last.date) : "None found yet"} tone="accent" />
-        <Stat label="Typical gap" value={typicalGap ? `~${typicalGap}d` : "—"} sub="Between recent reset stories" />
+        <Stat label="Last Codex reset" value={hours == null ? "—" : hours < 24 ? `${Math.max(1, Math.round(hours))}h ago` : `${Math.round(hours / 24)}d ago`} sub={last ? `${fmtDate(last.date)} · per Tibo on X` : "None found yet"} tone="accent" />
+        <Stat label="Typical gap" value={typicalGap ? `~${typicalGap}d` : "—"} sub="Between recent resets" />
         <Stat label="Codex CLI releases, 30 days" value={codexStable.filter((r) => NOW - Date.parse(r.date) < 30 * 86400000).length} sub={`${codex?.releases.length ?? 0} total incl. pre-releases`} />
         <Stat label="Latest Codex CLI" value={latest ? latest.tag.replace(/^rust-v|^v/, "v") : "—"} sub={latest ? <TimeAgo iso={latest.date} built={NOW} /> : ""} />
       </div>
 
-      <Section title="Reset history" kicker="Reported usage-limit resets">
-        <div className="grid gap-4 lg:grid-cols-[1fr_1.2fr]">
-          <div className="card p-4 pt-6">
-            <div className="mb-3 text-xs font-semibold text-muted">Reset stories per month, all products</div>
-            <Bars data={monthly(resets.map((r) => r.date), 12)} label="reset stories" height={150} />
-          </div>
-          <div className="card max-h-[420px] divide-y divide-line overflow-y-auto px-4">
-            <ResetList items={resetHistory()} limit={40} />
-          </div>
-        </div>
-        <p className="mt-2 text-xs text-faint">Built from news and Hacker News reports, not an official OpenAI or Anthropic feed. A story can describe a reset, a reset policy or a pledge.</p>
+      <Section title="Reset history" kicker="Every Codex and ChatGPT usage reset">
+        <div className="card px-4"><ResetList items={resetHistory()} limit={60} quotes /></div>
+        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<a className="link-hover" href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer">@thsottiaux</a>), who runs Codex at OpenAI and posts every reset, and <a className="link-hover" href="https://x.com/Codexresets_" target="_blank" rel="noopener noreferrer">@Codexresets_</a>. Checked every 30 minutes.</p>
       </Section>
 
       <Section title="Shipping pace" kicker="Stable releases per week, last 26 weeks">

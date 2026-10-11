@@ -3,14 +3,12 @@ import { useState } from "react";
 
 const PILLS = [
   { k: "all", label: "All" },
-  { k: "release", label: "🚀 Releases" },
-  { k: "rumor", label: "◉ Rumors" },
-  { k: "breaking", label: "⚡ Breaking" },
-  { k: "official", label: "✓ From the labs" },
-  { k: "reset", label: "↻ Resets" },
-  { k: "update", label: "⬆ Version updates" },
-  { k: "hot", label: "🔥 Hot" },
-  { k: "video", label: "▶ Videos" },
+  { k: "release", label: "Releases" },
+  { k: "rumor", label: "Rumors" },
+  { k: "breaking", label: "Breaking" },
+  { k: "reset", label: "Resets" },
+  { k: "official", label: "From the labs" },
+  { k: "update", label: "Tool updates" },
 ];
 
 /** Type pills over a server-rendered stream; hides cards by CSS so nothing re-renders. */
@@ -28,7 +26,7 @@ export function UpdateFilter({ counts, children }: { counts: Record<string, numb
             style={k === p.k
               ? { borderColor: "var(--accent)", background: "color-mix(in srgb, var(--accent) 12%, var(--surface))", color: "var(--text)" }
               : { borderColor: "var(--line)", background: "var(--surface)", color: "var(--muted)" }}>
-            {p.label}{p.k !== "all" && <span className="tabular ml-1.5 text-faint">{counts[p.k]}</span>}
+            {p.label}
           </button>
         ))}
       </div>

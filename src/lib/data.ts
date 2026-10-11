@@ -88,6 +88,8 @@ export type ReleaseLine = {
 export type GhRelease = { tag: string; name: string; date: string; pre: boolean; url: string };
 export type Repo = { repo: string; name: string; company: string; releases: GhRelease[] };
 export type ResetEvent = { id: string; date: string; product: string; title: string; url: string; source: string };
+/** A reset confirmed on X by Tibo (@thsottiaux) or @Codexresets_. */
+export type XReset = { id: string; date: string; announcedAt: string; status: "done" | "coming"; banked: boolean; title: string; quote: string; url: string; by: string; tweets: { handle: string; url: string; at: string }[] };
 export type DayCounts = { n: number; r: number; c: Record<string, number>; t: Record<string, number>; p: Record<string, number> };
 export type Health = Record<string, { ok: boolean; items?: number; error?: string; optional?: boolean; name?: string }>;
 
@@ -97,6 +99,9 @@ const videosData = load<{ videos: Video[] }>("videos.json", { videos: [] });
 const releasesData = load<{ lines: ReleaseLine[] }>("releases.json", { lines: [] });
 const githubData = load<{ repos: Repo[] }>("github.json", { repos: [] });
 const resetsData = load<{ events: ResetEvent[] }>("resets.json", { events: [] });
+const xresetsData = load<{ fetchedAt?: string; events: XReset[] }>("xresets.json", { events: [] });
+export const xresets = xresetsData.events;
+export const xresetsAt = xresetsData.fetchedAt ?? "";
 const historyData = load<{ days: Record<string, DayCounts> }>("history.json", { days: {} });
 export type RankRow = { model: string; raw: string; org: string; company: string | null; rating: number; votes: number; rank: number };
 export type Board = { id: string; label: string; blurb: string; unit: string; published: string; top: RankRow[]; leaderSince?: string; prevLeader?: string | null };
@@ -195,17 +200,7 @@ export function allReleases() {
 
 export const logoFor = (slug: string) => `/logos/${slug}.png`;
 
-/** Actual limit resets (not policy chatter), newest first, one per company per day.
- *  Codex and ChatGPT are both OpenAI, so they share one line and one "days since last" count. */
-const RESET_CO: Record<string, string> = { Codex: "OpenAI", ChatGPT: "OpenAI", Claude: "Anthropic", Gemini: "Google" };
-export function resetHistory() {
-  const real = /\breset(s|ting)?\b|reset again|another reset|limits? removed/i;
-  const chatter = /pledg|offering|or a full|rumou?r|losing|introduc|tests?\b|option|plans,|referral|how to|explained|what is|paid resets/i;
-  const seen = new Set<string>();
-  return resets.map((r) => ({ ...r, product: /^(anthropic|claude)\b/i.test(r.title) ? "Anthropic" : RESET_CO[r.product] ?? r.product })).filter((r) => {
-    const k = `${r.product}|${r.date.slice(0, 10)}`;
-    if (!real.test(r.title) || chatter.test(r.title) || seen.has(k)) return false;
-    seen.add(k);
-    return true;
-  });
+/** Codex / ChatGPT usage resets, newest first, as announced on X (news reports were too noisy). */
+export function resetHistory(): XReset[] {
+  return xresets;
 }
