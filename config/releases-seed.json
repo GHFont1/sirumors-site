@@ -10,7 +10,7 @@
         "sources": [
           "openai"
         ],
-        "pattern": "\\bGPT[-\u2011 ]?(\\d+(?:\\.\\d+)?)(o)?\\b",
+        "pattern": "\\bGPT[-‑ ]?(\\d+(?:\\.\\d+)?)(o)?\\b",
         "min": 4,
         "newsFallback": true,
         "backfill": "OpenAI GPT (launches OR releases OR introduces)"
@@ -150,6 +150,105 @@
       "name": "Tesla FSD & Robotaxi",
       "company": "tesla",
       "kind": "autonomy"
+    },
+    {
+      "id": "suno",
+      "name": "Suno",
+      "company": "suno",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bSuno (?:v|V)(\\d+(?:\\.\\d+)?)\\b|\\bv(\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Suno v"
+      }
+    },
+    {
+      "id": "midjourney",
+      "name": "Midjourney",
+      "company": "midjourney",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "(?<!Niji )\\b(?:Midjourney )?V(\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Midjourney V"
+      }
+    },
+    {
+      "id": "kling",
+      "name": "Kling",
+      "company": "kling",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bKling (?:AI )?(\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Kling "
+      }
+    },
+    {
+      "id": "runway-gen",
+      "name": "Runway Gen",
+      "company": "runway",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bGen-(\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Runway Gen-"
+      }
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs Eleven",
+      "company": "elevenlabs",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bEleven ?v(\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Eleven v"
+      }
+    },
+    {
+      "id": "flux",
+      "name": "FLUX",
+      "company": "bfl",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bFLUX[ .](\\d+(?:\\.\\d+)?)\\b(?![ .]*(?:Small|Decoder|\\w+ Decoder|Kontext|Fill|Redux))",
+        "prefix": "FLUX "
+      }
+    },
+    {
+      "id": "ideogram",
+      "name": "Ideogram",
+      "company": "ideogram",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bIdeogram (\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Ideogram "
+      }
+    },
+    {
+      "id": "luma-ray",
+      "name": "Luma Ray",
+      "company": "luma",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bRay ?(\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Luma Ray"
+      }
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "company": "cursor",
+      "kind": "model",
+      "detect": {
+        "sources": [],
+        "pattern": "\\bCursor (\\d+(?:\\.\\d+)?)\\b",
+        "prefix": "Cursor "
+      }
     }
   ],
   "releases": [
@@ -435,6 +534,83 @@
       "name": "Robotaxi service launches in Austin",
       "version": "robotaxi-austin",
       "date": "2025-06-22"
+    },
+    {
+      "line": "suno",
+      "name": "Suno v4",
+      "version": "4",
+      "date": "2024-11-19"
+    },
+    {
+      "line": "suno",
+      "name": "Suno v4.5",
+      "version": "4.5",
+      "date": "2025-05-01"
+    },
+    {
+      "line": "suno",
+      "name": "Suno v5",
+      "version": "5",
+      "date": "2025-09-23"
+    },
+    {
+      "line": "midjourney",
+      "name": "Midjourney V6",
+      "version": "6",
+      "date": "2023-12-21"
+    },
+    {
+      "line": "midjourney",
+      "name": "Midjourney V6.1",
+      "version": "6.1",
+      "date": "2024-07-30"
+    },
+    {
+      "line": "midjourney",
+      "name": "Midjourney V7",
+      "version": "7",
+      "date": "2025-04-03"
+    },
+    {
+      "line": "runway-gen",
+      "name": "Runway Gen-3 Alpha",
+      "version": "3",
+      "date": "2024-06-17"
+    },
+    {
+      "line": "runway-gen",
+      "name": "Runway Gen-4",
+      "version": "4",
+      "date": "2025-03-31"
+    },
+    {
+      "line": "elevenlabs",
+      "name": "Eleven v3",
+      "version": "3",
+      "date": "2025-06-05"
+    },
+    {
+      "line": "flux",
+      "name": "FLUX.1",
+      "version": "1",
+      "date": "2024-08-01"
+    },
+    {
+      "line": "flux",
+      "name": "FLUX.2",
+      "version": "2",
+      "date": "2025-11-25"
+    },
+    {
+      "line": "midjourney",
+      "name": "Midjourney V8",
+      "version": "8",
+      "date": "2026-03-17",
+      "evidence": {
+        "title": "Today we're starting to test an early version of our V8 model with our community",
+        "url": "https://x.com/midjourney/status/2034015403542974793",
+        "source": "Midjourney on X"
+      }
     }
   ]
 }

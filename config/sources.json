@@ -220,6 +220,16 @@
       "id": "gn-nvidia",
       "name": "Google News",
       "q": "Nvidia AI chips"
+    },
+    {
+      "id": "gn-creative",
+      "name": "Google News",
+      "q": "(Suno OR Higgsfield OR Midjourney OR \"Kling AI\" OR \"Runway AI\" OR ElevenLabs OR \"Black Forest Labs\" OR \"Luma AI\" OR Ideogram OR HeyGen)"
+    },
+    {
+      "id": "gn-aitools",
+      "name": "Google News",
+      "q": "(\"Perplexity AI\" OR \"Cursor AI\" OR Anysphere OR \"Cognition AI\" OR \"Devin AI\" OR Windsurf)"
     }
   ],
   "hnQueries": [

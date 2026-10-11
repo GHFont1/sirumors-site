@@ -471,7 +471,7 @@ function detectReleases(allItems, store) {
       if (!viaNews && d.sources && !d.sources.includes(it.sourceId) && !isX) continue;
       if (d.news && it.type === "official" && !isX) continue;
       if (viaNews && (!LAUNCH_RE.test(it.title) || it.isRumor || FUTURE_RE.test(it.title))) continue;
-      if (isX ? !X_LAUNCH_RE.test(it.title) : d.launchWords && !LAUNCH_RE.test(it.title)) continue;
+      if (isX ? !X_LAUNCH_RE.test(it.title) || /\b(soon|upcoming|ago|will (?:launch|be (?:available|released|live)))\b/i.test(it.title) : d.launchWords && !LAUNCH_RE.test(it.title)) continue;
       if (d.news && (it.isRumor || FUTURE_RE.test(it.title))) continue;
       const m = re.exec(it.title);
       if (!m) continue;
@@ -495,7 +495,7 @@ function detectReleases(allItems, store) {
       const ds = c.dates.sort();
       const date = (c.official ? c.official.publishedAt : ds[Math.min(1, ds.length - 1)]).slice(0, 10);
       if (prev && prev.date <= date && !(c.official && prev.source === "news")) continue;
-      const name = (line.name.split(" ")[0] === "OpenAI" ? "GPT-" : `${line.name.replace(/^(xAI|Meta|Tesla|Google) /, "")} `) + c.version;
+      const name = d.prefix ? d.prefix + c.version : (line.name.split(" ")[0] === "OpenAI" ? "GPT-" : `${line.name.replace(/^(xAI|Meta|Tesla|Google) /, "")} `) + c.version;
       have.set(k, { line: line.id, name, version: c.version, date, source: c.official ? "official" : "news", evidence: { title: c.first.title, url: c.first.url, source: c.first.source } });
     }
   }

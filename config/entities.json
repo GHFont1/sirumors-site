@@ -1,47 +1,641 @@
 {
   "companies": [
-    { "slug": "openai", "name": "OpenAI", "domain": "openai.com", "blurb": "ChatGPT, GPT models, Codex, Sora and the Stargate compute buildout.", "keywords": ["openai", "chatgpt", "gpt-5", "gpt-4", "gpt-6", "sora", "codex", "o3", "o4-mini", "stargate", "sam altman"], "youtube": "UCXZCJLdBC09xxGZ6gcdrc6A" },
-    { "slug": "anthropic", "name": "Anthropic", "domain": "anthropic.com", "blurb": "Claude models, Claude Code and frontier safety research.", "keywords": ["anthropic", "claude", "claude code", "dario amodei", "opus", "sonnet", "haiku"], "youtubeHandle": "@anthropic-ai" },
-    { "slug": "google", "name": "Google DeepMind", "domain": "deepmind.google", "blurb": "Gemini, DeepMind research, Veo, Genie and TPUs.", "keywords": ["deepmind", "gemini", "google ai", "veo", "genie", "demis hassabis", "notebooklm", "tpu"], "youtubeHandle": "@googledeepmind" },
-    { "slug": "xai", "name": "xAI", "domain": "x.ai", "blurb": "Grok models and the Colossus supercomputer.", "keywords": ["xai", "x.ai", "grok", "colossus"], "youtubeHandle": "@xai" },
-    { "slug": "meta", "name": "Meta AI", "domain": "meta.com", "blurb": "Llama models, Meta Superintelligence Labs and AI glasses.", "keywords": ["meta ai", "llama", "superintelligence labs", "zuckerberg", "meta superintelligence"], "youtubeHandle": "@aiatmeta" },
-    { "slug": "microsoft", "name": "Microsoft AI", "domain": "microsoft.com", "blurb": "Copilot, Azure AI and Microsoft's own frontier models.", "keywords": ["microsoft ai", "copilot", "azure ai", "satya nadella", "mustafa suleyman"] },
-    { "slug": "nvidia", "name": "NVIDIA", "domain": "nvidia.com", "blurb": "The GPUs, systems and software that train every frontier model.", "keywords": ["nvidia", "blackwell", "rubin", "jensen huang", "cuda", "gb200", "gb300"], "youtubeHandle": "@NVIDIA" },
-    { "slug": "tesla", "name": "Tesla AI", "domain": "tesla.com", "blurb": "Optimus, Cybercab, FSD and the Dojo/AI5 compute effort.", "keywords": ["tesla", "optimus", "cybercab", "robotaxi", "fsd", "full self-driving", "dojo", "ai5"], "youtubeHandle": "@tesla" },
-    { "slug": "apple", "name": "Apple Intelligence", "domain": "apple.com", "blurb": "Apple Intelligence, Siri and on-device models.", "keywords": ["apple intelligence", "siri", "apple ai"] },
-    { "slug": "amazon", "name": "Amazon AI", "domain": "aws.amazon.com", "blurb": "Nova models, Alexa+, Trainium and AWS Bedrock.", "keywords": ["amazon nova", "alexa+", "trainium", "bedrock", "aws ai"] },
-    { "slug": "mistral", "name": "Mistral AI", "domain": "mistral.ai", "blurb": "Europe's leading open and frontier model lab.", "keywords": ["mistral"] },
-    { "slug": "deepseek", "name": "DeepSeek", "domain": "deepseek.com", "blurb": "China's open-weight frontier lab behind V3 and R1.", "keywords": ["deepseek"] },
-    { "slug": "ssi", "name": "Safe Superintelligence", "domain": "ssi.inc", "blurb": "Ilya Sutskever's lab building straight to safe superintelligence.", "keywords": ["safe superintelligence", "ssi inc", "ilya sutskever", "sutskever"] },
-    { "slug": "figure", "name": "Figure", "domain": "figure.ai", "blurb": "Humanoid robots for work and home.", "keywords": ["figure ai", "figure 03", "figure 02", "helix robot", "brett adcock"] },
-    { "slug": "waymo", "name": "Waymo", "domain": "waymo.com", "blurb": "Driverless ride-hailing at city scale.", "keywords": ["waymo"] }
+    {
+      "slug": "openai",
+      "name": "OpenAI",
+      "domain": "openai.com",
+      "blurb": "ChatGPT, GPT models, Codex, Sora and the Stargate compute buildout.",
+      "keywords": [
+        "openai",
+        "chatgpt",
+        "gpt-5",
+        "gpt-4",
+        "gpt-6",
+        "sora",
+        "codex",
+        "o3",
+        "o4-mini",
+        "stargate",
+        "sam altman"
+      ],
+      "youtube": "UCXZCJLdBC09xxGZ6gcdrc6A"
+    },
+    {
+      "slug": "anthropic",
+      "name": "Anthropic",
+      "domain": "anthropic.com",
+      "blurb": "Claude models, Claude Code and frontier safety research.",
+      "keywords": [
+        "anthropic",
+        "claude",
+        "claude code",
+        "dario amodei",
+        "opus",
+        "sonnet",
+        "haiku"
+      ],
+      "youtubeHandle": "@anthropic-ai"
+    },
+    {
+      "slug": "google",
+      "name": "Google DeepMind",
+      "domain": "deepmind.google",
+      "blurb": "Gemini, DeepMind research, Veo, Genie and TPUs.",
+      "keywords": [
+        "deepmind",
+        "gemini",
+        "google ai",
+        "veo",
+        "genie",
+        "demis hassabis",
+        "notebooklm",
+        "tpu"
+      ],
+      "youtubeHandle": "@googledeepmind"
+    },
+    {
+      "slug": "xai",
+      "name": "xAI",
+      "domain": "x.ai",
+      "blurb": "Grok models and the Colossus supercomputer.",
+      "keywords": [
+        "xai",
+        "x.ai",
+        "grok",
+        "colossus"
+      ],
+      "youtubeHandle": "@xai"
+    },
+    {
+      "slug": "meta",
+      "name": "Meta AI",
+      "domain": "meta.com",
+      "blurb": "Llama models, Meta Superintelligence Labs and AI glasses.",
+      "keywords": [
+        "meta ai",
+        "llama",
+        "superintelligence labs",
+        "zuckerberg",
+        "meta superintelligence"
+      ],
+      "youtubeHandle": "@aiatmeta"
+    },
+    {
+      "slug": "microsoft",
+      "name": "Microsoft AI",
+      "domain": "microsoft.com",
+      "blurb": "Copilot, Azure AI and Microsoft's own frontier models.",
+      "keywords": [
+        "microsoft ai",
+        "copilot",
+        "azure ai",
+        "satya nadella",
+        "mustafa suleyman"
+      ]
+    },
+    {
+      "slug": "nvidia",
+      "name": "NVIDIA",
+      "domain": "nvidia.com",
+      "blurb": "The GPUs, systems and software that train every frontier model.",
+      "keywords": [
+        "nvidia",
+        "blackwell",
+        "rubin",
+        "jensen huang",
+        "cuda",
+        "gb200",
+        "gb300"
+      ],
+      "youtubeHandle": "@NVIDIA"
+    },
+    {
+      "slug": "tesla",
+      "name": "Tesla AI",
+      "domain": "tesla.com",
+      "blurb": "Optimus, Cybercab, FSD and the Dojo/AI5 compute effort.",
+      "keywords": [
+        "tesla",
+        "optimus",
+        "cybercab",
+        "robotaxi",
+        "fsd",
+        "full self-driving",
+        "dojo",
+        "ai5"
+      ],
+      "youtubeHandle": "@tesla"
+    },
+    {
+      "slug": "apple",
+      "name": "Apple Intelligence",
+      "domain": "apple.com",
+      "blurb": "Apple Intelligence, Siri and on-device models.",
+      "keywords": [
+        "apple intelligence",
+        "siri",
+        "apple ai"
+      ]
+    },
+    {
+      "slug": "amazon",
+      "name": "Amazon AI",
+      "domain": "aws.amazon.com",
+      "blurb": "Nova models, Alexa+, Trainium and AWS Bedrock.",
+      "keywords": [
+        "amazon nova",
+        "alexa+",
+        "trainium",
+        "bedrock",
+        "aws ai"
+      ]
+    },
+    {
+      "slug": "mistral",
+      "name": "Mistral AI",
+      "domain": "mistral.ai",
+      "blurb": "Europe's leading open and frontier model lab.",
+      "keywords": [
+        "mistral"
+      ]
+    },
+    {
+      "slug": "deepseek",
+      "name": "DeepSeek",
+      "domain": "deepseek.com",
+      "blurb": "China's open-weight frontier lab behind V3 and R1.",
+      "keywords": [
+        "deepseek"
+      ]
+    },
+    {
+      "slug": "ssi",
+      "name": "Safe Superintelligence",
+      "domain": "ssi.inc",
+      "blurb": "Ilya Sutskever's lab building straight to safe superintelligence.",
+      "keywords": [
+        "safe superintelligence",
+        "ssi inc",
+        "ilya sutskever",
+        "sutskever"
+      ]
+    },
+    {
+      "slug": "figure",
+      "name": "Figure",
+      "domain": "figure.ai",
+      "blurb": "Humanoid robots for work and home.",
+      "keywords": [
+        "figure ai",
+        "figure 03",
+        "figure 02",
+        "helix robot",
+        "brett adcock"
+      ]
+    },
+    {
+      "slug": "waymo",
+      "name": "Waymo",
+      "domain": "waymo.com",
+      "blurb": "Driverless ride-hailing at city scale.",
+      "keywords": [
+        "waymo"
+      ]
+    },
+    {
+      "slug": "suno",
+      "name": "Suno",
+      "domain": "suno.com",
+      "blurb": "AI music: songs from a prompt, Suno Studio and the v-series models.",
+      "keywords": [
+        "suno",
+        "suno ai",
+        "suno studio"
+      ]
+    },
+    {
+      "slug": "higgsfield",
+      "name": "Higgsfield",
+      "domain": "higgsfield.ai",
+      "blurb": "AI video and image studio for creators and filmmakers.",
+      "keywords": [
+        "higgsfield"
+      ]
+    },
+    {
+      "slug": "runway",
+      "name": "Runway",
+      "domain": "runwayml.com",
+      "blurb": "AI video models (Gen series) and tools for film and design.",
+      "keywords": [
+        "runwayml",
+        "runway ai",
+        "runway ml",
+        "runway gen",
+        "runway's gen",
+        "runway aleph"
+      ]
+    },
+    {
+      "slug": "elevenlabs",
+      "name": "ElevenLabs",
+      "domain": "elevenlabs.io",
+      "blurb": "AI voice, speech and audio models.",
+      "keywords": [
+        "elevenlabs",
+        "eleven labs"
+      ]
+    },
+    {
+      "slug": "midjourney",
+      "name": "Midjourney",
+      "domain": "midjourney.com",
+      "blurb": "AI image and video generation.",
+      "keywords": [
+        "midjourney"
+      ]
+    },
+    {
+      "slug": "kling",
+      "name": "Kling AI",
+      "domain": "klingai.com",
+      "blurb": "Kuaishou's AI video model.",
+      "keywords": [
+        "kling"
+      ]
+    },
+    {
+      "slug": "bfl",
+      "name": "Black Forest Labs",
+      "domain": "bfl.ai",
+      "blurb": "FLUX image models.",
+      "keywords": [
+        "black forest labs",
+        "flux kontext",
+        "flux 2",
+        "flux 3",
+        "flux.2",
+        "flux.1"
+      ]
+    },
+    {
+      "slug": "luma",
+      "name": "Luma AI",
+      "domain": "lumalabs.ai",
+      "blurb": "Dream Machine and the Ray video models.",
+      "keywords": [
+        "luma ai",
+        "luma labs",
+        "lumalabs",
+        "dream machine"
+      ]
+    },
+    {
+      "slug": "pika",
+      "name": "Pika",
+      "domain": "pika.art",
+      "blurb": "AI video app and API.",
+      "keywords": [
+        "pika labs",
+        "pika ai",
+        "pika art",
+        "pika.art"
+      ]
+    },
+    {
+      "slug": "ideogram",
+      "name": "Ideogram",
+      "domain": "ideogram.ai",
+      "blurb": "AI image model known for text in images.",
+      "keywords": [
+        "ideogram"
+      ]
+    },
+    {
+      "slug": "heygen",
+      "name": "HeyGen",
+      "domain": "heygen.com",
+      "blurb": "AI avatars, video and voice.",
+      "keywords": [
+        "heygen"
+      ]
+    },
+    {
+      "slug": "perplexity",
+      "name": "Perplexity",
+      "domain": "perplexity.ai",
+      "blurb": "AI answer engine and the Comet browser.",
+      "keywords": [
+        "perplexity ai",
+        "perplexity's",
+        "perplexity",
+        "comet browser"
+      ]
+    },
+    {
+      "slug": "cursor",
+      "name": "Cursor",
+      "domain": "cursor.com",
+      "blurb": "The AI code editor from Anysphere.",
+      "keywords": [
+        "cursor ai",
+        "anysphere",
+        "cursor's",
+        "cursor editor",
+        "cursor agent"
+      ]
+    },
+    {
+      "slug": "cognition",
+      "name": "Cognition",
+      "domain": "cognition.ai",
+      "blurb": "Devin, the AI software engineer, and Windsurf.",
+      "keywords": [
+        "cognition ai",
+        "cognition labs",
+        "devin ai",
+        "windsurf"
+      ]
+    }
   ],
   "topics": [
-    { "slug": "models", "name": "Models", "blurb": "New frontier models, benchmarks and leaks.", "keywords": ["model", "llm", "benchmark", "gpt", "claude", "gemini", "grok", "llama", "reasoning model", "open-weight", "weights"] },
-    { "slug": "codex", "name": "Codex & Coding", "blurb": "Codex, Claude Code and AI coding agents, including limit resets.", "keywords": ["codex", "claude code", "cursor", "coding agent", "copilot", "rate limit", "usage limit", "windsurf"] },
-    { "slug": "robotics", "name": "Robotics", "blurb": "Humanoids and robots: Optimus, Figure, Atlas and more.", "keywords": ["optimus", "humanoid", "robot", "figure ai", "boston dynamics", "atlas robot", "unitree", "1x neo"] },
-    { "slug": "autonomy", "name": "Robotaxis", "blurb": "Cybercab, Waymo, FSD and the race to driverless.", "keywords": ["cybercab", "robotaxi", "waymo", "fsd", "self-driving", "autonomous vehicle", "zoox"] },
-    { "slug": "chips", "name": "Chips & Compute", "blurb": "GPUs, data centers, power and the compute race.", "keywords": ["gpu", "nvidia", "tpu", "trainium", "data center", "datacenter", "stargate", "colossus", "compute", "blackwell", "rubin", "semiconductor", "tsmc"] },
-    { "slug": "agi", "name": "AGI & SI", "blurb": "Timelines, predictions and the road to superintelligence.", "keywords": ["agi", "superintelligence", "asi", "artificial general intelligence", "singularity", "timelines"] },
-    { "slug": "policy", "name": "Policy & Safety", "blurb": "Regulation, safety research and the AI rules being written.", "keywords": ["regulation", "ai act", "executive order", "safety", "alignment", "lawsuit", "copyright", "senate", "congress", "export control"] },
-    { "slug": "money", "name": "Deals & Funding", "blurb": "Raises, valuations, IPOs and acquisitions.", "keywords": ["funding", "raise", "valuation", "billion", "ipo", "acquire", "acquisition", "investment", "series"] }
+    {
+      "slug": "models",
+      "name": "Models",
+      "blurb": "New frontier models, benchmarks and leaks.",
+      "keywords": [
+        "model",
+        "llm",
+        "benchmark",
+        "gpt",
+        "claude",
+        "gemini",
+        "grok",
+        "llama",
+        "reasoning model",
+        "open-weight",
+        "weights"
+      ]
+    },
+    {
+      "slug": "codex",
+      "name": "Codex & Coding",
+      "blurb": "Codex, Claude Code and AI coding agents, including limit resets.",
+      "keywords": [
+        "codex",
+        "claude code",
+        "cursor",
+        "coding agent",
+        "copilot",
+        "rate limit",
+        "usage limit",
+        "windsurf"
+      ]
+    },
+    {
+      "slug": "robotics",
+      "name": "Robotics",
+      "blurb": "Humanoids and robots: Optimus, Figure, Atlas and more.",
+      "keywords": [
+        "optimus",
+        "humanoid",
+        "robot",
+        "figure ai",
+        "boston dynamics",
+        "atlas robot",
+        "unitree",
+        "1x neo"
+      ]
+    },
+    {
+      "slug": "autonomy",
+      "name": "Robotaxis",
+      "blurb": "Cybercab, Waymo, FSD and the race to driverless.",
+      "keywords": [
+        "cybercab",
+        "robotaxi",
+        "waymo",
+        "fsd",
+        "self-driving",
+        "autonomous vehicle",
+        "zoox"
+      ]
+    },
+    {
+      "slug": "chips",
+      "name": "Chips & Compute",
+      "blurb": "GPUs, data centers, power and the compute race.",
+      "keywords": [
+        "gpu",
+        "nvidia",
+        "tpu",
+        "trainium",
+        "data center",
+        "datacenter",
+        "stargate",
+        "colossus",
+        "compute",
+        "blackwell",
+        "rubin",
+        "semiconductor",
+        "tsmc"
+      ]
+    },
+    {
+      "slug": "agi",
+      "name": "AGI & SI",
+      "blurb": "Timelines, predictions and the road to superintelligence.",
+      "keywords": [
+        "agi",
+        "superintelligence",
+        "asi",
+        "artificial general intelligence",
+        "singularity",
+        "timelines"
+      ]
+    },
+    {
+      "slug": "policy",
+      "name": "Policy & Safety",
+      "blurb": "Regulation, safety research and the AI rules being written.",
+      "keywords": [
+        "regulation",
+        "ai act",
+        "executive order",
+        "safety",
+        "alignment",
+        "lawsuit",
+        "copyright",
+        "senate",
+        "congress",
+        "export control"
+      ]
+    },
+    {
+      "slug": "money",
+      "name": "Deals & Funding",
+      "blurb": "Raises, valuations, IPOs and acquisitions.",
+      "keywords": [
+        "funding",
+        "raise",
+        "valuation",
+        "billion",
+        "ipo",
+        "acquire",
+        "acquisition",
+        "investment",
+        "series"
+      ]
+    },
+    {
+      "slug": "creative",
+      "name": "Creative AI",
+      "blurb": "Music, image, video and voice AI: Suno, Midjourney, Higgsfield, Runway, Kling and more.",
+      "keywords": [
+        "suno",
+        "midjourney",
+        "higgsfield",
+        "runwayml",
+        "kling",
+        "elevenlabs",
+        "black forest labs",
+        "ideogram",
+        "heygen",
+        "luma ai",
+        "pika labs",
+        "ai music",
+        "ai video",
+        "video model",
+        "image model",
+        "text-to-video",
+        "text-to-image",
+        "ai voice",
+        "veo",
+        "sora"
+      ]
+    }
   ],
   "people": [
-    { "slug": "sam-altman", "name": "Sam Altman", "role": "CEO", "company": "openai", "x": "sama", "query": "\"Sam Altman\"" },
-    { "slug": "elon-musk", "name": "Elon Musk", "role": "CEO, Tesla and xAI", "company": "xai", "x": "elonmusk", "query": "\"Elon Musk\" (AI OR xAI OR Grok OR Optimus OR Cybercab OR robotaxi)" },
-    { "slug": "dario-amodei", "name": "Dario Amodei", "role": "CEO", "company": "anthropic", "query": "\"Dario Amodei\"" },
-    { "slug": "demis-hassabis", "name": "Demis Hassabis", "role": "CEO, Google DeepMind", "company": "google", "x": "demishassabis", "query": "\"Demis Hassabis\"" },
-    { "slug": "jensen-huang", "name": "Jensen Huang", "role": "CEO", "company": "nvidia", "query": "\"Jensen Huang\"" },
-    { "slug": "mark-zuckerberg", "name": "Mark Zuckerberg", "role": "CEO", "company": "meta", "query": "\"Zuckerberg\" (AI OR superintelligence OR Llama)" },
-    { "slug": "satya-nadella", "name": "Satya Nadella", "role": "CEO", "company": "microsoft", "x": "satyanadella", "query": "\"Satya Nadella\" AI" },
-    { "slug": "sundar-pichai", "name": "Sundar Pichai", "role": "CEO, Google", "company": "google", "x": "sundarpichai", "query": "\"Sundar Pichai\" AI" },
-    { "slug": "ilya-sutskever", "name": "Ilya Sutskever", "role": "Co-founder, SSI", "company": "ssi", "x": "ilyasut", "query": "\"Ilya Sutskever\"" },
-    { "slug": "andrej-karpathy", "name": "Andrej Karpathy", "role": "AI researcher", "x": "karpathy", "youtubeHandle": "@AndrejKarpathy", "query": "\"Karpathy\"" },
-    { "slug": "greg-brockman", "name": "Greg Brockman", "role": "President", "company": "openai", "x": "gdb", "query": "\"Greg Brockman\"" },
-    { "slug": "yann-lecun", "name": "Yann LeCun", "role": "AI researcher", "x": "ylecun", "query": "\"Yann LeCun\"" },
-    { "slug": "mustafa-suleyman", "name": "Mustafa Suleyman", "role": "CEO, Microsoft AI", "company": "microsoft", "x": "mustafasuleyman", "query": "\"Mustafa Suleyman\"" },
-    { "slug": "mira-murati", "name": "Mira Murati", "role": "Founder, Thinking Machines", "x": "miramurati", "query": "\"Mira Murati\"" },
-    { "slug": "geoffrey-hinton", "name": "Geoffrey Hinton", "role": "AI pioneer", "query": "\"Geoffrey Hinton\"" },
-    { "slug": "lex-fridman", "name": "Lex Fridman", "role": "Podcaster", "x": "lexfridman", "youtubeHandle": "@lexfridman", "query": "\"Lex Fridman\" AI" }
+    {
+      "slug": "sam-altman",
+      "name": "Sam Altman",
+      "role": "CEO",
+      "company": "openai",
+      "x": "sama",
+      "query": "\"Sam Altman\""
+    },
+    {
+      "slug": "elon-musk",
+      "name": "Elon Musk",
+      "role": "CEO, Tesla and xAI",
+      "company": "xai",
+      "x": "elonmusk",
+      "query": "\"Elon Musk\" (AI OR xAI OR Grok OR Optimus OR Cybercab OR robotaxi)"
+    },
+    {
+      "slug": "dario-amodei",
+      "name": "Dario Amodei",
+      "role": "CEO",
+      "company": "anthropic",
+      "query": "\"Dario Amodei\""
+    },
+    {
+      "slug": "demis-hassabis",
+      "name": "Demis Hassabis",
+      "role": "CEO, Google DeepMind",
+      "company": "google",
+      "x": "demishassabis",
+      "query": "\"Demis Hassabis\""
+    },
+    {
+      "slug": "jensen-huang",
+      "name": "Jensen Huang",
+      "role": "CEO",
+      "company": "nvidia",
+      "query": "\"Jensen Huang\""
+    },
+    {
+      "slug": "mark-zuckerberg",
+      "name": "Mark Zuckerberg",
+      "role": "CEO",
+      "company": "meta",
+      "query": "\"Zuckerberg\" (AI OR superintelligence OR Llama)"
+    },
+    {
+      "slug": "satya-nadella",
+      "name": "Satya Nadella",
+      "role": "CEO",
+      "company": "microsoft",
+      "x": "satyanadella",
+      "query": "\"Satya Nadella\" AI"
+    },
+    {
+      "slug": "sundar-pichai",
+      "name": "Sundar Pichai",
+      "role": "CEO, Google",
+      "company": "google",
+      "x": "sundarpichai",
+      "query": "\"Sundar Pichai\" AI"
+    },
+    {
+      "slug": "ilya-sutskever",
+      "name": "Ilya Sutskever",
+      "role": "Co-founder, SSI",
+      "company": "ssi",
+      "x": "ilyasut",
+      "query": "\"Ilya Sutskever\""
+    },
+    {
+      "slug": "andrej-karpathy",
+      "name": "Andrej Karpathy",
+      "role": "AI researcher",
+      "x": "karpathy",
+      "youtubeHandle": "@AndrejKarpathy",
+      "query": "\"Karpathy\""
+    },
+    {
+      "slug": "greg-brockman",
+      "name": "Greg Brockman",
+      "role": "President",
+      "company": "openai",
+      "x": "gdb",
+      "query": "\"Greg Brockman\""
+    },
+    {
+      "slug": "yann-lecun",
+      "name": "Yann LeCun",
+      "role": "AI researcher",
+      "x": "ylecun",
+      "query": "\"Yann LeCun\""
+    },
+    {
+      "slug": "mustafa-suleyman",
+      "name": "Mustafa Suleyman",
+      "role": "CEO, Microsoft AI",
+      "company": "microsoft",
+      "x": "mustafasuleyman",
+      "query": "\"Mustafa Suleyman\""
+    },
+    {
+      "slug": "mira-murati",
+      "name": "Mira Murati",
+      "role": "Founder, Thinking Machines",
+      "x": "miramurati",
+      "query": "\"Mira Murati\""
+    },
+    {
+      "slug": "geoffrey-hinton",
+      "name": "Geoffrey Hinton",
+      "role": "AI pioneer",
+      "query": "\"Geoffrey Hinton\""
+    },
+    {
+      "slug": "lex-fridman",
+      "name": "Lex Fridman",
+      "role": "Podcaster",
+      "x": "lexfridman",
+      "youtubeHandle": "@lexfridman",
+      "query": "\"Lex Fridman\" AI"
+    }
   ]
 }

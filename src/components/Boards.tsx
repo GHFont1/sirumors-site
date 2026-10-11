@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NOW, companyBySlug, type Board, type FrontierModel, type Market, type XReset } from "@/lib/data";
-import { compact, daysBetween, fmtDate } from "@/lib/format";
+import { daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "./Logo";
 
 const pctOf = (p: number) => (p >= 0.995 ? ">99%" : p < 0.01 ? "<1%" : `${Math.round(p * 100)}%`);
@@ -55,9 +55,6 @@ export function MarketCard({ m, rows = 4 }: { m: Market; rows?: number }) {
         ) : (
           list.map((o) => <OddsRow key={o.name} name={o.name} p={o.yes} change={o.change} lead={o.yes === leadP} />)
         )}
-      </div>
-      <div className="mt-3 text-xs text-faint">
-        <span className="tabular">${compact(m.volume)} traded{m.endDate ? ` · ends ${fmtDate(m.endDate, false)}` : ""}</span>
       </div>
     </article>
   );
@@ -126,6 +123,32 @@ export function FrontierList({ items, limit = 10 }: { items: FrontierModel[]; li
               <span className="tabular text-xs font-bold text-muted">{Math.round(m.score)}</span>
               <span aria-hidden className="text-faint">›</span>
             </Link>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/** The newest releases, each linked to the lab's own announcement. */
+export function ReleaseFeed({ items, limit = 6 }: { items: { name: string; date: string; company: string; lineName: string; source: string; evidence?: { url: string; source: string } }[]; limit?: number }) {
+  return (
+    <ol className="divide-y divide-line">
+      {items.slice(0, limit).map((r) => {
+        const co = companyBySlug(r.company);
+        const inner = (
+          <>
+            <Logo slug={co?.slug} name={co?.name ?? r.lineName} size={26} />
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-bold">{r.name}</span>
+              <span className="block truncate text-[11px] text-muted">{r.source === "official" && r.evidence ? <><span style={{ color: "var(--good)" }}>✓</span> {r.evidence.source}</> : co?.name ?? r.lineName}</span>
+            </span>
+            <span className="tabular shrink-0 text-[11px] font-semibold text-faint">{fmtDate(r.date, false)}</span>
+          </>
+        );
+        return (
+          <li key={r.name + r.date}>
+            {r.evidence ? <a href={r.evidence.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 rounded-lg px-1.5 py-2 hover:bg-chip">{inner}</a> : <div className="flex items-center gap-2.5 px-1.5 py-2">{inner}</div>}
           </li>
         );
       })}

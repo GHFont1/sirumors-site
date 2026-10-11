@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { NOW, frontier, markets, resetHistory, upcoming } from "@/lib/data";
-import { FrontierList, LabResets, MarketCard, ResetList } from "@/components/Boards";
+import { NOW, allReleases, frontier, markets, resetHistory, upcoming } from "@/lib/data";
+import { FrontierList, LabResets, MarketCard, ReleaseFeed, ResetList } from "@/components/Boards";
 import { allUpdates } from "@/lib/updates";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { UpdatesStream } from "@/components/Updates";
@@ -57,22 +57,23 @@ export default function Home() {
             <FrontierList items={frontier} limit={10} />
           </Side>
 
+          <Side title="Latest releases" href="/releases/" linkLabel="Release log">
+            <ReleaseFeed items={allReleases()} limit={7} />
+            {next && (
+              <div className="mt-2 flex items-center gap-2.5 rounded-lg border border-dashed border-line p-2.5">
+                <Logo slug={next.company} name={next.name} size={22} />
+                <div className="min-w-0 text-xs">
+                  <div className="font-bold">Next up: {next.name}</div>
+                  <div className="text-muted">Expected around {fmtDate(next.expectedNext!, false)} · {Math.max(0, daysBetween(NOW, next.expectedNext!))}d</div>
+                </div>
+              </div>
+            )}
+          </Side>
+
           <Side title="Resets" href="/resets/" linkLabel="Every reset">
             <LabResets items={resets} />
             <div className="mt-2 border-t border-line"><ResetList items={resets} limit={4} /></div>
           </Side>
-
-          {next && (
-            <Side title="Next big release" href="/releases/" linkLabel="Release tracker">
-              <div className="flex items-center gap-3">
-                <Logo slug={next.company} name={next.name} size={36} />
-                <div className="min-w-0">
-                  <div className="truncate font-bold">{next.name}</div>
-                  <div className="text-xs text-muted">Expected around {fmtDate(next.expectedNext!, false)} · {Math.max(0, daysBetween(NOW, next.expectedNext!))}d</div>
-                </div>
-              </div>
-            </Side>
-          )}
 
           {odds && (
             <div>

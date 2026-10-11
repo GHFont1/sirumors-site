@@ -25,6 +25,21 @@ export const LAB_ACCOUNTS = [
   { handle: "tesla_optimus", company: "tesla", name: "Tesla Optimus" },
   { handle: "robotaxi", company: "tesla", name: "Tesla Robotaxi" },
   { handle: "figure_robot", company: "figure", name: "Figure" },
+  { handle: "suno", company: "suno", name: "Suno" },
+  { handle: "higgsfield", company: "higgsfield", name: "Higgsfield" },
+  { handle: "higgsfield_ai", company: "higgsfield", name: "Higgsfield AI" },
+  { handle: "runwayml", company: "runway", name: "Runway" },
+  { handle: "elevenlabs", company: "elevenlabs", name: "ElevenLabs" },
+  { handle: "midjourney", company: "midjourney", name: "Midjourney" },
+  { handle: "kling_ai", company: "kling", name: "Kling AI" },
+  { handle: "bfl_ai", company: "bfl", name: "Black Forest Labs" },
+  { handle: "lumalabsai", company: "luma", name: "Luma" },
+  { handle: "pika_labs", company: "pika", name: "Pika" },
+  { handle: "ideogram_ai", company: "ideogram", name: "Ideogram" },
+  { handle: "heygen", company: "heygen", name: "HeyGen" },
+  { handle: "perplexity_ai", company: "perplexity", name: "Perplexity" },
+  { handle: "cursor_ai", company: "cursor", name: "Cursor" },
+  { handle: "cognition", company: "cognition", name: "Cognition" },
 ];
 
 async function timeline(handle, pages = 3) {

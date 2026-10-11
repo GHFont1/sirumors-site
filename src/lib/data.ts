@@ -129,7 +129,8 @@ export const rumors = [...rumorsData.rumors].sort(
   (a, b) => (b.confidence ?? 0) - (a.confidence ?? 0) || b.publishedAt.localeCompare(a.publishedAt),
 );
 export const videos = videosData.videos;
-export const releaseLines = releasesData.lines;
+// Lines with nothing confirmed yet (a new company before its first lab-announced release) stay hidden.
+export const releaseLines = releasesData.lines.filter((l) => l.releases.length);
 export const repos = githubData.repos;
 export const resets = resetsData.events;
 export const history = historyData.days;
