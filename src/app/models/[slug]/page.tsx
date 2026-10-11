@@ -1,0 +1,100 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { boardsPublished, companyBySlug, frontier, frontierBySlug, releaseFor, stories } from "@/lib/data";
+import { fmtDate } from "@/lib/format";
+import { Section, Stat } from "@/components/Blocks";
+import { StoryList } from "@/components/Story";
+import { Logo } from "@/components/Logo";
+
+// A reference page for each model on the frontier list.
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return frontier.map((m) => ({ slug: m.slug }));
+}
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const m = frontierBySlug((await params).slug);
+  return m ? { title: `${m.model}: #${m.rank} Frontier AI Model, Rankings and Release`, description: `How ${m.model} by ${m.orgName} ranks right now: #${m.rank} on the frontier list, its placing for overall, hard prompts, coding and agents, when it was released and the latest news.`, alternates: { canonical: `/models/${m.slug}/` } } : {};
+}
+
+const BOARD_NAMES: Record<string, string> = { overall: "Overall", hard: "Hard problems", coding: "Coding", agent: "Agents" };
+
+export default async function ModelPage({ params }: { params: Promise<{ slug: string }> }) {
+  const m = frontierBySlug((await params).slug);
+  if (!m) notFound();
+  const co = m.company ? companyBySlug(m.company) : undefined;
+  const rel = releaseFor(m.model);
+  const words = m.model.toLowerCase();
+  const family = rel?.name.toLowerCase();
+  const news = stories.filter((s) => { const t = s.title.toLowerCase(); return t.includes(words) || (!!family && t.includes(family)); }).slice(0, 12);
+  const above = frontier.find((x) => x.rank === m.rank - 1);
+  const below = frontier.find((x) => x.rank === m.rank + 1);
+  return (
+    <>
+      <Link href="/models/" className="text-sm font-semibold text-accent hover:underline">← Best frontier models</Link>
+      <div className="mt-3 flex items-center gap-4">
+        <Logo slug={co?.slug} name={m.orgName} size={64} />
+        <div className="min-w-0">
+          <div className="kicker">#{m.rank} frontier model</div>
+          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{m.rank === 1 ? "👑 " : ""}{m.model}</h1>
+          <div className="text-sm text-muted">
+            {co ? <Link href={`/c/${co.slug}/`} className="link-hover">{co.name}</Link> : m.orgName}
+            {m.open ? " · open weights" : ""}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <Stat label="Frontier rank" value={`#${m.rank}`} sub={`of ${frontier.length} tracked`} tone="accent" />
+        <Stat label="Frontier score" value={Math.round(m.score)} sub="100 = #1 on every board" />
+        <Stat label="Best placing" value={`#${Math.min(...Object.values(m.boards).map((b) => b.pos))}`} sub={BOARD_NAMES[Object.entries(m.boards).sort((a, b) => a[1].pos - b[1].pos)[0][0]]} />
+        <Stat label="Released" value={rel ? fmtDate(rel.date, false) : "—"} sub={rel ? `${rel.name}${rel.date ? ` · ${new Date(rel.date).getUTCFullYear()}` : ""}` : "Not in the release tracker yet"} />
+      </div>
+
+      <Section title="Where it places" kicker="Arena leaderboards">
+        <div className="card overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead><tr className="border-b border-line text-left text-[11px] uppercase tracking-wider text-muted"><th className="p-3">Board</th><th className="p-3">Placing</th><th className="p-3">Score</th><th className="p-3">Votes</th></tr></thead>
+            <tbody>
+              {Object.keys(BOARD_NAMES).map((id) => {
+                const b = m.boards[id];
+                return (
+                  <tr key={id} className="border-b border-line last:border-0">
+                    <td className="p-3 font-semibold"><Link href={`/rankings/#${id}`} className="link-hover">{BOARD_NAMES[id]}</Link></td>
+                    <td className="tabular p-3 font-bold">{b ? `#${b.pos}` : <span className="font-normal text-faint">Not on this board</span>}</td>
+                    <td className="tabular p-3">{b ? `${b.rating}${id === "agent" ? "" : " Elo"}` : ""}</td>
+                    <td className="tabular p-3 text-muted">{b ? b.votes.toLocaleString("en-US") : ""}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-xs text-faint">From blind head-to-head votes on <a href="https://arena.ai/leaderboard" target="_blank" rel="noopener noreferrer" className="link-hover">Arena</a>{boardsPublished ? `, published ${fmtDate(boardsPublished)}` : ""}. Variants (high, max) count once at their best.</p>
+      </Section>
+
+      {rel && (
+        <Section title="Release" kicker="From the lab's own announcement">
+          <div className="card flex flex-wrap items-center justify-between gap-3 p-4">
+            <div>
+              <div className="font-bold">{rel.name}</div>
+              <div className="text-sm text-muted">Released {fmtDate(rel.date)}</div>
+            </div>
+            {rel.evidence && <a href={rel.evidence.url} target="_blank" rel="noopener noreferrer" className="chip text-sm font-semibold hover:text-accent">✓ {rel.evidence.source} ↗</a>}
+          </div>
+        </Section>
+      )}
+
+      {news.length > 0 && (
+        <Section title={`Latest on ${m.model}`} kicker="News">
+          <div className="card px-4"><StoryList items={news} /></div>
+        </Section>
+      )}
+
+      <div className="mt-8 flex flex-wrap justify-between gap-3 text-sm">
+        {above ? <Link href={`/models/${above.slug}/`} className="link-hover">↑ #{above.rank} {above.model}</Link> : <span />}
+        {below && <Link href={`/models/${below.slug}/`} className="link-hover">#{below.rank} {below.model} ↓</Link>}
+      </div>
+    </>
+  );
+}

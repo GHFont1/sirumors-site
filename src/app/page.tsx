@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { NOW, boards, companyBySlug, markets, resetHistory, upcoming } from "@/lib/data";
-import { MarketCard, ResetList, ResetStatus } from "@/components/Boards";
+import { NOW, frontier, markets, resetHistory, upcoming } from "@/lib/data";
+import { FrontierList, LabResets, MarketCard, ResetList } from "@/components/Boards";
 import { allUpdates } from "@/lib/updates";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { UpdatesStream } from "@/components/Updates";
@@ -19,15 +19,9 @@ function Side({ title, href, linkLabel, children }: { title: string; href?: stri
   );
 }
 
-const PICKS: [string, string][] = [["coding", "Coding"], ["agent", "Agents"], ["open", "Open model"], ["image", "Image"], ["video", "Video"]];
-
 export default function Home() {
   // Home keeps the signal: releases, resets, lab posts, real rumors and big stories. Whispers and two-outlet stories stay in News.
   const updates = allUpdates(7).filter((u) => u.weight >= 40).slice(0, 60);
-  const top = boards.find((b) => b.id === "overall");
-  const leader = top?.top[0];
-  const leaderCo = leader?.company ? companyBySlug(leader.company) : undefined;
-  const picks = PICKS.map(([id, label]) => ({ label, b: boards.find((b) => b.id === id) })).filter((x) => x.b);
   const resets = resetHistory();
   const next = upcoming().find((l) => Date.parse(l.expectedNext!) >= NOW - 86400000);
   const odds = markets[0];
@@ -41,8 +35,8 @@ export default function Home() {
           <p className="mt-2 max-w-xl text-muted">The newest useful changes first. Every update links to where it came from.</p>
         </div>
         <div className="flex shrink-0 gap-2">
-          <Link href="/rankings/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Best AI models</Link>
-          <Link href="/codex/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Codex resets</Link>
+          <Link href="/models/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Best AI models</Link>
+          <Link href="/resets/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Resets</Link>
         </div>
       </section>
 
@@ -59,43 +53,13 @@ export default function Home() {
         </section>
 
         <aside className="space-y-4">
-          {leader && top && (
-            <Side title="Best AI model right now" href="/rankings/" linkLabel="See all rankings">
-              <div className="flex items-center gap-3">
-                <Logo slug={leaderCo?.slug} name={leaderCo?.name ?? leader.org} size={48} />
-                <div className="min-w-0">
-                  <div className="truncate text-lg font-extrabold">👑 {leader.model}</div>
-                  <div className="text-xs text-muted">{leaderCo?.name ?? leader.org} · #1 on Arena · {leader.rating} Elo</div>
-                </div>
-              </div>
-            </Side>
-          )}
-
-          <Side title="Best at each job" href="/rankings/" linkLabel="See the full board">
-            <ol className="space-y-1">
-              {picks.map(({ label, b }, i) => {
-                const r = b!.top[0];
-                const co = r.company ? companyBySlug(r.company) : undefined;
-                return (
-                  <li key={b!.id}>
-                    <Link href={`/rankings/#${b!.id}`} className="flex items-center gap-3 rounded-lg p-1.5 hover:bg-chip">
-                      <span className="tabular w-4 text-xs font-bold text-faint">{i + 1}.</span>
-                      <Logo slug={co?.slug} name={co?.name ?? r.org} size={28} />
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[11px] font-bold uppercase tracking-wider text-muted">{label}</span>
-                        <span className="block truncate text-sm font-bold">{r.model}</span>
-                      </span>
-                      <span aria-hidden className="text-faint">→</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
+          <Side title="Best frontier models" href="/models/" linkLabel="Full ranking">
+            <FrontierList items={frontier} limit={10} />
           </Side>
 
-          <Side title="Codex resets" href="/codex/" linkLabel="Full history">
-            <ResetStatus items={resets} />
-            <div className="mt-2 border-t border-line"><ResetList items={resets} limit={5} /></div>
+          <Side title="Resets" href="/resets/" linkLabel="Every reset">
+            <LabResets items={resets} />
+            <div className="mt-2 border-t border-line"><ResetList items={resets} limit={4} /></div>
           </Side>
 
           {next && (

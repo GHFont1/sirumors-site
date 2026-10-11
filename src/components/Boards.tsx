@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { NOW, companyBySlug, type Board, type Market, type XReset } from "@/lib/data";
+import { NOW, companyBySlug, type Board, type FrontierModel, type Market, type XReset } from "@/lib/data";
 import { compact, daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "./Logo";
 
 const pctOf = (p: number) => (p >= 0.995 ? ">99%" : p < 0.01 ? "<1%" : `${Math.round(p * 100)}%`);
 
-/** A Polymarket-style probability meter: name, odds, a bar, and the day's move. */
+/** A probability meter: name, odds, a bar, and the day's move. */
 export function OddsRow({ name, p, change, lead = false, tone }: { name: string; p: number; change?: number | null; lead?: boolean; tone?: string }) {
   const color = tone ?? (lead ? "var(--accent-2)" : "var(--accent)");
   const move = change != null && Math.abs(change) >= 0.005 ? Math.round(change * 100) : 0;
@@ -35,8 +35,8 @@ export function MarketCard({ m, rows = 4 }: { m: Market; rows?: number }) {
         {m.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={m.image} alt="" width={40} height={40} loading="lazy" referrerPolicy="no-referrer" className="h-10 w-10 shrink-0 rounded-lg border border-line object-cover" />
-        ) : <Logo name="Polymarket" size={40} />}
-        <a href={m.url} target="_blank" rel="noopener noreferrer" className="text-[15px] font-bold leading-snug link-hover">{m.title}</a>
+        ) : <span aria-hidden className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-line bg-chip text-lg">📊</span>}
+        <h3 className="text-[15px] font-bold leading-snug">{m.title}</h3>
       </div>
       <div className="mt-3 flex-1">
         {yesNo ? (
@@ -56,9 +56,8 @@ export function MarketCard({ m, rows = 4 }: { m: Market; rows?: number }) {
           list.map((o) => <OddsRow key={o.name} name={o.name} p={o.yes} change={o.change} lead={o.yes === leadP} />)
         )}
       </div>
-      <div className="mt-3 flex items-center justify-between text-xs text-faint">
-        <span className="tabular">${compact(m.volume)} vol{m.endDate ? ` · ends ${fmtDate(m.endDate, false)}` : ""}</span>
-        <a href={m.url} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-accent">Polymarket ↗</a>
+      <div className="mt-3 text-xs text-faint">
+        <span className="tabular">${compact(m.volume)} traded{m.endDate ? ` · ends ${fmtDate(m.endDate, false)}` : ""}</span>
       </div>
     </article>
   );
@@ -108,6 +107,32 @@ export function RankBoard({ b, rows = 5, compactCard = false }: { b: Board; rows
   );
 }
 
+/** The frontier list: one ranked line per model, each opening its reference page. */
+export function FrontierList({ items, limit = 10 }: { items: FrontierModel[]; limit?: number }) {
+  if (!items.length) return <p className="py-3 text-sm text-muted">Rankings are loading.</p>;
+  return (
+    <ol className="space-y-0.5">
+      {items.slice(0, limit).map((m) => {
+        const co = m.company ? companyBySlug(m.company) : undefined;
+        return (
+          <li key={m.slug}>
+            <Link href={`/models/${m.slug}/`} className="flex items-center gap-2.5 rounded-lg p-1.5 hover:bg-chip">
+              <span className={`tabular w-5 text-right text-sm font-extrabold ${m.rank === 1 ? "" : "text-faint"}`} style={m.rank === 1 ? { color: "var(--accent-2)" } : undefined}>{m.rank}</span>
+              <Logo slug={co?.slug} name={m.orgName} size={26} />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-bold">{m.rank === 1 ? "👑 " : ""}{m.model}</span>
+                <span className="block truncate text-[11px] text-muted">{co?.name ?? m.orgName}</span>
+              </span>
+              <span className="tabular text-xs font-bold text-muted">{Math.round(m.score)}</span>
+              <span aria-hidden className="text-faint">›</span>
+            </Link>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 /** Small "best at" tile for the home page strip. */
 export function BestTile({ b }: { b: Board }) {
   const first = b.top[0];
@@ -128,13 +153,16 @@ const ago = (iso: string) => {
   return h < 1 ? "just now" : h < 24 ? `${Math.round(h)}h ago` : `${Math.round(h / 24)}d ago`;
 };
 
-/** Codex resets as Tibo (or @Codexresets_) posted them, with the gap since the one before. */
+const byLine = (r: XReset) => (r.byName ?? (r.by === "thsottiaux" ? "Tibo" : `@${r.by}`)) + " on X";
+
+/** Usage resets as the labs posted them on X, with the gap since that lab's reset before. */
 export function ResetList({ items, limit = 8, quotes = false }: { items: XReset[]; limit?: number; quotes?: boolean }) {
   if (!items.length) return <p className="py-3 text-sm text-muted">No resets recorded yet.</p>;
   return (
     <ol className="divide-y divide-line">
       {items.slice(0, limit).map((r, i) => {
-        const prev = items[i + 1];
+        const prev = items.slice(i + 1).find((x) => x.company === r.company);
+        const co = companyBySlug(r.company);
         const gap = prev ? daysBetween(prev.date.slice(0, 10), r.date.slice(0, 10)) : null;
         const tone = r.banked ? "var(--accent)" : "var(--accent-2)";
         return (
@@ -144,12 +172,13 @@ export function ResetList({ items, limit = 8, quotes = false }: { items: XReset[
               <div className="tabular text-lg font-extrabold leading-none">{new Date(r.date).getUTCDate()}</div>
             </div>
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-x-2 text-[11px]">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]">
+                <span className="inline-flex items-center gap-1 font-bold"><Logo slug={co?.slug} name={r.product} size={14} />{r.product}</span>
                 <span className="rounded-full border px-2 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{r.status === "coming" ? "Coming" : r.banked ? "Banked" : "Reset"}</span>
                 <span className="text-faint">{ago(r.date)}{gap != null ? ` · ${gap === 0 ? "same day" : `${gap}d after last`}` : ""}</span>
               </div>
               <a href={r.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 block text-[13px] font-semibold leading-snug link-hover">{r.title}</a>
-              {quotes && <p className="mt-0.5 line-clamp-2 text-xs text-muted">&ldquo;{r.quote}&rdquo; <span className="text-faint">@{r.by}</span></p>}
+              {quotes && <p className="mt-0.5 line-clamp-2 text-xs text-muted">&ldquo;{r.quote}&rdquo; <span className="text-faint">{byLine(r)}</span></p>}
             </div>
           </li>
         );
@@ -158,17 +187,28 @@ export function ResetList({ items, limit = 8, quotes = false }: { items: XReset[
   );
 }
 
-/** "Last reset" status line for a sidebar card. */
-export function ResetStatus({ items }: { items: XReset[] }) {
-  const last = items.find((r) => r.status === "done");
-  const coming = items[0]?.status === "coming" ? items[0] : null;
+/** Each lab's last reset at a glance. */
+export const RESET_LABS: [string, string][] = [["openai", "OpenAI"], ["anthropic", "Claude"], ["xai", "Grok"], ["google", "Gemini"]];
+export function LabResets({ items }: { items: XReset[] }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div>
-        <div className="text-[11px] font-bold uppercase tracking-wider text-muted">{coming ? "Reset announced" : "Last Codex reset"}</div>
-        <div className="mt-0.5 text-2xl font-extrabold tracking-tight">{coming ? fmtDate(coming.date, false) : last ? ago(last.date) : "—"}</div>
-      </div>
-      {(coming ?? last) && <a href={(coming ?? last)!.url} target="_blank" rel="noopener noreferrer" className="chip text-xs font-semibold hover:text-accent">{(coming ?? last)!.by === "thsottiaux" ? "Tibo" : "@" + (coming ?? last)!.by} on X ↗</a>}
+    <div className="grid grid-cols-2 gap-2">
+      {RESET_LABS.map(([slug, product]) => {
+        const last = items.find((r) => r.company === slug && r.status === "done");
+        const coming = items.find((r) => r.company === slug && r.status === "coming" && (!last || r.date > last.date));
+        const r = coming ?? last;
+        const inner = (
+          <>
+            <span className="flex items-center gap-1.5 text-[11px] font-bold text-muted"><Logo slug={slug} name={product} size={16} />{product}</span>
+            <span className="mt-1 block text-lg font-extrabold leading-tight tracking-tight">{coming ? `Coming ${fmtDate(coming.date, false)}` : last ? ago(last.date) : "None yet"}</span>
+            <span className="block text-[10.5px] text-faint">{coming ? "announced" : last ? `last reset · ${fmtDate(last.date, false)}` : "no reset posted on X"}</span>
+          </>
+        );
+        return r ? (
+          <a key={slug} href={r.url} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-line p-2.5 hover:border-accent">{inner}</a>
+        ) : (
+          <div key={slug} className="rounded-lg border border-line p-2.5 opacity-70">{inner}</div>
+        );
+      })}
     </div>
   );
 }

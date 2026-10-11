@@ -5,7 +5,7 @@ import { Section } from "@/components/Blocks";
 
 export const metadata: Metadata = {
   title: "AI Odds: Prediction Markets on Models, Releases, AGI and IPOs",
-  description: "Live Polymarket odds on the AI race: which lab has the best model, when the next GPT, Gemini and Claude ship, AGI, OpenAI and Anthropic IPOs.",
+  description: "Live odds on the AI race: which lab has the best model, when the next GPT, Gemini and Claude ship, AGI, OpenAI and Anthropic IPOs.",
   alternates: { canonical: "/odds/" },
 };
 
@@ -28,7 +28,7 @@ export default function OddsPage() {
     <>
       <div className="kicker">The odds</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">What the money says <span className="grad-text">happens next</span></h1>
-      <p className="mt-1 max-w-2xl text-muted">Live prediction-market odds on the AI race from Polymarket, refreshed every 30 minutes. ▲▼ is the move in the last 24 hours.</p>
+      <p className="mt-1 max-w-2xl text-muted">Live prediction-market odds on the AI race, refreshed every 30 minutes. ▲▼ is the move in the last 24 hours.</p>
       {!markets.length && <p className="card mt-6 p-6 text-sm text-muted">Odds are loading. Check back shortly.</p>}
       {[...groups, { title: "Everything else", kicker: "More AI markets", list: rest }].filter((g) => g.list.length).map((g) => (
         <Section key={g.title} title={g.title} kicker={g.kicker}>

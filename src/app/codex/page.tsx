@@ -25,7 +25,7 @@ function weekly(dates: string[], weeks: number) {
   return out;
 }
 export default function CodexPage() {
-  const codexResets = resetHistory().filter((r) => r.status === "done");
+  const codexResets = resetHistory("openai").filter((r) => r.status === "done");
   const last = codexResets[0];
   const hours = last ? (NOW - Date.parse(last.date)) / 3600000 : null;
   const gaps = codexResets.slice(0, 8).map((r, i, a) => (i ? daysBetween(r.date, a[i - 1].date) : null)).filter((x): x is number => x != null && x > 0).sort((a, b) => a - b);
@@ -49,8 +49,8 @@ export default function CodexPage() {
       </div>
 
       <Section title="Reset history" kicker="Every Codex and ChatGPT usage reset">
-        <div className="card px-4"><ResetList items={resetHistory()} limit={60} quotes /></div>
-        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<a className="link-hover" href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer">@thsottiaux</a>), who runs Codex at OpenAI and posts every reset, and <a className="link-hover" href="https://x.com/Codexresets_" target="_blank" rel="noopener noreferrer">@Codexresets_</a>. Checked every 30 minutes.</p>
+        <div className="card px-4"><ResetList items={resetHistory("openai")} limit={60} quotes /></div>
+        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<a className="link-hover" href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer">@thsottiaux</a>), who runs Codex at OpenAI and posts every reset, and <a className="link-hover" href="https://x.com/Codexresets_" target="_blank" rel="noopener noreferrer">@Codexresets_</a>. Checked every 30 minutes. Claude, Grok and Gemini resets are on the <a className="link-hover text-accent" href="/resets/">resets page</a>.</p>
       </Section>
 
       <Section title="Shipping pace" kicker="Stable releases per week, last 26 weeks">

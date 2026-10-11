@@ -150,13 +150,16 @@ export function allUpdates(days = 14): Update[] {
     }
   }
 
-  // Codex resets, as Tibo posted them on X.
+  // Usage resets at every lab, as the lab or its staff posted them on X.
   for (const r of xresets) {
     if (Date.parse(r.date) < horizon) continue;
+    const co = r.company ?? "openai";
+    const product = co === "openai" ? "Codex" : (r.product ?? co);
+    const by = r.byName ?? (r.by === "thsottiaux" ? "Tibo" : `@${r.by}`);
     out.push({
-      id: r.id, kind: "reset", badge: r.status === "coming" ? "Reset coming" : r.banked ? "Banked reset" : "Codex reset", headline: r.title,
-      summary: `"${r.quote}" (@${r.by})`, url: r.url, date: r.date,
-      company: "openai", companies: ["openai"], topics: ["codex"], people: [], source: r.by === "thsottiaux" ? "Tibo on X" : `@${r.by}`, sources: 1, weight: 80,
+      id: r.id, kind: "reset", badge: r.status === "coming" ? `${product} reset coming` : r.banked ? `${product} banked reset` : `${product} reset`, headline: r.title,
+      summary: `"${r.quote}" (${by})`, url: r.url, date: r.date,
+      company: co, companies: [co], topics: ["codex"], people: [], source: `${by} on X`, sources: 1, weight: 80,
       discuss: discussLink("codex", r.title, r.url),
     });
   }

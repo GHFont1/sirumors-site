@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Fails the deploy if the static build is missing pages or real content.
 import { readFileSync, existsSync } from "node:fs";
-const must = ["index.html", "news/index.html", "rumors/index.html", "releases/index.html", "codex/index.html", "videos/index.html", "trends/index.html", "people/index.html", "c/openai/index.html", "t/robotics/index.html", "rankings/index.html", "odds/index.html", "sitemap.xml"];
+const must = ["index.html", "news/index.html", "rumors/index.html", "releases/index.html", "codex/index.html", "resets/index.html", "models/index.html", "videos/index.html", "trends/index.html", "people/index.html", "c/openai/index.html", "t/robotics/index.html", "rankings/index.html", "odds/index.html", "sitemap.xml"];
 const missing = must.filter((p) => !existsSync(`out/${p}`));
 if (missing.length) { console.error("missing pages:", missing); process.exit(1); }
 const home = readFileSync("out/index.html", "utf8");
@@ -12,6 +12,9 @@ if (feed.items.length < 100) { console.error(`feed has only ${feed.items.length}
 const rk = existsSync("data/rankings.json") ? JSON.parse(readFileSync("data/rankings.json", "utf8")) : { boards: [] };
 const mk = existsSync("data/markets.json") ? JSON.parse(readFileSync("data/markets.json", "utf8")) : { markets: [] };
 const xr = existsSync("data/xresets.json") ? JSON.parse(readFileSync("data/xresets.json", "utf8")) : { events: [] };
-if (xr.events.length < 3) { console.error(`only ${xr.events.length} Codex resets from X`); process.exit(1); }
+if (xr.events.length < 3) { console.error(`only ${xr.events.length} resets from X`); process.exit(1); }
+if (new Set(xr.events.map((e) => e.company ?? "openai")).size < 2) { console.error("resets cover fewer than 2 labs"); process.exit(1); }
+if ((rk.frontier ?? []).length < 5) { console.error(`only ${(rk.frontier ?? []).length} frontier models`); process.exit(1); }
+for (const m of rk.frontier.slice(0, 5)) if (!existsSync(`out/models/${m.slug}/index.html`)) { console.error(`missing model page ${m.slug}`); process.exit(1); }
 if (rk.boards.length < 4 || mk.markets.length < 3) { console.error(`rankings ${rk.boards.length} boards, ${mk.markets.length} markets`); process.exit(1); }
 console.log(`verified: ${must.length} key pages, ${stories} stories on home, ${feed.items.length} in feed`);

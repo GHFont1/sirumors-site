@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://sirumors.com"),
   title: { default: "SI Rumors: AI and Superintelligence News, Leaks and Releases", template: "%s · SI Rumors" },
   description:
-    "The all-in-one tracker for the road to superintelligence: AI news, leaks and rumors rated by confidence, release history with next-release estimates, Codex resets, robotics and robotaxis.",
+    "The all-in-one tracker for the road to superintelligence: AI news, leaks and rumors rated by confidence, release history with next-release estimates, usage resets at every lab, robotics and robotaxis.",
   icons: {
     icon: [
       { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
@@ -75,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/about/" className="link-hover">About & sources</Link>
               <Link href="/releases/" className="link-hover">Release tracker</Link>
               <Link href="/rumors/" className="link-hover">Rumor board</Link>
+              <Link href="/resets/" className="link-hover">Resets</Link>
               <Link href="/codex/" className="link-hover">Codex tracker</Link>
               <Link href="/forums/" className="link-hover">Forums</Link>
               <Link href="/leaderboard/" className="link-hover">Leaderboard</Link>

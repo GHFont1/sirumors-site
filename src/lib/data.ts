@@ -88,8 +88,8 @@ export type ReleaseLine = {
 export type GhRelease = { tag: string; name: string; date: string; pre: boolean; url: string };
 export type Repo = { repo: string; name: string; company: string; releases: GhRelease[] };
 export type ResetEvent = { id: string; date: string; product: string; title: string; url: string; source: string };
-/** A reset confirmed on X by Tibo (@thsottiaux) or @Codexresets_. */
-export type XReset = { id: string; date: string; announcedAt: string; status: "done" | "coming"; banked: boolean; title: string; quote: string; url: string; by: string; tweets: { handle: string; url: string; at: string }[] };
+/** A usage-limit reset at any lab, as the lab (or its staff) posted it on X. */
+export type XReset = { id: string; company: string; product: string; byName?: string; date: string; announcedAt: string; status: "done" | "coming"; banked: boolean; title: string; quote: string; url: string; by: string; tweets: { handle: string; url: string; at: string }[] };
 export type DayCounts = { n: number; r: number; c: Record<string, number>; t: Record<string, number>; p: Record<string, number> };
 export type Health = Record<string, { ok: boolean; items?: number; error?: string; optional?: boolean; name?: string }>;
 
@@ -104,10 +104,14 @@ export const xresets = xresetsData.events;
 export const xresetsAt = xresetsData.fetchedAt ?? "";
 const historyData = load<{ days: Record<string, DayCounts> }>("history.json", { days: {} });
 export type RankRow = { model: string; raw: string; org: string; company: string | null; rating: number; votes: number; rank: number };
+/** One model on the frontier list: its average placing across overall, hard prompts, coding and agents. */
+export type FrontierModel = { rank: number; slug: string; model: string; org: string; orgName: string; company: string | null; open: boolean; score: number; boards: Record<string, { pos: number; rating: number; votes: number }> };
 export type Board = { id: string; label: string; blurb: string; unit: string; published: string; top: RankRow[]; leaderSince?: string; prevLeader?: string | null };
 export type Outcome = { name: string; yes: number; change: number | null; volume: number };
 export type Market = { id: string; slug: string; title: string; url: string; image: string | null; volume: number; volume24h: number; endDate: string | null; binary: boolean; outcomes: Outcome[]; priority: number };
-const rankingsData = load<{ generatedAt?: string; published?: string; boards: Board[] }>("rankings.json", { boards: [] });
+const rankingsData = load<{ generatedAt?: string; published?: string; boards: Board[]; frontier?: FrontierModel[] }>("rankings.json", { boards: [] });
+export const frontier = rankingsData.frontier ?? [];
+export const frontierBySlug = (s: string) => frontier.find((m) => m.slug === s);
 const marketsData = load<{ generatedAt?: string; markets: Market[] }>("markets.json", { markets: [] });
 export const boards = rankingsData.boards;
 export const boardsPublished = rankingsData.published ?? "";
@@ -200,7 +204,14 @@ export function allReleases() {
 
 export const logoFor = (slug: string) => `/logos/${slug}.png`;
 
-/** Codex / ChatGPT usage resets, newest first, as announced on X (news reports were too noisy). */
-export function resetHistory(): XReset[] {
-  return xresets;
+/** Usage resets at every lab, newest first, as announced on X (news reports were too noisy). */
+export function resetHistory(company?: string): XReset[] {
+  return xresets.map((r) => ({ ...r, company: r.company ?? "openai", product: r.product ?? "ChatGPT & Codex" })).filter((r) => !company || r.company === company);
+}
+
+/** The release a model came out in: "GPT-6 Astra" shipped as part of "GPT-6". Longest matching name wins. */
+export function releaseFor(model: string) {
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9.]+/g, " ").trim();
+  const want = norm(model) + " ";
+  return allReleases().filter((r) => want.startsWith(norm(r.name) + " ")).sort((a, b) => b.name.length - a.name.length)[0];
 }

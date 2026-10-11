@@ -58,10 +58,10 @@ jobs:
         continue-on-error: true
         run: node scripts/boards.mjs --data data
 
-      - name: Codex resets from X
+      - name: Usage resets from X (every lab)
         id: xresets
         continue-on-error: true
-        timeout-minutes: 6
+        timeout-minutes: 8
         run: node scripts/xresets.mjs --data data
 
       - name: Alerts, release threads and emails
