@@ -8,25 +8,61 @@ import { UpdateFilter } from "./UpdateFilter";
 
 const ICON: Record<string, string> = { release: "🚀", breaking: "⚡", rumor: "◉", official: "✓", reset: "↻", update: "⬆", hot: "🔥", video: "▶" };
 
-function badgeStyle(u: Update): React.CSSProperties {
-  if (u.kind === "release") return { background: "linear-gradient(90deg, var(--accent), var(--accent-2))", color: "#fff" };
-  if (u.kind === "rumor") {
-    if (u.status === "confirmed") return { background: "var(--good)", color: "#fff" };
-    if (u.status === "whisper") return { background: "transparent", color: "var(--rumor)", boxShadow: "inset 0 0 0 1.5px var(--rumor)" };
-    return { background: "var(--rumor)", color: "#fff" };
-  }
-  const bg: Record<string, string> = { breaking: "var(--bad)", official: "var(--accent)", reset: "var(--accent-2)", update: "#2563eb", hot: "#ea580c", video: "var(--text)" };
-  if (u.badge === "Developing") return { background: "transparent", color: "var(--bad)", boxShadow: "inset 0 0 0 1.5px var(--bad)" };
-  return { background: bg[u.kind], color: u.kind === "video" ? "var(--bg)" : "#fff" };
+// Credit Compound style: outlined pill, tinted fill, colored text, soft glow.
+const TONE: Record<string, string> = {
+  release: "var(--accent)", breaking: "#ef4444", rumor: "var(--rumor)", confirmed: "var(--good)", official: "var(--accent-2)",
+  reset: "var(--accent-2)", update: "#3b82f6", hot: "#f97316", video: "var(--muted)", whisper: "var(--faint)",
+};
+const toneFor = (u: Update) => (u.status === "confirmed" ? TONE.confirmed : u.status === "whisper" ? TONE.whisper : TONE[u.kind]);
+
+function pill(color: string, glow = false): React.CSSProperties {
+  return {
+    color,
+    borderColor: `color-mix(in srgb, ${color} 60%, transparent)`,
+    background: `color-mix(in srgb, ${color} 12%, transparent)`,
+    boxShadow: glow ? `0 0 18px color-mix(in srgb, ${color} 22%, transparent)` : undefined,
+  };
 }
+const pillClass = (big: boolean) => `inline-flex shrink-0 items-center gap-1 rounded-full border font-bold uppercase tracking-wider ${big ? "px-3 py-1 text-xs" : "px-2.5 py-0.5 text-[11px]"}`;
 
 export function Badge({ u, big = false }: { u: Update; big?: boolean }) {
+  const strong = u.kind === "release" || u.kind === "breaking" || u.status === "strong" || u.status === "confirmed";
   return (
-    <span className={`inline-flex shrink-0 items-center gap-1 rounded-md font-extrabold uppercase tracking-wide ${big ? "px-2.5 py-1 text-xs" : "px-2 py-[3px] text-[10.5px]"}`} style={badgeStyle(u)}>
+    <span className={pillClass(big)} style={u.kind === "release"
+      ? { color: "#fff", borderColor: "transparent", background: "linear-gradient(90deg, var(--accent), var(--accent-2))", boxShadow: "0 0 20px color-mix(in srgb, var(--accent) 35%, transparent)" }
+      : pill(toneFor(u), strong)}>
       <span aria-hidden>{u.status === "confirmed" ? "✓" : ICON[u.kind]}</span>
       {u.badge}
-      {u.kind === "rumor" && u.confidence != null && u.status !== "confirmed" && <span className="tabular opacity-80">· {u.confidence}%</span>}
+      {u.kind === "rumor" && u.confidence != null && u.status !== "confirmed" && <span className="tabular opacity-75">· {u.confidence}%</span>}
     </span>
+  );
+}
+
+/** The second badge: how fresh it is, red and glowing while it's new. */
+export function TimingBadge({ u, big = false }: { u: Update; big?: boolean }) {
+  const h = (NOW - Date.parse(u.date)) / 3600000;
+  const sameDay = u.date.slice(0, 10) === new Date(NOW).toISOString().slice(0, 10);
+  const label = h < 3 ? "Just in" : h < 12 ? "New" : sameDay ? "Today" : null;
+  if (!label) return null;
+  return <span className={pillClass(big)} style={pill("#ef4444", true)}>{label}</span>;
+}
+
+/** Big logo tile on the left of every update, like Credit Compound's card art. */
+export function Emblem({ u, compact = true }: { u: Update; compact?: boolean }) {
+  const c = u.company ? companyBySlug(u.company) : undefined;
+  const name = c?.name.replace(/ AI$/, "") ?? u.source;
+  const tone = u.kind === "release" ? "var(--accent)" : toneFor(u);
+  return (
+    <div className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-xl border ${compact ? "h-24 w-32" : "h-28 w-40"}`}
+      style={{ borderColor: `color-mix(in srgb, ${tone} 40%, var(--line))`, background: `radial-gradient(circle at top, color-mix(in srgb, ${tone} 22%, transparent), transparent 65%), var(--surface-2)` }}>
+      <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: "linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent)" }} />
+      <div className="px-2 text-center">
+        <div className="flex justify-center" style={{ filter: `drop-shadow(0 0 14px color-mix(in srgb, ${tone} 35%, transparent))` }}>
+          {c ? <Logo slug={c.slug} name={c.name} size={compact ? 44 : 52} /> : <Logo name={name || "SI"} size={compact ? 44 : 52} />}
+        </div>
+        <div className="mt-2 line-clamp-1 text-[10px] font-bold uppercase tracking-[0.16em] text-muted">{name}</div>
+      </div>
+    </div>
   );
 }
 
@@ -60,26 +96,25 @@ function Who({ u }: { u: Update }) {
 }
 
 export function UpdateCard({ u }: { u: Update }) {
-  const c = u.company ? companyBySlug(u.company) : undefined;
   return (
-    <article data-kind={u.kind} className="flex gap-3.5 border-b border-line py-4 last:border-b-0">
-      <div className="hidden shrink-0 pt-0.5 sm:block">
-        {c ? <Logo slug={c.slug} name={c.name} size={40} /> : <Logo name={u.source || "SI"} size={40} />}
-      </div>
+    <article data-kind={u.kind} className="card group flex gap-4 p-4 transition-colors hover:border-accent sm:p-5">
+      <div className="hidden sm:block"><Emblem u={u} /></div>
       <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+        <div className="flex flex-wrap items-center gap-2 text-xs">
           <Badge u={u} />
-          <Who u={u} />
-          <span className="text-xs text-faint"><TimeAgo iso={u.date} built={NOW} /></span>
+          <TimingBadge u={u} />
+          <span className="text-faint"><TimeAgo iso={u.date} built={NOW} /></span>
         </div>
-        <h3 className="mt-1.5 text-[16px] font-bold leading-snug sm:text-[17px]"><Headline u={u} className="" /></h3>
-        {u.summary && <p className="mt-1 line-clamp-2 text-sm text-muted">{u.summary}</p>}
-        <Meta u={u} />
+        <h3 className="mt-2.5 text-[17px] font-bold leading-snug sm:text-lg"><Headline u={u} className="" /></h3>
+        {u.summary && <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{u.summary}</p>}
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <Link href={u.discuss} className="text-sm font-bold text-accent hover:underline">Discuss →</Link>
+          <Who u={u} />
+          {u.sources > 1 && <span className="chip" style={{ padding: "2px 9px", fontSize: 10.5 }}>{u.sources} outlets</span>}
+          {u.points ? <span className="chip" style={{ padding: "2px 9px", fontSize: 10.5 }}>▲ {u.points} HN</span> : null}
+          <span className="text-faint">{u.source}</span>
+        </div>
       </div>
-      {u.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={u.image} alt="" loading="lazy" referrerPolicy="no-referrer" className="hidden h-[76px] w-[120px] shrink-0 rounded-lg border border-line object-cover sm:block" />
-      )}
     </article>
   );
 }
@@ -96,7 +131,7 @@ export function LeadCard({ u }: { u: Update }) {
         ) : c ? (
           <Logo slug={c.slug} name={c.name} size={84} />
         ) : null}
-        <div className="absolute left-3 top-3"><Badge u={u} big /></div>
+        <div className="absolute left-3 top-3 flex gap-1.5 rounded-full p-1 backdrop-blur-md" style={{ background: "rgba(8,10,16,0.72)" }}><Badge u={u} big /><TimingBadge u={u} big /></div>
       </div>
       <div className="p-4 sm:p-5">
         <div className="flex items-center gap-2.5"><Who u={u} /><span className="text-xs text-faint"><TimeAgo iso={u.date} built={NOW} /></span></div>
@@ -112,7 +147,7 @@ export function LeadCard({ u }: { u: Update }) {
 export function SubLead({ u }: { u: Update }) {
   return (
     <article className="card flex flex-col p-4">
-      <div className="flex flex-wrap items-center gap-2"><Badge u={u} /><Who u={u} /></div>
+      <div className="flex flex-wrap items-center gap-2"><Badge u={u} /><TimingBadge u={u} /><Who u={u} /></div>
       <h3 className="mt-2 text-[15px] font-bold leading-snug"><Headline u={u} className="" /></h3>
       <div className="mt-auto pt-2 text-xs text-faint"><TimeAgo iso={u.date} built={NOW} />{u.sources > 1 ? ` · ${u.sources} outlets` : ""}</div>
     </article>
@@ -165,7 +200,7 @@ export function UpdatesStream({ items, filters = true }: { items: Update[]; filt
             <h3 className="text-sm font-extrabold uppercase tracking-wide">{d.label}</h3>
             <span className="h-px flex-1 bg-line" />
           </div>
-          <div className="card px-4">{d.list.map((u) => <UpdateCard key={u.id} u={u} />)}</div>
+          <div className="space-y-3">{d.list.map((u) => <UpdateCard key={u.id} u={u} />)}</div>
         </div>
       ))}
     </div>
