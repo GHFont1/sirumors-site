@@ -131,7 +131,7 @@ export function FrontierList({ items, limit = 10 }: { items: FrontierModel[]; li
 }
 
 /** The newest releases, each linked to the lab's own announcement. */
-export function ReleaseFeed({ items, limit = 6 }: { items: { name: string; date: string; company: string; lineName: string; source: string; evidence?: { url: string; source: string } }[]; limit?: number }) {
+export function ReleaseFeed({ items, limit = 6 }: { items: { name: string; date: string; company: string; lineName: string; source: string; page?: string; evidence?: { url: string; source: string } }[]; limit?: number }) {
   return (
     <ol className="divide-y divide-line">
       {items.slice(0, limit).map((r) => {
@@ -148,7 +148,7 @@ export function ReleaseFeed({ items, limit = 6 }: { items: { name: string; date:
         );
         return (
           <li key={r.name + r.date}>
-            {r.evidence ? <a href={r.evidence.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 rounded-lg px-1.5 py-2 hover:bg-chip">{inner}</a> : <div className="flex items-center gap-2.5 px-1.5 py-2">{inner}</div>}
+            {r.page ? <Link href={r.page} className="flex items-center gap-2.5 rounded-lg px-1.5 py-2 hover:bg-chip">{inner}</Link> : <div className="flex items-center gap-2.5 px-1.5 py-2">{inner}</div>}
           </li>
         );
       })}
@@ -200,7 +200,7 @@ export function ResetList({ items, limit = 8, quotes = false }: { items: XReset[
                 <span className="rounded-full border px-2 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{r.status === "coming" ? "Coming" : r.banked ? "Banked" : "Reset"}</span>
                 <span className="text-faint">{ago(r.date)}{gap != null ? ` · ${gap === 0 ? "same day" : `${gap}d after last`}` : ""}</span>
               </div>
-              <a href={r.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 block text-[13px] font-semibold leading-snug link-hover">{r.title}</a>
+              <Link href={r.url} className="mt-0.5 block text-[13px] font-semibold leading-snug link-hover">{r.title}</Link>
               {quotes && <p className="mt-0.5 line-clamp-2 text-xs text-muted">&ldquo;{r.quote}&rdquo; <span className="text-faint">{byLine(r)}</span></p>}
             </div>
           </li>
@@ -227,7 +227,7 @@ export function LabResets({ items }: { items: XReset[] }) {
           </>
         );
         return r ? (
-          <a key={slug} href={r.url} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-line p-2.5 hover:border-accent">{inner}</a>
+          <Link key={slug} href={r.url} className="rounded-lg border border-line p-2.5 hover:border-accent">{inner}</Link>
         ) : (
           <div key={slug} className="rounded-lg border border-line p-2.5 opacity-70">{inner}</div>
         );

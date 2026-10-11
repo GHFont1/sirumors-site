@@ -50,14 +50,14 @@ export default function CodexPage() {
 
       <Section title="Reset history" kicker="Every Codex and ChatGPT usage reset">
         <div className="card px-4"><ResetList items={resetHistory("openai")} limit={60} quotes /></div>
-        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<a className="link-hover" href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer">@thsottiaux</a>), who runs Codex at OpenAI and posts every reset, and <a className="link-hover" href="https://x.com/Codexresets_" target="_blank" rel="noopener noreferrer">@Codexresets_</a>. Checked every 30 minutes. Claude, Grok and Gemini resets are on the <a className="link-hover text-accent" href="/resets/">resets page</a>.</p>
+        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<span className="link-hover">@thsottiaux</span>), who runs Codex at OpenAI and posts every reset, and <span className="link-hover">@Codexresets_</span>. Checked every 30 minutes. Claude, Grok and Gemini resets are on the <a className="link-hover text-accent" href="/resets/">resets page</a>.</p>
       </Section>
 
       <Section title="Shipping pace" kicker="Stable releases per week, last 26 weeks">
         <div className="grid gap-4 md:grid-cols-3">
           {repos.map((r) => (
             <div key={r.repo} className="card p-4 pt-5">
-              <div className="mb-1 flex items-baseline justify-between"><span className="text-sm font-bold">{r.name}</span><a href={`https://github.com/${r.repo}/releases`} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">GitHub ↗</a></div>
+              <div className="mb-1 flex items-baseline justify-between"><span className="text-sm font-bold">{r.name}</span></div>
               <div className="mb-3 text-xs text-muted">{stable(r).filter((x) => NOW - Date.parse(x.date) < 182 * 86400000).length} stable releases in 6 months</div>
               <Bars data={weekly(stable(r).map((x) => x.date), 26)} label="releases" height={110} tickEvery={6} />
             </div>

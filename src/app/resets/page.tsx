@@ -34,9 +34,9 @@ export default function ResetsPage() {
       <Section title="Every reset" kicker="Newest first">
         <div className="card px-4"><ResetList items={all} limit={100} quotes /></div>
         <p className="mt-2 text-xs text-faint">
-          Sources on X: OpenAI&apos;s Tibo (<a className="link-hover" href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer">@thsottiaux</a>) and <a className="link-hover" href="https://x.com/Codexresets_" target="_blank" rel="noopener noreferrer">@Codexresets_</a>;
-          {" "}Anthropic&apos;s <a className="link-hover" href="https://x.com/claudeai" target="_blank" rel="noopener noreferrer">@claudeai</a>, Alex Albert, Thariq, Boris Cherny and Cat Wu;
-          {" "}xAI&apos;s <a className="link-hover" href="https://x.com/grok" target="_blank" rel="noopener noreferrer">@grok</a> and @SpaceXSI;
+          Sources on X: OpenAI&apos;s Tibo (<span className="link-hover">@thsottiaux</span>) and <span className="link-hover">@Codexresets_</span>;
+          {" "}Anthropic&apos;s <span className="link-hover">@claudeai</span>, Alex Albert, Thariq, Boris Cherny and Cat Wu;
+          {" "}xAI&apos;s <span className="link-hover">@grok</span> and @SpaceXSI;
           {" "}Google&apos;s @GeminiApp, Logan Kilpatrick, Gemini CLI and Antigravity. A reset counts only when one of them posts it.
         </p>
       </Section>

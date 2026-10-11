@@ -108,18 +108,18 @@ async function main() {
       const title = `${r.name} is out`;
       const body = [
         `${companyName(line.company)} released ${r.name} on ${r.date}.`,
-        r.evidence ? `Source: ${r.evidence.title} (${r.evidence.source})\n${r.evidence.url}` : "",
+        r.evidence ? `Confirmed by ${r.evidence.source}.` : "",
         line.medianGapDays ? `${line.name} has been shipping about every ${line.medianGapDays} days lately.` : "",
         "What do you think? First impressions, benchmarks, and what it means for the race.",
       ].filter(Boolean).join("\n\n");
-      const threadId = await upsertThread({ ref_key: `release:${key}`, kind: "release", category: "release-watch", title, body, link_url: r.evidence?.url ?? null, author_id: null });
+      const threadId = await upsertThread({ ref_key: `release:${key}`, kind: "release", category: "release-watch", title, body, link_url: `/n/${`r-${line.id}-${r.version}`.replace(/[^a-zA-Z0-9._-]/g, "-")}/`, author_id: null });
       log.threads++;
       if (!firstRun && threadId) {
         const targets = [{ kind: "line", slug: line.id }, { kind: "company", slug: line.company }];
         const url = `/forums/thread/?id=${threadId}`;
         log.notified += await notifyFollowers(targets, { kind: "release", title: `${r.name} just shipped`, body: `${companyName(line.company)} · ${r.date}. Join the discussion.`, url, dedupe_key: `release:${key}` });
         log.queued += await queueEmails(targets, "releases", (rec) => {
-          const m = emailHtml({ kicker: `${line.name} release`, title: `${r.name} just shipped`, lines: [`${companyName(line.company)} released ${r.name} on ${r.date}.`, r.evidence ? `Source: ${r.evidence.title} (${r.evidence.source})` : ""].filter(Boolean), cta: "See it on SI Rumors", ctaUrl: SITE + url, token: rec.unsubscribe_token, what: "releases" });
+          const m = emailHtml({ kicker: `${line.name} release`, title: `${r.name} just shipped`, lines: [`${companyName(line.company)} released ${r.name} on ${r.date}.`, r.evidence ? `Confirmed by ${r.evidence.source}.` : ""].filter(Boolean), cta: "See it on SI Rumors", ctaUrl: SITE + url, token: rec.unsubscribe_token, what: "releases" });
           return { subject: `${r.name} just shipped`, ...m };
         }, `release:${key}`);
       }
@@ -130,14 +130,16 @@ async function main() {
   // ---- strong rumors ----
   for (const r of rumors) {
     if (!["strong", "confirmed"].includes(r.status)) continue;
+    // Our own page for the rumor, never the publisher's.
+    const page = `/n/s-${r.id}/`;
     if (state.rumors[r.id] === r.status) continue;
     if (firstRun || NOW - Date.parse(r.publishedAt) > 3 * DAY) { state.rumors[r.id] = r.status; continue; }
     const targets = [...r.companies.map((s) => ({ kind: "company", slug: s })), ...r.people.map((s) => ({ kind: "person", slug: s }))];
     if (!targets.length) { state.rumors[r.id] = r.status; continue; }
     const label = r.status === "confirmed" ? "Confirmed" : "Strong rumor";
-    log.notified += await notifyFollowers(targets, { kind: "rumor", title: `${label}: ${r.title}`.slice(0, 200), body: `${r.source}${r.sourceCount > 1 ? ` and ${r.sourceCount - 1} more` : ""} · confidence ${r.confidence}/100`, url: r.url, dedupe_key: `rumor:${r.id}:${r.status}` });
+    log.notified += await notifyFollowers(targets, { kind: "rumor", title: `${label}: ${r.title}`.slice(0, 200), body: `${r.source}${r.sourceCount > 1 ? ` and ${r.sourceCount - 1} more` : ""} · confidence ${r.confidence}/100`, url: page, dedupe_key: `rumor:${r.id}:${r.status}` });
     log.queued += await queueEmails(targets, "rumors", (rec) => {
-      const m = emailHtml({ kicker: label, title: r.title, lines: [`Reported by ${r.source}${r.sourceCount > 1 ? ` and ${r.sourceCount - 1} more outlets` : ""}. Confidence ${r.confidence}/100.`], cta: "Read the report", ctaUrl: r.url, token: rec.unsubscribe_token, what: "rumors" });
+      const m = emailHtml({ kicker: label, title: r.title, lines: [`Reported by ${r.source}${r.sourceCount > 1 ? ` and ${r.sourceCount - 1} more outlets` : ""}. Confidence ${r.confidence}/100.`], cta: "Read it on SI Rumors", ctaUrl: SITE + page, token: rec.unsubscribe_token, what: "rumors" });
       return { subject: `${label}: ${r.title}`.slice(0, 120), ...m };
     }, `rumor:${r.id}:${r.status}`);
     state.rumors[r.id] = r.status;

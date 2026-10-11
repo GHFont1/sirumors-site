@@ -32,6 +32,13 @@ jobs:
           ref: data
           path: data
 
+      - name: Check out our own story copy
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: copy
+          path: copy
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -90,7 +97,7 @@ jobs:
         run: node scripts/verify-build.mjs
 
       - name: Publish status file
-        run: node -e 'const m=require("./data/meta.json");require("fs").writeFileSync("out/status.json",JSON.stringify({lastUpdated:m.lastUpdated,lastAttempt:m.lastAttempt,lastAttemptOk:m.lastAttemptOk,counts:m.counts,failing:m.failing,rankingsAt:(()=>{try{return require("./data/rankings.json").generatedAt}catch{return null}})(),marketsAt:(()=>{try{return require("./data/markets.json").generatedAt}catch{return null}})(),resetsAt:(()=>{try{return require("./data/xresets.json").fetchedAt}catch{return null}})(),labxAt:(()=>{try{return require("./data/labx.json").fetchedAt}catch{return null}})()}))'
+        run: node -e 'const m=require("./data/meta.json");require("fs").writeFileSync("out/status.json",JSON.stringify({lastUpdated:m.lastUpdated,lastAttempt:m.lastAttempt,lastAttemptOk:m.lastAttemptOk,counts:m.counts,failing:m.failing,rankingsAt:(()=>{try{return require("./data/rankings.json").generatedAt}catch{return null}})(),marketsAt:(()=>{try{return require("./data/markets.json").generatedAt}catch{return null}})(),resetsAt:(()=>{try{return require("./data/xresets.json").fetchedAt}catch{return null}})(),labxAt:(()=>{try{return require("./data/labx.json").fetchedAt}catch{return null}})(),copyAt:(()=>{try{return require("./copy/copy.json").updatedAt}catch{return null}})(),copyBacklog:(()=>{try{return require("./out/data/copy-queue.json").count}catch{return null}})()}))'
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

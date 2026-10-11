@@ -5,3 +5,6 @@ out
 *.tsbuildinfo
 .env*
 /data/
+/.copy/
+/.copy-state.json
+/copy/

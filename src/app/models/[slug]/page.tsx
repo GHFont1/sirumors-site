@@ -126,7 +126,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-xs text-faint">From blind head-to-head votes on <a href="https://arena.ai/leaderboard" target="_blank" rel="noopener noreferrer" className="link-hover">Arena</a>{boardsPublished ? `, published ${fmtDate(boardsPublished)}` : ""}. Variants (high, max) count once at their best.</p>
+        <p className="mt-2 text-xs text-faint">From blind head-to-head votes on Arena{boardsPublished ? `, published ${fmtDate(boardsPublished)}` : ""}. Variants (high, max) count once at their best.</p>
       </Section>
 
       {rel && (
@@ -136,7 +136,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               <div className="font-bold">{rel.name}</div>
               <div className="text-sm text-muted">Released {fmtDate(rel.date)}</div>
             </div>
-            {rel.evidence && <a href={rel.evidence.url} target="_blank" rel="noopener noreferrer" className="chip text-sm font-semibold hover:text-accent">✓ {rel.evidence.source} ↗</a>}
+            {rel.page && <Link href={rel.page} className="chip text-sm font-semibold hover:text-accent">{rel.evidence ? `✓ ${rel.evidence.source}` : "Release details"} →</Link>}
           </div>
         </Section>
       )}

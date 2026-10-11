@@ -1,4 +1,4 @@
-import { NOW, companyBySlug, releaseLines, repos, stories, xresets, videos, type Filter, type Story } from "./data";
+import { NOW, companyBySlug, pagePath, releaseLines, repos, stories, xresets, videos, type Filter, type Story } from "./data";
 
 // The Updates stream: the handful of things that actually happened, each with
 // a type badge. Plain single-source articles stay in /news.
@@ -123,11 +123,11 @@ export function allUpdates(days = 14): Update[] {
       out.push({
         id: `r-${l.id}-${r.version}`, kind: "release", badge: "Released",
         headline: `${r.name} is out`,
-        summary: r.evidence ? `${co?.name ?? l.company} shipped ${r.name}. Source: ${r.evidence.source}, "${r.evidence.title.replace(/[.…]+$/, "")}".` : `${co?.name ?? l.company} shipped ${r.name}.`,
-        url: r.evidence?.url ?? `/c/${l.company}/`, date: new Date(Math.min(t, NOW)).toISOString(),
+        summary: r.evidence ? `${co?.name ?? l.company} shipped ${r.name}, confirmed in its own announcement (${r.evidence.source}).` : `${co?.name ?? l.company} shipped ${r.name}.`,
+        url: r.page ?? pagePath(`r-${l.id}-${r.version}`), date: new Date(Math.min(t, NOW)).toISOString(),
         company: l.company, companies: [l.company], topics: [l.kind === "robot" ? "robotics" : "models"], people: [],
         source: r.evidence?.source ?? co?.name ?? "", sources: 1, weight: 100,
-        discuss: discussLink(["openai", "anthropic", "google", "xai"].includes(l.company) ? l.company : "release-watch", `${r.name} is out`, r.evidence?.url ?? ""),
+        discuss: discussLink(["openai", "anthropic", "google", "xai"].includes(l.company) ? l.company : "release-watch", `${r.name} is out`, r.page ?? ""),
       });
     }
   }
@@ -143,9 +143,9 @@ export function allUpdates(days = 14): Update[] {
       out.push({
         id: `g-${repo.repo}-${g.tag}`, kind: "update", badge: "Update",
         headline: `${repo.name} ${g.name.replace(/^v/, "")} is out`,
-        summary: `New stable version of ${repo.name} on GitHub.`,
-        url: g.url, date: g.date, company: repo.company, companies: [repo.company], topics: ["codex"], people: [],
-        source: "GitHub", sources: 1, weight: 38, discuss: discussLink("codex", `${repo.name} ${g.name}`, g.url),
+        summary: `A new stable version of ${repo.name} is available.`,
+        url: pagePath(`g-${repo.repo}-${g.tag}`), date: g.date, company: repo.company, companies: [repo.company], topics: ["codex"], people: [],
+        source: "GitHub", sources: 1, weight: 38, discuss: discussLink("codex", `${repo.name} ${g.name}`, pagePath(`g-${repo.repo}-${g.tag}`)),
       });
     }
   }

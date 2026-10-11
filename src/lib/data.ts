@@ -44,6 +44,12 @@ export type Story = {
   confidence?: number;
   status?: "whisper" | "developing" | "strong" | "confirmed";
   confirmedBy?: { title: string; url: string };
+  /** The publisher's own link; never shown as a link, the site keeps readers on its own pages. */
+  sourceUrl?: string;
+  /** The publisher's original headline, before our rewrite. */
+  origTitle?: string;
+  /** Our own write-up, when the copywriter has done this story. */
+  body?: string[];
 };
 
 export type Video = {
@@ -59,6 +65,7 @@ export type Video = {
   companies: string[];
   topics: string[];
   people: string[];
+  youtubeId?: string;
 };
 
 export type Release = {
@@ -77,7 +84,7 @@ export type ReleaseLine = {
   company: string;
   kind: string;
   retired?: string;
-  releases: Release[];
+  releases: (Release & { page?: string })[];
   medianGapDays: number | null;
   lastRelease: string | null;
   expectedNext: string | null;
@@ -89,18 +96,44 @@ export type GhRelease = { tag: string; name: string; date: string; pre: boolean;
 export type Repo = { repo: string; name: string; company: string; releases: GhRelease[] };
 export type ResetEvent = { id: string; date: string; product: string; title: string; url: string; source: string };
 /** A usage-limit reset at any lab, as the lab (or its staff) posted it on X. */
-export type XReset = { id: string; company: string; product: string; byName?: string; date: string; announcedAt: string; status: "done" | "coming"; banked: boolean; title: string; quote: string; url: string; by: string; tweets: { handle: string; url: string; at: string }[] };
+export type XReset = { id: string; company: string; product: string; byName?: string; sourceUrl?: string; date: string; announcedAt: string; status: "done" | "coming"; banked: boolean; title: string; quote: string; url: string; by: string; tweets: { handle: string; url: string; at: string }[] };
 export type DayCounts = { n: number; r: number; c: Record<string, number>; t: Record<string, number>; p: Record<string, number> };
 export type Health = Record<string, { ok: boolean; items?: number; error?: string; optional?: boolean; name?: string }>;
 
 const feed = load<{ generatedAt?: string; items: Story[] }>("feed.json", { items: [] });
+
+// Our own wording for each story (headline, short summary, body), written by the
+// copywriter lane into copy/copy.json. Until a story is written it shows the feed's text.
+export type Copy = { headline: string; summary: string; body: string[] };
+const COPY_FILE = process.env.SIR_COPY || join(/*turbopackIgnore: true*/ process.cwd(), "copy", "copy.json");
+const copyData: { items: Record<string, Copy> } = (() => {
+  try { return existsSync(COPY_FILE) ? JSON.parse(readFileSync(COPY_FILE, "utf8")) : { items: {} }; } catch { return { items: {} }; }
+})();
+export const copyFor = (id: string): Copy | undefined => copyData.items?.[id];
+/** Every story, release, reset and video has its own page on the site. */
+export const pageId = (id: string) => id.replace(/[^a-zA-Z0-9._-]/g, "-");
+export const pagePath = (id: string) => `/n/${pageId(id)}/`;
+function ownPage(s: Story) {
+  if (s.sourceUrl) return s;
+  const id = `s-${s.id}`;
+  const c = copyFor(id);
+  s.sourceUrl = s.url;
+  s.url = pagePath(id);
+  s.origTitle = s.title;
+  if (c) { s.title = c.headline; s.summary = c.summary; s.body = c.body; }
+  return s;
+}
+feed.items.forEach(ownPage);
 const rumorsData = load<{ rumors: Story[] }>("rumors.json", { rumors: [] });
+rumorsData.rumors.forEach(ownPage);
 const videosData = load<{ videos: Video[] }>("videos.json", { videos: [] });
+for (const v of videosData.videos) { v.youtubeId = v.id; v.url = pagePath(`v-${v.id}`); }
 const releasesData = load<{ lines: ReleaseLine[] }>("releases.json", { lines: [] });
+for (const l of releasesData.lines) for (const r of l.releases) r.page = pagePath(`r-${l.id}-${r.version}`);
 const githubData = load<{ repos: Repo[] }>("github.json", { repos: [] });
 const resetsData = load<{ events: ResetEvent[] }>("resets.json", { events: [] });
 const xresetsData = load<{ fetchedAt?: string; events: XReset[] }>("xresets.json", { events: [] });
-export const xresets = xresetsData.events;
+export const xresets = xresetsData.events.map((r) => ({ ...r, sourceUrl: r.url, url: pagePath(r.id) }));
 export const xresetsAt = xresetsData.fetchedAt ?? "";
 const historyData = load<{ days: Record<string, DayCounts> }>("history.json", { days: {} });
 export type RankRow = { model: string; raw: string; org: string; company: string | null; rating: number; votes: number; rank: number };

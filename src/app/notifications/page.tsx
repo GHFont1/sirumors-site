@@ -51,7 +51,7 @@ export default function Notifications() {
           );
           return n.url ? (
             n.url.startsWith("/") ? <Link key={n.id} href={n.url} onClick={() => open(n)} className="block hover:bg-chip">{inner}</Link>
-              : <a key={n.id} href={n.url} target="_blank" rel="noopener noreferrer" onClick={() => open(n)} className="block hover:bg-chip">{inner}</a>
+              : <button key={n.id} type="button" onClick={() => open(n)} className="block w-full text-left hover:bg-chip">{inner}</button>
           ) : <div key={n.id}>{inner}</div>;
         })}
       </div>

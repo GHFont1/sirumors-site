@@ -32,7 +32,7 @@ export default function Home() {
         <div>
           <div className="kicker">Independent AI intelligence</div>
           <h1 className="mt-1 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">AI releases, rumors and resets</h1>
-          <p className="mt-2 max-w-xl text-muted">The newest useful changes first. Every update links to where it came from.</p>
+          <p className="mt-2 max-w-xl text-muted">The newest useful changes first, every one written up here in plain words.</p>
         </div>
         <div className="flex shrink-0 gap-2">
           <Link href="/models/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Best AI models</Link>

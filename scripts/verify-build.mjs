@@ -17,4 +17,10 @@ if (new Set(xr.events.map((e) => e.company ?? "openai")).size < 2) { console.err
 if ((rk.frontier ?? []).length < 5) { console.error(`only ${(rk.frontier ?? []).length} frontier models`); process.exit(1); }
 for (const m of rk.frontier.slice(0, 5)) if (!existsSync(`out/models/${m.slug}/index.html`)) { console.error(`missing model page ${m.slug}`); process.exit(1); }
 if (rk.boards.length < 4 || mk.markets.length < 3) { console.error(`rankings ${rk.boards.length} boards, ${mk.markets.length} markets`); process.exit(1); }
+// Every link stays on the site: no page may link out to another website.
+import { readdirSync, statSync } from "node:fs";
+const walk = (d) => readdirSync(d).flatMap((f) => { const p = `${d}/${f}`; return statSync(p).isDirectory() ? walk(p) : p.endsWith(".html") ? [p] : []; });
+const outbound = [];
+for (const f of walk("out")) for (const m of readFileSync(f, "utf8").matchAll(/<a [^>]*href="(https?:\/\/[^"]+)"/g)) if (!/^https?:\/\/(www\.)?sirumors\.com/.test(m[1])) outbound.push(`${f}: ${m[1]}`);
+if (outbound.length) { console.error(`${outbound.length} links leave the site, e.g.`, outbound.slice(0, 5)); process.exit(1); }
 console.log(`verified: ${must.length} key pages, ${stories} stories on home, ${feed.items.length} in feed`);

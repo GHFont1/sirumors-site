@@ -69,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 sm:flex-row sm:justify-between sm:px-5">
             <div>
               <div className="flex items-center gap-2 font-bold text-text"><BrandMark size={20} /> SI Rumors</div>
-              <p className="mt-1 max-w-md">The all-in-one tracker for the road to superintelligence. SI stands for superintelligence. Headlines link to the original publishers.</p>
+              <p className="mt-1 max-w-md">The all-in-one tracker for the road to superintelligence. SI stands for superintelligence. Every story has its own page here, in our words.</p>
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               <Link href="/about/" className="link-hover">About & sources</Link>

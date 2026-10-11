@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { NOW, type Video } from "@/lib/data";
 import { compact, duration } from "@/lib/format";
 import { TimeAgo } from "./TimeAgo";
 
 export function VideoCard({ v }: { v: Video }) {
   return (
-    <a href={v.url} target="_blank" rel="noopener noreferrer" className="group block">
+    <Link href={v.url} className="group block">
       <div className="relative aspect-video overflow-hidden rounded-xl border border-line bg-chip">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={v.thumb} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
@@ -15,7 +16,7 @@ export function VideoCard({ v }: { v: Video }) {
         {v.channel}
         {v.views ? <> · {compact(v.views)} views</> : null} · <TimeAgo iso={v.publishedAt} built={NOW} />
       </p>
-    </a>
+    </Link>
   );
 }
 

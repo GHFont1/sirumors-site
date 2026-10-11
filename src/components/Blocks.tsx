@@ -69,7 +69,7 @@ export function RumorList({ items, wide }: { items: ReturnType<typeof rumorsFor>
     <div className="divide-y divide-line">
       {items.map((r) => (
         <div key={r.id} className="py-3">
-          <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold leading-snug link-hover">{r.title}</a>
+          <Link href={r.url} className="text-sm font-semibold leading-snug link-hover">{r.title}</Link>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
             <RumorMeter s={r} wide={wide} />
             <span>{r.source}{(r.sourceCount ?? 1) > 1 ? ` +${(r.sourceCount ?? 1) - 1}` : ""}</span>

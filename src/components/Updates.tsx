@@ -66,12 +66,9 @@ export function Emblem({ u, compact = true }: { u: Update; compact?: boolean }) 
   );
 }
 
-const ext = (u: string) => /^https?:/.test(u);
 
 function Headline({ u, className }: { u: Update; className: string }) {
-  return ext(u.url)
-    ? <a href={u.url} target="_blank" rel="noopener noreferrer" className={`${className} link-hover`}>{u.headline}</a>
-    : <Link href={u.url} className={`${className} link-hover`}>{u.headline}</Link>;
+  return <Link href={u.url} className={`${className} link-hover`}>{u.headline}</Link>;
 }
 
 function Meta({ u }: { u: Update }) {
@@ -110,9 +107,7 @@ export function UpdateCard({ u }: { u: Update }) {
         <h3 className="mt-2 text-[17px] font-bold leading-snug"><Headline u={u} className="" /></h3>
         {u.summary && <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{u.summary}</p>}
         <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-          {ext(u.url)
-            ? <a href={u.url} target="_blank" rel="noopener noreferrer" className="mr-1 text-sm font-bold text-accent hover:underline">Read more →</a>
-            : <Link href={u.url} className="mr-1 text-sm font-bold text-accent hover:underline">Read more →</Link>}
+          {<Link href={u.url} className="mr-1 text-sm font-bold text-accent hover:underline">Read more →</Link>}
           {c && <Link href={`/c/${c.slug}/`} className="chip hover:text-accent" style={{ padding: "2px 9px", fontSize: 11 }}>{c.name.replace(/ AI$/, "")}</Link>}
           {u.sources > 1 && <span className="chip" style={{ padding: "2px 9px", fontSize: 11 }}>{u.sources} outlets</span>}
           <span className="chip" style={{ padding: "2px 9px", fontSize: 11 }}>{u.source}</span>
@@ -165,9 +160,7 @@ export function JustIn({ items }: { items: Update[] }) {
       {items.map((u) => (
         <span key={u.id} className="flex shrink-0 items-center gap-2 text-sm">
           <Badge u={u} />
-          {ext(u.url)
-            ? <a href={u.url} target="_blank" rel="noopener noreferrer" className="max-w-[300px] truncate font-semibold link-hover">{u.headline}</a>
-            : <Link href={u.url} className="max-w-[300px] truncate font-semibold link-hover">{u.headline}</Link>}
+          {<Link href={u.url} className="max-w-[300px] truncate font-semibold link-hover">{u.headline}</Link>}
         </span>
       ))}
     </div>

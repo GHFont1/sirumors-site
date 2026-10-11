@@ -75,7 +75,7 @@ export function MyFeed({ picks }: { picks: Pick[] }) {
               <div key={s.id} className="flex gap-3 py-3">
                 <span className="tabular w-9 shrink-0 pt-0.5 text-xs text-faint" suppressHydrationWarning>{ago(s.d)}</span>
                 <div className="min-w-0">
-                  <a href={s.u} target="_blank" rel="noopener noreferrer" className="text-[15px] font-semibold leading-snug hover:text-accent">{s.t}</a>
+                  <a href={s.u} className="text-[15px] font-semibold leading-snug hover:text-accent">{s.t}</a>
                   <div className="mt-0.5 text-xs text-muted">{s.s}{(s.n ?? 1) > 1 ? ` +${(s.n ?? 1) - 1}` : ""}{s.ty === "official" ? " · Official" : ""}{s.r ? ` · Rumor ${s.cf}/100` : ""}</div>
                 </div>
               </div>

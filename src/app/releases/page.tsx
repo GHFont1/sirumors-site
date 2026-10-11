@@ -71,7 +71,7 @@ export default function ReleasesPage() {
                     <td className="px-4 py-2.5 font-semibold">{r.name}</td>
                     <td className="px-4 py-2.5"><Link href={`/c/${r.company}/`} className="inline-flex items-center gap-1.5 hover:text-accent"><Logo slug={r.company} name={c?.name ?? r.lineName} size={16} /> {r.lineName}</Link></td>
                     <td className="px-4 py-2.5 text-xs text-muted">
-                      {r.evidence ? <a href={r.evidence.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent">{r.source === "official" ? <><span style={{ color: "var(--good)" }}>✓</span> {r.evidence.source}</> : `Reported by ${r.evidence.source}`} ↗</a> : "Historical record"}
+                      {r.evidence ? <Link href={r.page ?? "/releases/"} className="hover:text-accent">{r.source === "official" ? <><span style={{ color: "var(--good)" }}>✓</span> {r.evidence.source}</> : `Reported by ${r.evidence.source}`}</Link> : "Historical record"}
                     </td>
                   </tr>
                 );

@@ -24,13 +24,13 @@ function ago(iso: string) {
   return new Date(iso).toLocaleDateString();
 }
 
-/** Plain text with line breaks and safe links. */
+/** Plain text with line breaks. Links to our own pages work; outside addresses show as text so readers stay on the site. */
 function Body({ text }: { text: string }) {
-  const parts = text.split(/(https?:\/\/[^\s<]+)/g);
+  const parts = text.split(/(https:\/\/sirumors\.com\/[^\s<]*)/g);
   return (
     <div className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">
-      {parts.map((p, i) => (/^https?:\/\//.test(p)
-        ? <a key={i} href={p} target="_blank" rel="noopener noreferrer nofollow ugc" className="text-accent hover:underline">{p}</a>
+      {parts.map((p, i) => (p.startsWith("https://sirumors.com/")
+        ? <Link key={i} href={p.slice("https://sirumors.com".length)} className="text-accent hover:underline">{p}</Link>
         : <span key={i}>{p}</span>))}
     </div>
   );
@@ -233,7 +233,7 @@ export function ThreadView({ cats }: { cats: Category[] }) {
           <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-extrabold leading-tight tracking-tight">{t.locked && "🔒 "}{t.title}</h1>
             <div className="mt-1 text-xs text-muted">by <Author name={t.author} admin={t.author_admin} system={t.kind !== "user"} points={t.author_points} founding={t.author_founding} /> · <span suppressHydrationWarning>{ago(t.created_at)}</span></div>
-            {t.link_url && <a href={t.link_url} target="_blank" rel="noopener noreferrer nofollow ugc" className="mt-3 inline-block break-all text-sm font-semibold text-accent hover:underline">{t.link_url} ↗</a>}
+            {t.link_url?.startsWith("/") && <Link href={t.link_url} className="mt-3 inline-block text-sm font-semibold text-accent hover:underline">Read the story on SI Rumors →</Link>}
             <div className="mt-4"><Body text={t.body} /></div>
             {(mine || admin) && (
               <div className="mt-4 flex gap-4 text-xs font-semibold text-muted">

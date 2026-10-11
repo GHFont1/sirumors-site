@@ -58,7 +58,7 @@ export function FeedFilter({ items, companies }: { items: LiteStory[]; companies
           <div key={s.id} className="flex gap-3 py-3">
             <span className="tabular w-9 shrink-0 pt-0.5 text-xs text-faint" suppressHydrationWarning>{ago(s.publishedAt)}</span>
             <div className="min-w-0">
-              <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-[15px] font-semibold leading-snug hover:text-accent">{s.title}</a>
+              <a href={s.url} className="text-[15px] font-semibold leading-snug hover:text-accent">{s.title}</a>
               <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-muted">
                 <span className="font-semibold">{s.source}</span>
                 {(s.sourceCount ?? 1) > 1 && <span>+{(s.sourceCount ?? 1) - 1} more</span>}

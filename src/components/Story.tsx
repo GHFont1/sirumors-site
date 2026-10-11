@@ -57,12 +57,12 @@ export function StoryRow({ s, showSummary = false, rank }: { s: Story; showSumma
           {s.type === "official" && <span className="chip" style={{ padding: "0 7px", color: "var(--good)" }}>Official</span>}
           <span>·</span>
           <TimeAgo iso={s.publishedAt} built={NOW} />
-          {s.points ? <><span>·</span><a href={s.discussUrl} target="_blank" rel="noopener noreferrer" className="link-hover">▲ {s.points} on HN</a></> : null}
+          {s.points ? <><span>·</span><span>▲ {s.points} on HN</span></> : null}
           <span>·</span>
           <Link href={`/forums/new/?c=${s.isRumor ? "rumors" : "general"}&title=${encodeURIComponent(s.title.slice(0, 150))}&link=${encodeURIComponent(s.url)}`} className="link-hover">Discuss</Link>
         </div>
         <h3 className="text-[15px] font-semibold leading-snug sm:text-base">
-          <a href={s.url} target="_blank" rel="noopener noreferrer" className="link-hover">{s.title}</a>
+          <Link href={s.url} className="link-hover">{s.title}</Link>
         </h3>
         {showSummary && s.summary && <p className="mt-1 line-clamp-2 text-sm text-muted">{s.summary}</p>}
         <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -71,10 +71,10 @@ export function StoryRow({ s, showSummary = false, rank }: { s: Story; showSumma
         </div>
         {more > 0 && (
           <details className="mt-2 text-xs text-muted">
-            <summary className="cursor-pointer select-none font-semibold link-hover">+{more} more {more === 1 ? "source" : "sources"}</summary>
+            <summary className="cursor-pointer select-none font-semibold link-hover">+{more} more {more === 1 ? "outlet" : "outlets"}</summary>
             <ul className="mt-1 space-y-0.5 pl-1">
               {s.cluster!.map((c) => (
-                <li key={c.url}><a href={c.url} target="_blank" rel="noopener noreferrer" className="link-hover">{c.source}</a></li>
+                <li key={c.url}>{c.source}</li>
               ))}
             </ul>
           </details>

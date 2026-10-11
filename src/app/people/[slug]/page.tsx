@@ -30,7 +30,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
           logo={<Logo name={p.name} size={64} round />}
           extra={
             <div className="mt-2 flex flex-wrap gap-2">
-              {p.x && <a href={`https://x.com/${p.x}`} target="_blank" rel="noopener noreferrer" className="chip link-hover">𝕏 @{p.x}</a>}
+              {p.x && <span className="chip">𝕏 @{p.x}</span>}
               {co && <a href={`/c/${co.slug}/`} className="chip link-hover"><Logo slug={co.slug} name={co.name} size={14} /> {co.name}</a>}
             </div>
           }
