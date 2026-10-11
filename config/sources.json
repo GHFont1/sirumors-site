@@ -230,6 +230,69 @@
       "id": "gn-aitools",
       "name": "Google News",
       "q": "(\"Perplexity AI\" OR \"Cursor AI\" OR Anysphere OR \"Cognition AI\" OR \"Devin AI\" OR Windsurf)"
+    },
+    {
+      "id": "gn-kling",
+      "name": "Google News",
+      "q": "\"Kling AI\" OR \"Kling 3\" OR \"Kling 4\"",
+      "company": "kling",
+      "match": "\\bKling\\b"
+    },
+    {
+      "id": "gn-luma",
+      "name": "Google News",
+      "q": "\"Luma AI\" OR \"Luma Labs\" OR \"Dream Machine\"",
+      "company": "luma",
+      "match": "\\bLuma (AI|Labs|Agents)\\b|\\bLuma's\\b"
+    },
+    {
+      "id": "gn-cursor",
+      "name": "Google News",
+      "q": "\"Cursor\" (AI OR Anysphere OR coding OR SpaceX)",
+      "company": "cursor",
+      "match": "(?<!\\b[Aa] |\\b[Tt]he )\\bCursor\\b"
+    },
+    {
+      "id": "gn-suno",
+      "name": "Google News",
+      "q": "Suno AI music",
+      "company": "suno",
+      "match": "\\bSuno\\b"
+    },
+    {
+      "id": "gn-higgsfield",
+      "name": "Google News",
+      "q": "Higgsfield",
+      "company": "higgsfield",
+      "match": "\\bHiggsfield\\b"
+    },
+    {
+      "id": "gn-midjourney",
+      "name": "Google News",
+      "q": "Midjourney",
+      "company": "midjourney",
+      "match": "\\bMidjourney\\b"
+    },
+    {
+      "id": "gn-runway",
+      "name": "Google News",
+      "q": "\"Runway\" (AI video OR Gen-4 OR Gen-5 OR Aleph)",
+      "company": "runway",
+      "match": "\\bRunway\\b"
+    },
+    {
+      "id": "gn-elevenlabs",
+      "name": "Google News",
+      "q": "ElevenLabs",
+      "company": "elevenlabs",
+      "match": "\\bElevenLabs\\b"
+    },
+    {
+      "id": "gn-perplexity",
+      "name": "Google News",
+      "q": "\"Perplexity\" AI",
+      "company": "perplexity",
+      "match": "\\bPerplexity\\b"
     }
   ],
   "hnQueries": [

@@ -228,6 +228,8 @@ async function ingestGoogleNews() {
         const it = makeItem(r, { id: q.id, name: q.name, type: "press", gnews: true });
         if (!it) continue;
         if (q.person && !it.people.includes(q.person)) it.people.push(q.person);
+        // A company's own query tags its hits when the headline names it ("SpaceX buys Cursor").
+        if (q.company && !it.companies.includes(q.company) && new RegExp(q.match, "").test(it.title)) it.companies.push(q.company);
         if (!it.companies.length && !it.topics.length && !it.people.length) continue;
         items.push(it); n++;
       }
@@ -598,10 +600,26 @@ async function main() {
   // keep earlier items still inside the window so a flaky source doesn't empty a tab
   const fresh = [...feeds, ...gnews, ...hn, ...labxItems()].filter((i) => Date.parse(i.publishedAt) <= NOW + 3600000);
   const byId = new Map();
+  // Stored items are re-tagged with today's keywords, so a narrowed keyword list
+  // (or a company query's headline check) also cleans up what was tagged before.
+  const QUERY = Object.fromEntries(SRC.newsQueries.filter((q) => q.company).map((q) => [q.id, q]));
+  const FEED_CO = Object.fromEntries(SRC.feeds.filter((f) => f.company).map((f) => [f.id, f.company]));
+  const retag = (it) => {
+    const t = tag(`${it.title} ${it.summary ?? ""}`);
+    const keep = new Set(t.companies);
+    const own = FEED_CO[it.sourceId] ?? (it.sourceId?.startsWith("x-") ? it.sourceId.slice(2) : null);
+    if (own) keep.add(own);
+    const q = QUERY[it.sourceId];
+    if (q && new RegExp(q.match).test(it.title)) keep.add(q.company);
+    // Companies we never had keywords for (YouTube channel tags and the like) stay.
+    for (const c of it.companies) if (!ENT.companies.some((e) => e.slug === c)) keep.add(c);
+    it.companies = [...keep];
+  };
   for (const it of [...(prevRaw.items || []), ...fresh]) {
     if (NOW - Date.parse(it.publishedAt) > 21 * DAY) continue;
     if (blocked(it)) continue;
     tidy(it);
+    if (it.companies) retag(it);
     byId.set(it.id, { ...byId.get(it.id), ...it });
   }
   const raw = [...byId.values()];
