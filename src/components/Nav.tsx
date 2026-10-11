@@ -8,6 +8,8 @@ export type Tab = { href: string; label: string; logo?: string; mono?: string };
 const NAV = [
   { href: "/news/", label: "News" },
   { href: "/rumors/", label: "Rumors" },
+  { href: "/rankings/", label: "Rankings" },
+  { href: "/odds/", label: "Odds" },
   { href: "/releases/", label: "Releases" },
   { href: "/codex/", label: "Codex" },
   { href: "/videos/", label: "Videos" },

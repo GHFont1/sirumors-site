@@ -47,6 +47,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/ingest.mjs --data data
 
+      - name: Model rankings and prediction markets
+        id: boards
+        continue-on-error: true
+        run: node scripts/boards.mjs --data data
+
       - name: Alerts, release threads and emails
         id: notify
         continue-on-error: true
@@ -73,7 +78,7 @@ jobs:
         run: node scripts/verify-build.mjs
 
       - name: Publish status file
-        run: node -e 'const m=require("./data/meta.json");require("fs").writeFileSync("out/status.json",JSON.stringify({lastUpdated:m.lastUpdated,lastAttempt:m.lastAttempt,lastAttemptOk:m.lastAttemptOk,counts:m.counts,failing:m.failing}))'
+        run: node -e 'const m=require("./data/meta.json");require("fs").writeFileSync("out/status.json",JSON.stringify({lastUpdated:m.lastUpdated,lastAttempt:m.lastAttempt,lastAttemptOk:m.lastAttemptOk,counts:m.counts,failing:m.failing,rankingsAt:(()=>{try{return require("./data/rankings.json").generatedAt}catch{return null}})(),marketsAt:(()=>{try{return require("./data/markets.json").generatedAt}catch{return null}})()}))'
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
@@ -91,3 +96,9 @@ jobs:
         run: |
           echo "Ingest failed this run; the site was rebuilt from the last good data."
           node -e 'const m=require("./data/meta.json");const age=(Date.now()-Date.parse(m.lastUpdated))/3600000;console.log("data age hours",age.toFixed(1));process.exit(age>2?1:0)'
+
+      - name: Fail if rankings or odds go stale
+        run: |
+          node -e '
+          const f=(n,h)=>{try{const d=require("./data/"+n);const age=(Date.now()-Date.parse(d.generatedAt))/3600000;console.log(n,"age hours",age.toFixed(1));return age>h}catch(e){console.log(n,"missing");return true}};
+          const bad=[f("rankings.json",6),f("markets.json",6)].some(Boolean);process.exit(bad?1:0)'

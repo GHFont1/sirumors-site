@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { NOW, companies, momentum, releaseLines, repos, resets, rumors, series, upcoming, videos, companyBySlug } from "@/lib/data";
+import { NOW, boards, companies, markets, momentum, releaseLines, repos, resetHistory, rumors, series, upcoming, videos, companyBySlug } from "@/lib/data";
+import { BestTile, MarketCard, ResetList } from "@/components/Boards";
 import { allUpdates, leadUpdates } from "@/lib/updates";
 import { daysBetween, pct } from "@/lib/format";
 import { NextUpCard, RumorList, Section } from "@/components/Blocks";
@@ -16,7 +17,10 @@ export default function Home() {
   const stream = all.filter((u) => !leadIds.has(u.id));
   const next = upcoming();
   const soonest = next.find((l) => Date.parse(l.expectedNext!) >= NOW - 86400000) ?? next[0];
-  const lastReset = resets.find((r) => r.product === "Codex");
+  const resetList = resetHistory();
+  const lastReset = resetList.find((r) => r.product === "Codex");
+  const best = ["overall", "coding", "agent", "open", "image", "video"].map((id) => boards.find((b) => b.id === id)).filter((b) => b != null);
+  const odds = markets.slice(0, 3);
   const cli = repos.find((r) => r.repo === "openai/codex")?.releases.find((r) => !r.pre);
   const trending = companies
     .map((c) => ({ c, m: momentum("c", c.slug), s: series("c", c.slug, 30) }))
@@ -48,6 +52,12 @@ export default function Home() {
         </div>
       )}
 
+      {best.length > 0 && (
+        <Section title="Who's winning right now" kicker="Best AI models, live from Arena" href="/rankings/" linkLabel="Full rankings">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">{best.map((b) => <BestTile key={b.id} b={b} />)}</div>
+        </Section>
+      )}
+
       <div className="grid grid-cols-1 gap-x-10 lg:grid-cols-[minmax(0,1fr)_330px] [&>*]:min-w-0">
         <Section title="Every update" kicker="Newest first, last 7 days" href="/news/" linkLabel="All news">
           <UpdatesStream items={stream} />
@@ -71,6 +81,14 @@ export default function Home() {
               <div className="py-3"><FollowButton kind="topic" slug="codex" label="Codex" size="sm" /> <span className="ml-1 text-xs text-faint">Get reset alerts</span></div>
             </div>
           </Section>
+          <Section title="Previous resets" kicker="Codex, Claude and ChatGPT" href="/codex/" linkLabel="History">
+            <div className="card px-4"><ResetList items={resetList} limit={7} /></div>
+          </Section>
+          {odds.length > 0 && (
+            <Section title="The odds" kicker="Polymarket, live" href="/odds/" linkLabel="All odds">
+              <div className="space-y-3">{odds.map((m) => <MarketCard key={m.id} m={m} rows={3} />)}</div>
+            </Section>
+          )}
           <Section title="Rumor board" kicker="Rated by confidence" href="/rumors/">
             <div className="card px-4"><RumorList items={rumors.slice(0, 6)} /></div>
           </Section>

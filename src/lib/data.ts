@@ -98,6 +98,17 @@ const releasesData = load<{ lines: ReleaseLine[] }>("releases.json", { lines: []
 const githubData = load<{ repos: Repo[] }>("github.json", { repos: [] });
 const resetsData = load<{ events: ResetEvent[] }>("resets.json", { events: [] });
 const historyData = load<{ days: Record<string, DayCounts> }>("history.json", { days: {} });
+export type RankRow = { model: string; raw: string; org: string; company: string | null; rating: number; votes: number; rank: number };
+export type Board = { id: string; label: string; blurb: string; unit: string; published: string; top: RankRow[]; leaderSince?: string; prevLeader?: string | null };
+export type Outcome = { name: string; yes: number; change: number | null; volume: number };
+export type Market = { id: string; slug: string; title: string; url: string; image: string | null; volume: number; volume24h: number; endDate: string | null; binary: boolean; outcomes: Outcome[]; priority: number };
+const rankingsData = load<{ generatedAt?: string; published?: string; boards: Board[] }>("rankings.json", { boards: [] });
+const marketsData = load<{ generatedAt?: string; markets: Market[] }>("markets.json", { markets: [] });
+export const boards = rankingsData.boards;
+export const boardsPublished = rankingsData.published ?? "";
+export const markets = marketsData.markets;
+export const board = (id: string) => boards.find((b) => b.id === id);
+
 const metaData = load<{ lastUpdated?: string; counts?: Record<string, number>; health?: Health; failing?: string[] }>("meta.json", {});
 
 export const companies = entities.companies as Company[];
@@ -183,3 +194,16 @@ export function allReleases() {
 }
 
 export const logoFor = (slug: string) => `/logos/${slug}.png`;
+
+/** Actual limit resets (not policy chatter), newest first, one per product per day. */
+export function resetHistory() {
+  const real = /\breset(s|ting)?\b|reset again|another reset|limits? removed/i;
+  const chatter = /pledg|offering|or a full|rumou?r|losing|introduc|tests?\b|option|plans,|referral|how to|explained|what is|paid resets/i;
+  const seen = new Set<string>();
+  return resets.map((r) => (/^(anthropic|claude)\b/i.test(r.title) ? { ...r, product: "Claude" } : r)).filter((r) => {
+    const k = `${r.product}|${r.date.slice(0, 10)}`;
+    if (!real.test(r.title) || chatter.test(r.title) || seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { NOW, repos, resets, stories } from "@/lib/data";
+import { NOW, repos, resetHistory, resets, stories } from "@/lib/data";
+import { ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Section, Stat } from "@/components/Blocks";
 import { Bars } from "@/components/Charts";
@@ -67,14 +68,7 @@ export default function CodexPage() {
             <Bars data={monthly(resets.map((r) => r.date), 12)} label="reset stories" height={150} />
           </div>
           <div className="card max-h-[420px] divide-y divide-line overflow-y-auto px-4">
-            {resets.slice(0, 40).map((r) => (
-              <div key={r.id} className="flex gap-3 py-2.5">
-                <span className="tabular w-16 shrink-0 text-xs text-muted">{fmtDate(r.date, false)}</span>
-                <span className="chip h-fit shrink-0" style={{ padding: "0 8px" }}>{r.product}</span>
-                <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-sm leading-snug hover:text-accent">{r.title} <span className="text-xs text-faint">· {r.source}</span></a>
-              </div>
-            ))}
-            {!resets.length && <p className="py-6 text-sm text-muted">No reset stories found yet.</p>}
+            <ResetList items={resetHistory()} limit={40} />
           </div>
         </div>
         <p className="mt-2 text-xs text-faint">Built from news and Hacker News reports, not an official OpenAI or Anthropic feed. A story can describe a reset, a reset policy or a pledge.</p>
