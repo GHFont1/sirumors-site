@@ -25,11 +25,11 @@ jobs:
           home=$(curl -fsS -m 30 -o /dev/null -w "%{http_code}" https://sirumors.com/)
           age=$(node -e 'try{const m=JSON.parse(process.argv[1]);console.log(((Date.now()-Date.parse(m.lastUpdated))/3600000).toFixed(2))}catch{console.log(999)}' "$body")
           stories=$(node -e 'try{console.log(JSON.parse(process.argv[1]).counts.items)}catch{console.log(0)}' "$body")
-          odds=$(node -e 'try{const m=JSON.parse(process.argv[1]);const a=[m.rankingsAt,m.marketsAt,m.resetsAt].map(x=>(Date.now()-Date.parse(x))/3600000);console.log(Math.max(...a).toFixed(2))}catch{console.log(999)}' "$body")
+          odds=$(node -e 'try{const m=JSON.parse(process.argv[1]);const a=[m.rankingsAt,m.marketsAt,m.resetsAt,m.labxAt].map(x=>(Date.now()-Date.parse(x))/3600000);console.log(Math.max(...a).toFixed(2))}catch{console.log(999)}' "$body")
           echo "age=$age home=$home stories=$stories boards_age=$odds"
           ok=$(node -e "console.log(($age < 2 && '$home' === '200' && $stories >= 100 && $odds < 6) ? 'yes' : 'no')")
           echo "ok=$ok" >> $GITHUB_OUTPUT
-          echo "detail=data age ${age}h, home HTTP ${home}, ${stories} stories, rankings/odds/resets age ${odds}h" >> $GITHUB_OUTPUT
+          echo "detail=data age ${age}h, home HTTP ${home}, ${stories} stories, rankings/odds/resets/lab-posts age ${odds}h" >> $GITHUB_OUTPUT
 
       - name: Recover and track incident
         env:

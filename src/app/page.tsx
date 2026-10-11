@@ -22,7 +22,8 @@ function Side({ title, href, linkLabel, children }: { title: string; href?: stri
 const PICKS: [string, string][] = [["coding", "Coding"], ["agent", "Agents"], ["open", "Open model"], ["image", "Image"], ["video", "Video"]];
 
 export default function Home() {
-  const updates = allUpdates(7).slice(0, 40);
+  // Home keeps the signal: releases, resets, lab posts, real rumors and big stories. Whispers and two-outlet stories stay in News.
+  const updates = allUpdates(7).filter((u) => u.weight >= 40).slice(0, 60);
   const top = boards.find((b) => b.id === "overall");
   const leader = top?.top[0];
   const leaderCo = leader?.company ? companyBySlug(leader.company) : undefined;

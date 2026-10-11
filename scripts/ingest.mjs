@@ -432,6 +432,27 @@ function scoreRumor(r, officialTitles) {
   return { confidence: confirmed ? 100 : score, status: confirmed ? "confirmed" : score >= 70 ? "strong" : score >= 45 ? "developing" : "whisper", confirmedBy: confirmed ? { title: confirmed.title, url: confirmed.url } : undefined };
 }
 
+// ---------- the labs' own X posts (scripts/labx.mjs) ----------
+// Launch posts from the labs themselves are the source of truth for releases.
+const X_LAUNCH_RE = /\b(launch(?:es|ed|ing)?|releas(?:e|es|ed|ing)|introduc(?:es|ed|ing)|announc(?:e|es|ed|ing)|rolls? out|rolling out|now available|available (?:now|today|starting today)|is (?:here|live|out)|now live|meet\b|debut)/i;
+const X_NOISE_RE = /^(try|use|build with|join us|tune in|watch|we.?re hiring|reminder)\b|chance to win|livestream|webinar|giveaway|% off/i;
+const LABX = readJSON("labx.json", { tweets: {}, accounts: {} });
+// The earliest post we hold per company: inside that window a release needs a lab post to count.
+const X_COVERAGE = {};
+for (const t of Object.values(LABX.tweets || {})) if (!X_COVERAGE[t.company] || t.at < X_COVERAGE[t.company]) X_COVERAGE[t.company] = t.at;
+function labxItems() {
+  const out = [];
+  for (const t of Object.values(LABX.tweets || {})) {
+    const text = t.text.replace(/https?:\/\/\S+/g, "").trim();
+    const first = text.split(/\n+/)[0].trim();
+    if (!first || X_NOISE_RE.test(first) || !X_LAUNCH_RE.test(text.slice(0, 280))) continue;
+    const title = clip(first.length < 25 ? text.replace(/\s*\n+\s*/g, " ") : first, 150);
+    const it = makeItem({ title, url: t.url, summary: text.slice(first.length).replace(/\s*\n+\s*/g, " ").trim(), date: t.at, image: t.image }, { id: `x-${t.company}`, name: `${t.name} on X`, type: "official", company: t.company });
+    if (it) { it.isX = true; out.push(it); }
+  }
+  return out;
+}
+
 // ---------- releases ----------
 function detectReleases(allItems, store) {
   const known = store.detected || [];
@@ -444,11 +465,13 @@ function detectReleases(allItems, store) {
     const re = new RegExp(d.pattern, "i");
     const cands = new Map();
     for (const it of allItems) {
+      const isX = it.sourceId === `x-${line.company}`;
+      if (it.isX && !isX) continue;
       const viaNews = (d.news || d.newsFallback) && it.type !== "official";
-      if (!viaNews && d.sources && !d.sources.includes(it.sourceId)) continue;
-      if (d.news && it.type === "official") continue;
+      if (!viaNews && d.sources && !d.sources.includes(it.sourceId) && !isX) continue;
+      if (d.news && it.type === "official" && !isX) continue;
       if (viaNews && (!LAUNCH_RE.test(it.title) || it.isRumor || FUTURE_RE.test(it.title))) continue;
-      if (d.launchWords && !LAUNCH_RE.test(it.title)) continue;
+      if (isX ? !X_LAUNCH_RE.test(it.title) : d.launchWords && !LAUNCH_RE.test(it.title)) continue;
       if (d.news && (it.isRumor || FUTURE_RE.test(it.title))) continue;
       const m = re.exec(it.title);
       if (!m) continue;
@@ -476,6 +499,13 @@ function detectReleases(allItems, store) {
       have.set(k, { line: line.id, name, version: c.version, date, source: c.official ? "official" : "news", evidence: { title: c.first.title, url: c.first.url, source: c.first.source } });
     }
   }
+  // A news-only release inside the window where we read the lab's own posts is not
+  // trusted: real launches get a post from the lab. It stays stored (hidden) so an
+  // official post can still confirm it later.
+  for (const r of have.values()) {
+    const co = SEED.lines.find((l) => l.id === r.line)?.company;
+    r.unverified = r.source === "news" && !!X_COVERAGE[co] && r.date >= X_COVERAGE[co].slice(0, 10);
+  }
   store.detected = [...have.values()].sort((a, b) => a.date.localeCompare(b.date));
   return store;
 }
@@ -483,7 +513,7 @@ function detectReleases(allItems, store) {
 function buildReleases(store) {
   const all = [
     ...SEED.releases.map((r) => ({ ...r, source: "seed" })),
-    ...store.detected,
+    ...store.detected.filter((r) => !r.unverified),
   ];
   const lines = SEED.lines.map((l) => {
     const rel = all.filter((r) => r.line === l.id).sort((a, b) => a.date.localeCompare(b.date));
@@ -566,7 +596,7 @@ async function main() {
   const repos = await ingestGitHub(state);
 
   // keep earlier items still inside the window so a flaky source doesn't empty a tab
-  const fresh = [...feeds, ...gnews, ...hn].filter((i) => Date.parse(i.publishedAt) <= NOW + 3600000);
+  const fresh = [...feeds, ...gnews, ...hn, ...labxItems()].filter((i) => Date.parse(i.publishedAt) <= NOW + 3600000);
   const byId = new Map();
   for (const it of [...(prevRaw.items || []), ...fresh]) {
     if (NOW - Date.parse(it.publishedAt) > 21 * DAY) continue;
@@ -575,7 +605,7 @@ async function main() {
     byId.set(it.id, { ...byId.get(it.id), ...it });
   }
   const raw = [...byId.values()];
-  const freshCount = fresh.filter((i) => NOW - Date.parse(i.publishedAt) < 2 * DAY).length;
+  const freshCount = fresh.filter((i) => !i.isX && NOW - Date.parse(i.publishedAt) < 2 * DAY).length;
   if (freshCount < 40) {
     console.error(`ABORT: only ${freshCount} fresh items from sources; keeping previous data.`);
     writeJSON("meta.json", { ...readJSON("meta.json", {}), lastAttempt: new Date(NOW).toISOString(), lastAttemptOk: false, health });

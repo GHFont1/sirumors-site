@@ -40,7 +40,7 @@ export const KIND_LABEL: Record<UpdateKind, string> = {
 
 const LABS = new Set(["openai", "anthropic", "google", "xai", "meta", "deepseek", "mistral", "microsoft", "nvidia", "tesla", "figure", "apple", "amazon"]);
 // Customer case studies, gaming and marketing posts from official blogs are not updates.
-const OFFICIAL_NOISE = /\b(cuts?|halves|saves?|turns?|helps?|powers?)\b.*\b(with|using|into)\b|\bhow .+ (uses?|built|turns?)\b|customer stor|case study|geforce now|gaming|gears of war|\bmyths?\b|webinar|\bevent recap\b|into the omniverse/i;
+const OFFICIAL_NOISE = /\b(halves|cuts|slashes)\b.*\bcosts?\b|\b(cuts?|halves|saves?|turns?|helps?|powers?)\b.*\b(with|using|into)\b|\bhow .+ (uses?|built|turns?)\b|customer stor|case study|geforce now|gaming|gears of war|\bmyths?\b|webinar|\bevent recap\b|into the omniverse/i;
 
 const STOP = new Set("the and for with from that this into over amid after about says said will have has are was its their than more most what when where which while your reportedly report reports new ai how why who".split(" "));
 const COMMON = new Set(["ai", "the", "a", "an", "how", "why", "what", "is", "new", "massive", "leak", "report", "exclusive", "breaking"]);
@@ -117,12 +117,13 @@ export function allUpdates(days = 14): Update[] {
   for (const l of releaseLines) {
     for (const r of l.releases) {
       const t = Date.parse(r.date.length === 10 ? r.date + "T15:00:00Z" : r.date);
-      if (t < horizon || r.source === "seed") continue;
+      // Only releases the lab itself announced (its blog or its X account) count as "Released".
+      if (t < horizon || r.source !== "official") continue;
       const co = companyBySlug(l.company);
       out.push({
         id: `r-${l.id}-${r.version}`, kind: "release", badge: "Released",
         headline: `${r.name} is out`,
-        summary: r.evidence ? `${co?.name ?? l.company} shipped ${r.name}. ${r.evidence.title}.` : `${co?.name ?? l.company} shipped ${r.name}.`,
+        summary: r.evidence ? `${co?.name ?? l.company} shipped ${r.name}. Source: ${r.evidence.source}, "${r.evidence.title.replace(/[.…]+$/, "")}".` : `${co?.name ?? l.company} shipped ${r.name}.`,
         url: r.evidence?.url ?? `/c/${l.company}/`, date: new Date(Math.min(t, NOW)).toISOString(),
         company: l.company, companies: [l.company], topics: [l.kind === "robot" ? "robotics" : "models"], people: [],
         source: r.evidence?.source ?? co?.name ?? "", sources: 1, weight: 100,
@@ -189,7 +190,10 @@ export function allUpdates(days = 14): Update[] {
     }
     kept.push({ ...u, w });
   }
-  cache = kept.map(({ w: _w, ...u }) => u).sort((a, b) => b.date.localeCompare(a.date));
+  // A lab's own launch post ("Haiku 5.5 is available now...") belongs to the release card.
+  const rel = kept.filter((k) => k.kind === "release").map((r) => ({ r, key: r.headline.replace(/ is out$/, "").replace(/^(Claude|Google|OpenAI|xAI|Meta|DeepSeek) /, "").toLowerCase() }));
+  const covered = (u: Update) => u.kind !== "release" && rel.some(({ r, key }) => r.company === u.company && Math.abs(Date.parse(r.date) - Date.parse(u.date)) < 3 * 86400000 && u.headline.toLowerCase().replace(/‑/g, "-").includes(key));
+  cache = kept.filter((u) => !covered(u)).map(({ w: _w, ...u }) => u).sort((a, b) => b.date.localeCompare(a.date));
   return cache.filter((u) => NOW - Date.parse(u.date) < days * 86400000);
 }
 
