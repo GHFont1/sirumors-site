@@ -4,11 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { sb } from "@/lib/supabase";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { RankChip } from "./Rank";
 
 export type Category = { slug: string; name: string; blurb: string; icon?: string; company?: string };
-type Thread = { id: string; category: string; title: string; excerpt: string; kind: string; link_url: string | null; reply_count: number; score: number; pinned: boolean; locked: boolean; created_at: string; last_activity_at: string; author: string | null; author_admin: boolean };
+type Thread = { id: string; category: string; title: string; excerpt: string; kind: string; link_url: string | null; reply_count: number; score: number; pinned: boolean; locked: boolean; created_at: string; last_activity_at: string; author: string | null; author_admin: boolean; author_points?: number | null; author_founding?: boolean };
 type FullThread = Thread & { body: string; author_id: string | null };
-type Reply = { id: string; thread_id: string; body: string; created_at: string; author_id: string | null; author: string | null; author_admin: boolean };
+type Reply = { id: string; thread_id: string; body: string; created_at: string; author_id: string | null; author: string | null; author_admin: boolean; author_points?: number | null; author_founding?: boolean };
 
 const btn = "rounded-xl px-4 py-2 text-sm font-bold text-white disabled:opacity-50";
 const grad = { background: "linear-gradient(90deg, var(--accent), var(--accent-2))" };
@@ -35,9 +36,16 @@ function Body({ text }: { text: string }) {
   );
 }
 
-function Author({ name, admin, system }: { name: string | null; admin?: boolean; system?: boolean }) {
+function Author({ name, admin, system, points, founding }: { name: string | null; admin?: boolean; system?: boolean; points?: number | null; founding?: boolean }) {
   if (system || !name) return <span className="inline-flex items-center gap-1 font-semibold">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/icon.svg" alt="" width={14} height={14} /> SI Rumors</span>;
-  return <span className="font-semibold">@{name}{admin && <span className="ml-1 rounded px-1 text-[10px] font-bold text-white" style={grad}>MOD</span>}</span>;
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1 align-middle">
+      <span className="font-semibold">@{name}</span>
+      <RankChip points={points} />
+      {founding && <span title="Founding Member: one of the first 1,000 accounts" className="text-[11px]" style={{ color: "var(--accent)" }}>✦</span>}
+      {admin && <span className="rounded px-1 text-[10px] font-bold text-white" style={grad}>MOD</span>}
+    </span>
+  );
 }
 
 function ThreadRow({ t, cats }: { t: Thread; cats?: Category[] }) {
@@ -55,7 +63,7 @@ function ThreadRow({ t, cats }: { t: Thread; cats?: Category[] }) {
         </div>
         <div className="mt-0.5 flex flex-wrap gap-x-2 text-xs text-muted">
           {cat && <span>{cat.name}</span>}
-          <span>by <Author name={t.author} admin={t.author_admin} system={t.kind !== "user"} /></span>
+          <span>by <Author name={t.author} admin={t.author_admin} system={t.kind !== "user"} points={t.author_points} founding={t.author_founding} /></span>
           <span suppressHydrationWarning>· active {ago(t.last_activity_at)}</span>
         </div>
       </div>
@@ -84,7 +92,10 @@ export function ForumHome({ cats }: { cats: Category[] }) {
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Forums</h1>
           <p className="mt-1 max-w-2xl text-muted">Talk releases, rumors and the road to superintelligence. Every new launch gets its own thread automatically.</p>
         </div>
-        <NewThreadButton />
+        <div className="flex items-center gap-3">
+          <Link href="/leaderboard/" className="rounded-xl border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">🏆 Leaderboard</Link>
+          <NewThreadButton />
+        </div>
       </div>
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
         <div>
@@ -171,10 +182,10 @@ export function ThreadView({ cats }: { cats: Category[] }) {
     const c = sb();
     const [th, list, rs] = await Promise.all([
       c.from("forum_threads").select("id,category,title,body,kind,link_url,reply_count,score,pinned,locked,created_at,last_activity_at,author_id").eq("id", id).maybeSingle(),
-      c.from("thread_list").select("author,author_admin").eq("id", id).maybeSingle(),
+      c.from("thread_list").select("author,author_admin,author_points,author_founding").eq("id", id).maybeSingle(),
       c.from("reply_list").select("*").eq("thread_id", id).order("created_at").limit(500),
     ]);
-    setT(th.data ? ({ ...th.data, excerpt: "", author: list.data?.author ?? null, author_admin: !!list.data?.author_admin } as FullThread) : null);
+    setT(th.data ? ({ ...th.data, excerpt: "", author: list.data?.author ?? null, author_admin: !!list.data?.author_admin, author_points: list.data?.author_points ?? 0, author_founding: !!list.data?.author_founding } as FullThread) : null);
     setReplies((rs.data as Reply[]) ?? []);
   }, [id]);
   useEffect(() => { load(); }, [load]);
@@ -221,7 +232,7 @@ export function ThreadView({ cats }: { cats: Category[] }) {
           </button>
           <div className="min-w-0 flex-1">
             <h1 className="text-2xl font-extrabold leading-tight tracking-tight">{t.locked && "🔒 "}{t.title}</h1>
-            <div className="mt-1 text-xs text-muted">by <Author name={t.author} admin={t.author_admin} system={t.kind !== "user"} /> · <span suppressHydrationWarning>{ago(t.created_at)}</span></div>
+            <div className="mt-1 text-xs text-muted">by <Author name={t.author} admin={t.author_admin} system={t.kind !== "user"} points={t.author_points} founding={t.author_founding} /> · <span suppressHydrationWarning>{ago(t.created_at)}</span></div>
             {t.link_url && <a href={t.link_url} target="_blank" rel="noopener noreferrer nofollow ugc" className="mt-3 inline-block break-all text-sm font-semibold text-accent hover:underline">{t.link_url} ↗</a>}
             <div className="mt-4"><Body text={t.body} /></div>
             {(mine || admin) && (
@@ -237,7 +248,7 @@ export function ThreadView({ cats }: { cats: Category[] }) {
       <div className="mt-3 space-y-3">
         {replies.map((r) => (
           <div key={r.id} className="card p-4">
-            <div className="text-xs text-muted"><Author name={r.author} admin={r.author_admin} /> · <span suppressHydrationWarning>{ago(r.created_at)}</span>
+            <div className="text-xs text-muted"><Author name={r.author} admin={r.author_admin} points={r.author_points} founding={r.author_founding} /> · <span suppressHydrationWarning>{ago(r.created_at)}</span>
               {(session?.user.id === r.author_id || admin) && <button type="button" onClick={() => remove("forum_replies", r.id)} className="ml-3 font-semibold hover:text-accent">Delete</button>}
             </div>
             <div className="mt-2"><Body text={r.body} /></div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { sb } from "@/lib/supabase";
 import { useAuth, type FollowKind } from "./AuthProvider";
+import { RankChip } from "@/components/community/Rank";
 
 const field = "w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-[15px] outline-none focus:border-accent";
 const primary = "w-full rounded-xl px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50";
@@ -130,8 +131,11 @@ export function UserMenu() {
       <button type="button" onClick={() => setOpen(!open)} aria-label="Account menu" className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white" style={gradient}>{initial}</button>
       {open && (
         <div className="card absolute right-0 top-10 z-40 w-52 p-1.5 text-sm">
-          <div className="truncate px-3 py-2 text-xs text-muted">{profile?.username ? `@${profile.username}` : session.user.email}</div>
-          {[["/me/", "My feed"], ["/notifications/", "Notifications"], ["/forums/", "Forums"], ["/account/", "Settings"]].map(([h, l]) => (
+          <div className="px-3 py-2">
+            <div className="truncate text-xs text-muted">{profile?.username ? `@${profile.username}` : session.user.email}</div>
+            <div className="mt-1 flex items-center gap-2"><RankChip points={profile?.points} size="md" /><span className="tabular text-xs font-semibold">{(profile?.points ?? 0).toLocaleString()} pts</span></div>
+          </div>
+          {[["/me/", "My feed"], ["/notifications/", "Notifications"], ["/forums/", "Forums"], ["/leaderboard/", "Leaderboard"], ["/account/", "Profile & settings"]].map(([h, l]) => (
             <Link key={h} href={h} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-2 font-semibold hover:bg-chip">{l}</Link>
           ))}
           <button type="button" onClick={() => { setOpen(false); signOut(); }} className="block w-full rounded-lg px-3 py-2 text-left font-semibold text-muted hover:bg-chip">Sign out</button>
@@ -156,5 +160,16 @@ export function FollowButton({ kind, slug, label, size = "md" }: { kind: FollowK
     >
       <span aria-hidden>{on ? "★" : "☆"}</span> {on ? "Following" : "Follow"}
     </button>
+  );
+}
+
+/** Small bottom toast for points earned. */
+export function PointsToast() {
+  const { toast } = useAuth();
+  if (!toast) return null;
+  return (
+    <div role="status" className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-full px-4 py-2 text-sm font-bold text-white shadow-lg" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>
+      ✦ {toast}
+    </div>
   );
 }

@@ -3,6 +3,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { sb } from "@/lib/supabase";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { useEffect } from "react";
+import { rankFor } from "@/lib/ranks";
+import { BadgeChips, RankChip } from "@/components/community/Rank";
 
 function Toggle({ on, onChange, label, sub }: { on: boolean; onChange: (v: boolean) => void; label: string; sub: string }) {
   return (
@@ -16,6 +19,13 @@ function Toggle({ on, onChange, label, sub }: { on: boolean; onChange: (v: boole
 export default function Account() {
   const { ready, session, profile, follows, refresh, openSignIn, signOut } = useAuth();
   const [saved, setSaved] = useState("");
+  const [ledger, setLedger] = useState<{ label: string; points: number; created_at: string }[]>([]);
+  const [badges, setBadges] = useState<string[]>([]);
+  useEffect(() => {
+    if (!session) return;
+    sb().from("points_ledger").select("label,points,created_at").order("created_at", { ascending: false }).limit(15).then(({ data }) => setLedger(data ?? []));
+    sb().from("user_badges").select("badge").eq("user_id", session.user.id).then(({ data }) => setBadges((data ?? []).map((b) => b.badge)));
+  }, [session]);
   if (!ready) return null;
   if (!session) {
     return (
@@ -39,6 +49,22 @@ export default function Account() {
         <div className="font-semibold">{profile?.username ? `@${profile.username}` : "—"} · {session.user.email}</div>
         <div className="mt-3 flex gap-4 text-sm"><Link href="/me/" className="font-semibold text-accent hover:underline">My feed ({follows.size} follows)</Link><button type="button" onClick={signOut} className="font-semibold text-muted hover:text-accent">Sign out</button></div>
       </div>
+      {(() => { const r = rankFor(profile?.points ?? 0); return (
+        <div className="card mt-4 p-5">
+          <div className="flex flex-wrap items-center gap-2"><RankChip points={profile?.points} size="md" /><BadgeChips badges={badges} size="md" /></div>
+          <div className="tabular mt-3 text-3xl font-extrabold">{(profile?.points ?? 0).toLocaleString()} <span className="text-base font-semibold text-muted">SI Points</span></div>
+          {r.next && (<>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-chip"><div className="h-full rounded-full" style={{ width: `${Math.round(r.progress * 100)}%`, background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }} /></div>
+            <div className="mt-1 text-xs text-muted">{(r.next.min - (profile?.points ?? 0)).toLocaleString()} to {r.next.name}</div>
+          </>)}
+          <div className="mt-3 text-sm text-muted">🔥 {profile?.streak_current ?? 0}-day streak · best {profile?.streak_best ?? 0} · <Link href="/leaderboard/" className="font-semibold text-accent">Leaderboard</Link></div>
+          {ledger.length > 0 && (
+            <div className="mt-4 divide-y divide-line border-t border-line text-sm">
+              {ledger.map((l, i) => <div key={i} className="flex justify-between py-1.5"><span className="text-muted">{l.label}</span><span className="tabular font-bold" style={{ color: "var(--accent)" }}>+{l.points}</span></div>)}
+            </div>
+          )}
+        </div>
+      ); })()}
       <h2 className="mt-8 text-lg font-extrabold">Email alerts {saved && <span className="ml-2 text-xs font-semibold" style={{ color: "var(--good)" }}>{saved}</span>}</h2>
       <div className="card mt-3 divide-y divide-line px-5">
         <Toggle on={!!profile?.email_releases} onChange={(v) => set("email_releases", v)} label="Releases" sub="When a company or release line you follow ships something new." />

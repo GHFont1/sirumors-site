@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { Session } from "@supabase/supabase-js";
 import { sb } from "@/lib/supabase";
 
-export type Profile = { id: string; username: string | null; is_admin: boolean; email_releases: boolean; email_rumors: boolean; email_replies: boolean };
+export type Profile = { id: string; username: string | null; is_admin: boolean; email_releases: boolean; email_rumors: boolean; email_replies: boolean; points: number; streak_current: number; streak_best: number; founding: boolean };
 export type FollowKind = "company" | "topic" | "person" | "line";
 const key = (k: FollowKind, s: string) => `${k}:${s}`;
 
@@ -22,6 +22,7 @@ type Ctx = {
   signInReason: string;
   closeSignIn: () => void;
   signOut: () => Promise<void>;
+  toast: string;
 };
 
 const AuthCtx = createContext<Ctx | null>(null);
@@ -39,12 +40,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [unread, setUnread] = useState(0);
   const [signInOpen, setSignInOpen] = useState(false);
   const [signInReason, setSignInReason] = useState("");
+  const [toast, setToast] = useState("");
+  const [checkedIn, setCheckedIn] = useState(false);
 
   const load = useCallback(async (s: Session | null) => {
     if (!s) { setProfile(null); setFollows(new Set()); setUnread(0); return; }
     const c = sb();
     const [p, f, n] = await Promise.all([
-      c.from("profiles").select("id,username,is_admin,email_releases,email_rumors,email_replies").eq("id", s.user.id).maybeSingle(),
+      c.from("profiles").select("id,username,is_admin,email_releases,email_rumors,email_replies,points,streak_current,streak_best,founding").eq("id", s.user.id).maybeSingle(),
       c.from("follows").select("kind,slug"),
       c.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
     ]);
@@ -59,6 +62,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: sub } = c.auth.onAuthStateChange((_e, s) => { setSession(s); load(s); });
     return () => sub.subscription.unsubscribe();
   }, [load]);
+
+  // Daily check-in: once per visit, the server decides whether today already counted.
+  useEffect(() => {
+    if (!session || !profile?.username || checkedIn) return;
+    setCheckedIn(true);
+    sb().rpc("checkin").then(({ data }) => {
+      const d = data as { awarded: number; streak: number; points: number } | null;
+      if (d && d.awarded > 0) {
+        setProfile((p) => (p ? { ...p, points: d.points, streak_current: d.streak } : p));
+        setToast(`+${d.awarded} SI Points · ${d.streak}-day streak${d.awarded > 10 ? " bonus!" : ""}`);
+        setTimeout(() => setToast(""), 4500);
+      }
+    });
+  }, [session, profile?.username, checkedIn]);
 
   // keep the bell fresh while the tab is open
   useEffect(() => {
@@ -94,7 +111,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signInOpen, signInReason,
     closeSignIn: () => setSignInOpen(false),
     signOut: async () => { await sb().auth.signOut(); },
-  }), [ready, session, profile, follows, unread, signInOpen, signInReason, load]);
+    toast,
+  }), [ready, session, profile, follows, unread, signInOpen, signInReason, load, toast]);
 
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }

@@ -8,7 +8,7 @@ import { MainNav, SuperTabs, type Tab } from "@/components/Nav";
 import { BrandMark } from "@/components/Logo";
 import { TimeAgo } from "@/components/TimeAgo";
 import { AuthProvider } from "@/components/auth/AuthProvider";
-import { SignInModal, UsernamePrompt, UserMenu } from "@/components/auth/UserUI";
+import { PointsToast, SignInModal, UsernamePrompt, UserMenu } from "@/components/auth/UserUI";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sirumors.com"),
@@ -82,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/rumors/" className="link-hover">Rumor board</Link>
               <Link href="/codex/" className="link-hover">Codex tracker</Link>
               <Link href="/forums/" className="link-hover">Forums</Link>
+              <Link href="/leaderboard/" className="link-hover">Leaderboard</Link>
               <Link href="/me/" className="link-hover">My feed</Link>
             </div>
           </div>
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </footer>
         <SignInModal />
         <UsernamePrompt />
+        <PointsToast />
         </AuthProvider>
       </body>
     </html>
