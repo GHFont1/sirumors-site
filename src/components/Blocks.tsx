@@ -8,6 +8,7 @@ import { Logo } from "./Logo";
 import { RumorMeter, StoryList } from "./Story";
 import { VideoGrid } from "./Video";
 import { ReleaseTimeline, Sparkline } from "./Charts";
+import { FollowButton } from "./auth/UserUI";
 
 export function Section({ title, kicker, href, linkLabel = "See all", children, className = "" }: { title: string; kicker?: string; href?: string; linkLabel?: string; children: React.ReactNode; className?: string }) {
   return (
@@ -43,6 +44,7 @@ export function NextUpCard({ l }: { l: ReleaseLine }) {
       <div className="flex items-center gap-2 text-sm font-bold">
         <Logo slug={l.company} name={c?.name ?? l.name} size={20} />
         {l.name}
+        <span className="ml-auto"><FollowButton kind="line" slug={l.id} label={l.name} size="sm" /></span>
       </div>
       <div className="text-xs text-muted">Last: <span className="font-semibold text-text">{last?.name}</span> · {last ? fmtDate(last.date) : "—"}</div>
       <div className="mt-auto flex items-baseline justify-between gap-2">
@@ -152,16 +154,22 @@ export function Hub({ filter, kind, slug, header }: { filter: Filter; kind: "c" 
   );
 }
 
-export function HubHeader({ logo, name, blurb, kicker, extra }: { logo?: React.ReactNode; name: string; blurb: string; kicker: string; extra?: React.ReactNode }) {
+export function HubHeader({ logo, name, blurb, kicker, extra, follow }: { logo?: React.ReactNode; name: string; blurb: string; kicker: string; extra?: React.ReactNode; follow?: { kind: "company" | "topic" | "person"; slug: string } }) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
       {logo}
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="kicker">{kicker}</div>
         <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{name}</h1>
         <p className="mt-1 max-w-2xl text-muted">{blurb}</p>
         {extra}
       </div>
+      {follow && (
+        <div className="sm:self-start">
+          <FollowButton kind={follow.kind} slug={follow.slug} label={name} />
+          <p className="mt-1.5 max-w-[190px] text-xs text-faint">Get alerts for releases and strong rumors.</p>
+        </div>
+      )}
     </div>
   );
 }

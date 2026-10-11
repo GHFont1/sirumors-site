@@ -47,6 +47,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/ingest.mjs --data data
 
+      - name: Alerts, release threads and emails
+        id: notify
+        continue-on-error: true
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: node scripts/notify.mjs --data data
+
       - name: Save data
         working-directory: data
         run: |
@@ -73,6 +81,10 @@ jobs:
           path: out
       - id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Fail if alerts are broken
+        if: steps.notify.outcome == 'failure'
+        run: echo "notify.mjs failed; see its step log." && exit 1
 
       - name: Fail if ingest is broken
         if: steps.ingest.outcome == 'failure'

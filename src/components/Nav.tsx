@@ -13,6 +13,7 @@ const NAV = [
   { href: "/videos/", label: "Videos" },
   { href: "/trends/", label: "Trends" },
   { href: "/people/", label: "People" },
+  { href: "/forums/", label: "Forums" },
 ];
 
 const norm = (p: string) => (p.endsWith("/") ? p : p + "/");

@@ -4,4 +4,4 @@ out
 .DS_Store
 *.tsbuildinfo
 .env*
-data/
+/data/

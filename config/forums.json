@@ -1,0 +1,14 @@
+{
+  "categories": [
+    { "slug": "general", "name": "General Discussion", "blurb": "Anything on the road to superintelligence.", "icon": "💬" },
+    { "slug": "release-watch", "name": "Release Watch", "blurb": "A thread for every new model and product launch, posted the moment we detect it.", "icon": "🚀" },
+    { "slug": "rumors", "name": "Rumors & Leaks", "blurb": "Heard something? Post it, source it, and let the community rate it.", "icon": "🕵️" },
+    { "slug": "openai", "name": "OpenAI", "blurb": "ChatGPT, GPT models, Codex and Sora.", "company": "openai" },
+    { "slug": "anthropic", "name": "Anthropic", "blurb": "Claude, Claude Code and Anthropic research.", "company": "anthropic" },
+    { "slug": "google", "name": "Google DeepMind", "blurb": "Gemini, Veo and DeepMind research.", "company": "google" },
+    { "slug": "xai", "name": "xAI & Grok", "blurb": "Grok, Colossus and everything xAI.", "company": "xai" },
+    { "slug": "codex", "name": "Codex & Coding Agents", "blurb": "Codex, Claude Code, Cursor, limits and resets, workflows that work.", "icon": "⌨️" },
+    { "slug": "robotics", "name": "Robots & Robotaxis", "blurb": "Optimus, Figure, Cybercab, Waymo and the physical AI race.", "icon": "🤖" },
+    { "slug": "agi", "name": "AGI & SI Timelines", "blurb": "Predictions, debates and what superintelligence means for everyone.", "icon": "✦" }
+  ]
+}

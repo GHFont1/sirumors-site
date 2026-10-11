@@ -7,13 +7,23 @@ import { companies, topics, generatedAt } from "@/lib/data";
 import { MainNav, SuperTabs, type Tab } from "@/components/Nav";
 import { BrandMark } from "@/components/Logo";
 import { TimeAgo } from "@/components/TimeAgo";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { SignInModal, UsernamePrompt, UserMenu } from "@/components/auth/UserUI";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sirumors.com"),
   title: { default: "SI Rumors: AI and Superintelligence News, Leaks and Releases", template: "%s · SI Rumors" },
   description:
     "The all-in-one tracker for the road to superintelligence: AI news, leaks and rumors rated by confidence, release history with next-release estimates, Codex resets, robotics and robotaxis.",
-  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/favicon.ico" }], apple: "/apple-touch-icon.png" },
+  icons: {
+    icon: [
+      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   openGraph: { siteName: "SI Rumors", type: "website", url: "https://sirumors.com/", images: [{ url: "/og.png", width: 1200, height: 630, alt: "SI Rumors: superintelligence news, before it's news" }] },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
   alternates: { canonical: "/" },
@@ -40,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col">
+        <AuthProvider>
         <header className="sticky top-0 z-30 border-b border-line backdrop-blur-md" style={{ background: "color-mix(in srgb, var(--bg) 88%, transparent)" }}>
           <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 pt-3 sm:flex-nowrap sm:px-5">
             <Link href="/" className="flex items-center gap-2.5" aria-label="SI Rumors home">
@@ -48,8 +59,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <span className="grad-text">SI</span>Rumors
               </span>
             </Link>
-            <div className="hidden items-center gap-1.5 text-xs text-muted sm:order-last sm:ml-auto sm:flex">
-              <span className="live-dot" /> Updated <TimeAgo iso={generatedAt} built={built} />
+            <div className="ml-auto flex items-center gap-4 sm:order-last">
+              <span className="hidden items-center gap-1.5 text-xs text-muted lg:flex"><span className="live-dot" /> Updated <TimeAgo iso={generatedAt} built={built} /></span>
+              <UserMenu />
             </div>
             <div className="w-full sm:w-auto"><MainNav /></div>
           </div>
@@ -69,10 +81,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/releases/" className="link-hover">Release tracker</Link>
               <Link href="/rumors/" className="link-hover">Rumor board</Link>
               <Link href="/codex/" className="link-hover">Codex tracker</Link>
+              <Link href="/forums/" className="link-hover">Forums</Link>
+              <Link href="/me/" className="link-hover">My feed</Link>
             </div>
           </div>
           <p className="mx-auto mt-6 max-w-6xl px-4 text-xs text-faint sm:px-5">© {new Date(generatedAt).getUTCFullYear()} SI Rumors. Not affiliated with any AI lab or publication. Rumors are rated, not confirmed; estimates are estimates.</p>
         </footer>
+        <SignInModal />
+        <UsernamePrompt />
+        </AuthProvider>
       </body>
     </html>
   );

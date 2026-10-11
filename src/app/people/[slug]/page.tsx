@@ -23,7 +23,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
       kind="p"
       slug={p.slug}
       header={
-        <HubHeader
+        <HubHeader follow={{ kind: "person", slug: p.slug }}
           kicker="Person"
           name={p.name}
           blurb={`${p.role}${co ? `, ${co.name}` : ""}. News, interviews and appearances.`}

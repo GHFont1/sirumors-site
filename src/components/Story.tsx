@@ -58,6 +58,8 @@ export function StoryRow({ s, showSummary = false, rank }: { s: Story; showSumma
           <span>·</span>
           <TimeAgo iso={s.publishedAt} built={NOW} />
           {s.points ? <><span>·</span><a href={s.discussUrl} target="_blank" rel="noopener noreferrer" className="link-hover">▲ {s.points} on HN</a></> : null}
+          <span>·</span>
+          <Link href={`/forums/new/?c=${s.isRumor ? "rumors" : "general"}&title=${encodeURIComponent(s.title.slice(0, 150))}&link=${encodeURIComponent(s.url)}`} className="link-hover">Discuss</Link>
         </div>
         <h3 className="text-[15px] font-semibold leading-snug sm:text-base">
           <a href={s.url} target="_blank" rel="noopener noreferrer" className="link-hover">{s.title}</a>

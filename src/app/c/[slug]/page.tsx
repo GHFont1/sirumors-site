@@ -21,7 +21,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
       filter={{ company: c.slug }}
       kind="c"
       slug={c.slug}
-      header={<HubHeader kicker="Super tab" name={c.name} blurb={c.blurb} logo={<Logo slug={c.slug} name={c.name} size={64} />} extra={<a href={`https://${c.domain}`} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm text-accent hover:underline">{c.domain} ↗</a>} />}
+      header={<HubHeader follow={{ kind: "company", slug: c.slug }} kicker="Super tab" name={c.name} blurb={c.blurb} logo={<Logo slug={c.slug} name={c.name} size={64} />} extra={<a href={`https://${c.domain}`} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm text-accent hover:underline">{c.domain} ↗</a>} />}
     />
   );
 }

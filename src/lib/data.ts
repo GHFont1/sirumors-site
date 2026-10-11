@@ -116,6 +116,10 @@ export const history = historyData.days;
 export const meta = metaData;
 export const generatedAt = metaData.lastUpdated || feed.generatedAt || new Date().toISOString();
 export const NOW = Date.parse(generatedAt);
+// Live tracking began 2026-10-11; earlier days only hold backfilled coverage, so
+// week-over-week change waits for two full tracked weeks.
+const TRACKING_START = Date.parse("2026-10-11T00:00:00Z");
+const trackedDays = (NOW - TRACKING_START) / 86400000;
 
 export const companyBySlug = (s: string) => companies.find((c) => c.slug === s);
 export const topicBySlug = (s: string) => topics.find((t) => t.slug === s);
@@ -161,7 +165,7 @@ export function momentum(kind: "c" | "t" | "p", slug: string) {
   const last7 = s.slice(7).reduce((a, b) => a + b.value, 0);
   const prev7 = s.slice(0, 7).reduce((a, b) => a + b.value, 0);
   // Week-over-week change only means something with a real baseline.
-  return { last7, prev7, change: prev7 >= 10 ? (last7 - prev7) / prev7 : 0, hasBaseline: prev7 >= 10 };
+  return { last7, prev7, change: prev7 >= 10 && trackedDays >= 15 ? (last7 - prev7) / prev7 : 0, hasBaseline: prev7 >= 10 && trackedDays >= 15 };
 }
 
 export const linesFor = (company: string) => releaseLines.filter((l) => l.company === company);

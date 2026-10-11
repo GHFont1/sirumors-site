@@ -15,5 +15,5 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function TopicPage({ params }: { params: Promise<{ slug: string }> }) {
   const t = topicBySlug((await params).slug);
   if (!t) notFound();
-  return <Hub filter={{ topic: t.slug }} kind="t" slug={t.slug} header={<HubHeader kicker="Super tab" name={t.name} blurb={t.blurb} />} />;
+  return <Hub filter={{ topic: t.slug }} kind="t" slug={t.slug} header={<HubHeader follow={{ kind: "topic", slug: t.slug }} kicker="Super tab" name={t.name} blurb={t.blurb} />} />;
 }
