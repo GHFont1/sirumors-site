@@ -20,12 +20,19 @@ if (process.argv[2] === "prepare") {
   const changed = Object.keys(now).filter((u) => (first ? u.includes("/n/") || u === `https://${HOST}/` : !prev[u] || (u.includes("/n/") ? false : Date.parse(now[u]) - Date.parse(prev[u]) >= 3600000)));
   const keep = Object.fromEntries(Object.entries(now).map(([u, d]) => [u, changed.includes(u) || !prev[u] ? d : prev[u]]));
   writeFileSync("out/indexnow-state.json", JSON.stringify({ at: new Date().toISOString(), urls: keep }));
-  writeFileSync(PENDING, JSON.stringify(changed.slice(0, 10000)));
+  // New sites are throttled after about 50 URLs a burst; the daily Bing lane on the Mac covers the rest.
+  writeFileSync(PENDING, JSON.stringify(changed.slice(0, 50)));
   log(`${Object.keys(now).length} URLs in sitemap, ${changed.length} to send`);
 } else if (process.argv[2] === "submit") {
   const urlList = existsSync(PENDING) ? JSON.parse(readFileSync(PENDING, "utf8")) : [];
   if (!urlList.length) { log("nothing to send"); process.exit(0); }
-  const r = await fetch("https://api.indexnow.org/indexnow", { method: "POST", headers: { "Content-Type": "application/json; charset=utf-8" }, body: JSON.stringify({ host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList }), signal: AbortSignal.timeout(30000) });
-  log(`sent ${urlList.length}: HTTP ${r.status}`);
+  // The key file can take a minute to go live after a deploy (403 until then): retry.
+  let r;
+  for (let i = 0; i < 4; i++) {
+    if (i) await new Promise((s) => setTimeout(s, 60000));
+    r = await fetch("https://api.indexnow.org/indexnow", { method: "POST", headers: { "Content-Type": "application/json; charset=utf-8" }, body: JSON.stringify({ host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList }), signal: AbortSignal.timeout(30000) });
+    log(`sent ${urlList.length}: HTTP ${r.status}`);
+    if (r.status !== 403) break;
+  }
   if (r.status >= 400 && r.status !== 429) process.exit(1);
 }
