@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { boards, boardsPublished, frontier, markets } from "@/lib/data";
+import { boards, boardsPublished, frontier, labBest, markets } from "@/lib/data";
 import { fmtDate } from "@/lib/format";
 import { Section } from "@/components/Blocks";
-import { FrontierList, MarketCard, RankBoard } from "@/components/Boards";
+import { FrontierList, LabList, MarketCard, RankBoard } from "@/components/Boards";
 
 export const metadata: Metadata = {
   title: "Best AI Models Right Now: Rankings for Coding, Agents, Open Models, Image and Video",
@@ -25,6 +25,11 @@ export default function RankingsPage() {
       {frontier.length > 0 && (
         <Section title="Best frontier models" kicker="One list, in order" href="/models/" linkLabel="Full ranking">
           <div className="card p-3 sm:columns-2 sm:gap-6"><FrontierList items={frontier} limit={10} /></div>
+        </Section>
+      )}
+      {labBest.length > 0 && (
+        <Section title="Every lab, ranked" kicker="Each company's best model">
+          <div className="card p-2 sm:p-3"><LabList items={labBest} /></div>
         </Section>
       )}
       <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">

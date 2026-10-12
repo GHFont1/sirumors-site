@@ -147,8 +147,10 @@ export type FrontierModel = { rank: number; slug: string; model: string; org: st
 export type Board = { id: string; label: string; blurb: string; unit: string; published: string; top: RankRow[]; leaderSince?: string; prevLeader?: string | null };
 export type Outcome = { name: string; yes: number; change: number | null; volume: number };
 export type Market = { id: string; slug: string; title: string; url: string; image: string | null; volume: number; volume24h: number; endDate: string | null; binary: boolean; outcomes: Outcome[]; priority: number };
-const rankingsData = load<{ generatedAt?: string; published?: string; boards: Board[]; frontier?: FrontierModel[] }>("rankings.json", { boards: [] });
+const rankingsData = load<{ generatedAt?: string; published?: string; boards: Board[]; frontier?: FrontierModel[]; labs?: FrontierModel[] }>("rankings.json", { boards: [] });
 export const frontier = rankingsData.frontier ?? [];
+/** Each lab's best model and its place on the full frontier list (Grok, DeepSeek and the rest included). */
+export const labBest = rankingsData.labs ?? [];
 export const frontierBySlug = (s: string) => frontier.find((m) => m.slug === s);
 const marketsData = load<{ generatedAt?: string; markets: Market[] }>("markets.json", { markets: [] });
 export const boards = rankingsData.boards;

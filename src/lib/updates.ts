@@ -1,6 +1,6 @@
 import { sig, similar, type Sig } from "./similar";
 import { credLabel } from "./major";
-import { NOW, foldedInto, companyBySlug, pagePath, releaseLines, repos, stories, xresets, videos, type Filter, type Story } from "./data";
+import { NOW, foldedInto, companyBySlug, pagePath, releaseLines, repos, rumors, stories, xresets, videos, type Filter, type Story } from "./data";
 
 // The Updates stream: the handful of things that actually happened, each with
 // a type badge. Plain single-source articles stay in /news.
@@ -66,7 +66,7 @@ function leadCompany(s: Story) {
   return [...s.companies].sort((a, b) => pos(a) - pos(b))[0];
 }
 
-function fromStory(s: Story): Update | null {
+function fromStory(s: Story, keepWhispers = false): Update | null {
   const age = NOW - Date.parse(s.publishedAt);
   const n = s.sourceCount ?? 1;
   const base = {
@@ -79,7 +79,7 @@ function fromStory(s: Story): Update | null {
   if (s.isRumor && s.status) {
     const badge = s.status === "confirmed" ? "Confirmed" : s.status === "strong" ? "Strong rumor" : s.status === "developing" ? "Rumor" : "Whisper";
     const weight = s.status === "confirmed" ? 85 : s.status === "strong" ? 72 : s.status === "developing" ? 55 : 30;
-    if (s.status === "whisper" && age > 3 * 86400000) return null;
+    if (s.status === "whisper" && age > 3 * 86400000 && !keepWhispers) return null;
     return { ...base, kind: "rumor", badge, weight, confidence: s.confidence, status: s.status, discuss: discussLink("rumors", s.title, s.url) };
   }
   if (n >= 3 && age < 36 * 3600000) return { ...base, kind: "breaking", badge: "Breaking", weight: 60 + Math.min(25, n * 2), discuss: discussLink("general", s.title, s.url) };
@@ -195,4 +195,11 @@ export function updatesFor(f: Filter, days = 14) {
 export function leadUpdates(list: Update[], n: number) {
   const score = (u: Update) => u.weight / Math.pow(1 + (NOW - Date.parse(u.date)) / 3600000 / 18, 0.9);
   return [...list].sort((a, b) => score(b) - score(a)).slice(0, n);
+}
+
+/** The rumor board as update cards: every rated rumor from the last `days` days, newest first. */
+export function rumorUpdates(days = 14): Update[] {
+  return rumors.filter((s) => s.isRumor && s.status && NOW - Date.parse(s.publishedAt) < days * 86400000)
+    .map((s) => fromStory(s, true)).filter((u): u is Update => !!u)
+    .sort((a, b) => b.date.localeCompare(a.date));
 }

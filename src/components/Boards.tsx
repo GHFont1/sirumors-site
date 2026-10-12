@@ -235,3 +235,37 @@ export function LabResets({ items }: { items: XReset[] }) {
     </div>
   );
 }
+
+/** Every lab's best model, in order, with where it places overall and on each board. */
+export function LabList({ items }: { items: FrontierModel[] }) {
+  if (!items.length) return null;
+  return (
+    <ol className="space-y-1">
+      {items.map((m, i) => {
+        const co = m.company ? companyBySlug(m.company) : undefined;
+        const inList = m.rank <= 40;
+        return (
+          <li key={m.slug}>
+            <Link href={inList ? `/models/${m.slug}/` : "/models/"} className="flex items-center gap-3 rounded-lg p-2 hover:bg-chip">
+              <span className="tabular w-5 text-right text-sm font-extrabold text-faint">{i + 1}</span>
+              <Logo slug={co?.slug} name={m.orgName} size={30} />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-bold">{co?.name ?? m.orgName}</span>
+                <span className="block truncate text-xs text-muted">{m.model}{m.open ? " · open weights" : ""}</span>
+              </span>
+              <span className="hidden shrink-0 gap-1 sm:flex">
+                {([["overall", "Overall"], ["coding", "Code"], ["agent", "Agent"]] as const).map(([k, l]) => (
+                  <span key={k} className="chip tabular whitespace-nowrap" style={{ padding: "1px 7px", fontSize: 10 }}>{l} {m.boards[k] ? `#${m.boards[k].pos}` : "—"}</span>
+                ))}
+              </span>
+              <span className="w-20 shrink-0 whitespace-nowrap text-right">
+                <span className="tabular block text-base font-extrabold" style={m.rank === 1 ? { color: "var(--accent-2)" } : undefined}>#{m.rank}</span>
+                <span className="block text-[10px] text-faint">of all models</span>
+              </span>
+            </Link>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}

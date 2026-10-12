@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { boardsPublished, companyBySlug, frontier } from "@/lib/data";
+import { boardsPublished, companyBySlug, frontier, labBest } from "@/lib/data";
+import { LabList } from "@/components/Boards";
 import { fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
 
@@ -50,6 +51,13 @@ export default function ModelsPage() {
           </tbody>
         </table>
       </div>
+      {labBest.length > 0 && (
+        <>
+          <h2 className="mt-10 text-2xl font-extrabold tracking-tight">Every lab, ranked</h2>
+          <p className="mt-1 text-sm text-muted">Each company&apos;s best model and where it places among all models, including Grok, DeepSeek, Qwen and Kimi.</p>
+          <div className="card mt-3 p-2 sm:p-3"><LabList items={labBest} /></div>
+        </>
+      )}
       <p className="mt-3 text-xs text-faint">Source: Arena (arena.ai) public leaderboards{boardsPublished ? `, published ${fmtDate(boardsPublished)}` : ""}. A model must be on at least two of the four boards. &ldquo;—&rdquo; means it isn&apos;t on that board, so it&apos;s judged on the rest.</p>
     </>
   );
