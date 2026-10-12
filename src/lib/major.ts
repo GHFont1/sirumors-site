@@ -13,7 +13,7 @@ const COMMENT = /\b(says?|said|thinks?|believes?|describes?|breaks down|explains
 const BIG = /\b(acquir\w*|acquisition|merger|buys?|ipo|raises?|funding|valuation|billion|lawsuit|sues?|sued|court|antitrust|executive order|ban(s|ned)?|launch(es|ed)?|releases?|unveils?|announces?|introduc\w+|layoffs?|resigns?|steps down|fired|ousted|deal|partnership|recall|investigation|probe|medals?|discloses?)\b/i;
 const GOV = /\b(president|white house|executive order|congress|senate|supreme court|trump|federal|regulat\w+|eu ai act)\b/i;
 const LAUNCH = /\b(is here|are live|is live|introducing|launch\w*|now available|available (now|today)|released?|announcing|out now|rolling out|rolls out|new model|today we|meet )\b/i;
-const LAUNCH_X = /\b(is here|are live|is live|introducing|now available|available (now|today)|out now|rolling out|rolls out|(we('re| are)|today we('re| are)?) (launching|releasing|introducing|shipping)|meet )\b/i;
+const LAUNCH_X = /\b(is here|are live|is live|(is|are) out|now live|(just|we) shipped|introducing|now available|available (now|today)|out now|rolling out|rolls out|(we('re| are)|today we('re| are)?) (launching|releasing|introducing|shipping)|meet )\b/i;
 const LABS = new Set(["openai", "anthropic", "google", "xai", "meta", "deepseek", "mistral", "tesla", "nvidia", "microsoft", "apple", "amazon", "waymo", "figure"]);
 
 const outlets = (s: Story) => [...new Set([s.source, ...(s.cluster ?? []).map((c) => c.source)])];
@@ -28,7 +28,12 @@ export function isMajor(s: Story) {
     if (NOISE.test(t)) return false;
     const lab = s.companies.some((c) => LABS.has(c));
     // A company's X post counts when it launches something: a lab, or a named model or version.
-    if (/ on X$/.test(s.source)) return LAUNCH_X.test(t) && (LABS.has(s.companies[0]) || BIG.test(t) || /\b(model|v\d|\d\.\d)\b/i.test(t));
+    if (/ on X$/.test(s.source)) {
+      // Resets have their own page; a lab's (or its leaders') announcements count, other companies need a real launch.
+      if (/\breset\b/i.test(t) || t.length < 40) return false;
+      if (LABS.has(s.companies[0])) return LAUNCH_X.test(t) || /\b(announc\w*|launch\w*|releas\w*|shipped|improved|is live)\b/i.test(t);
+      return LAUNCH_X.test(t) && (BIG.test(t) || /\b(model|v\d|\d\.\d)\b/i.test(t));
+    }
     return lab || LAUNCH.test(t) || BIG.test(t);
   }
   if (s.isRumor) return m >= 1 || s.status === "strong" || s.status === "confirmed" || (s.status === "developing" && (s.sourceCount ?? 1) >= 3);

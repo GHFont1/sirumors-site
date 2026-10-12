@@ -55,6 +55,7 @@ const SOON = /(global )?reset (landing|coming|by eod)|we.?ll reset usage limits|
 const GEN = /\b(we(.ve| have)? (also |just )?reset|reset (all |your |usage |rate |the )*limits|limits (are|have been|were) (now )?reset|rate.?limit reset|usage reset|reset tokens?)\b/i;
 const BANKED = /banked|save and use|whenever you (choose|want)|reset token/i;
 function classify(t) {
+  if (t.curated) return "done";
   if (!/reset/i.test(t.text) || NOT.test(t.text)) return null;
   if (t.company !== "openai" || !["thsottiaux", "codexresets_"].includes(t.handle)) return GEN.test(t.text) && !/\?\s*$/.test(t.text.trim()) ? "done" : null;
   if (DONE.test(t.text)) return "done";
@@ -72,7 +73,7 @@ function headline(list) {
     const base = list.some((t) => BANKED.test(t.text)) ? `${p}: a banked usage reset you can use any time` : `${p} usage limits reset for all users`;
     return why ? `${base} (${why})` : base;
   }
-  const banked = list.some((t) => /banked reset/i.test(t.text));
+  const banked = list.some((t) => t.curated === "banked" || /banked reset/i.test(t.text));
   const day = list.map((t) => t.text.match(/^day (\d+)\s*\//i)?.[1]).find(Boolean);
   const pro = list.find((t) => /pro 500/i.test(t.text));
   if (banked) return "Banked reset loaded into every paid account";
@@ -83,6 +84,7 @@ function headline(list) {
   return "Global Codex usage reset";
 }
 
+const isBanked = (t) => t.curated === "banked" || /banked/i.test(t.text);
 function events(tweets) {
   const hits = tweets.map((t) => ({ ...t, kind: classify(t) })).filter((t) => t.kind).sort((a, b) => a.at.localeCompare(b.at));
   const groups = [];
@@ -90,7 +92,7 @@ function events(tweets) {
     // Each lab's resets cluster on their own.
     const g = [...groups].reverse().find((x) => x[0].company === t.company);
     // An announcement and its "propagated" follow-up belong to one reset.
-    if (g && Date.parse(t.at) - Date.parse(g[g.length - 1].at) < 20 * 3600000 && !(g.some((x) => x.kind === "done") && /banked/i.test(t.text) !== g.some((x) => /banked/i.test(x.text)))) g.push(t);
+    if (g && Date.parse(t.at) - Date.parse(g[g.length - 1].at) < 20 * 3600000 && !(g.some((x) => x.kind === "done") && isBanked(t) !== g.some(isBanked))) g.push(t);
     else groups.push([t]);
   }
   return groups.map((g) => {
@@ -100,7 +102,7 @@ function events(tweets) {
     return {
       id: `x-${g[0].id}`, company: g[0].company, product: PRODUCT[g[0].company] ?? g[0].company,
       date: (done ?? g[0]).at, announcedAt: g[0].at, status: done ? "done" : "coming",
-      banked: g.some((t) => (t.company === "openai" ? /banked/i : BANKED).test(t.text)),
+      banked: g.some((t) => t.curated === "banked" || (t.company === "openai" ? /banked/i : BANKED).test(t.text)),
       title: headline(g), quote: tidy(src.text).slice(0, 220), url: src.url, by: src.handle, byName: src.name ?? src.handle,
       tweets: g.map((t) => ({ handle: t.handle, url: t.url, at: t.at })),
     };
@@ -125,6 +127,27 @@ await Promise.all(Array.from({ length: 3 }, async () => {
   }
 }));
 if (!fetched) { log("no tweets fetched, keeping previous file"); process.exit(prev.fetchedAt ? 0 : 1); }
+// Older Codex resets: codex-resets.com keeps a hand-checked list of Tibo's reset posts.
+// We use it only as an index: each post is read from X itself and stored as Tibo's.
+try {
+  const md = await (await fetch("https://codex-resets.com/index.md", { headers: { "user-agent": "sirumors.com resets" }, signal: AbortSignal.timeout(30000) })).text();
+  const listed = [...md.matchAll(/^### `([^`]+)` · (Regular|Banked) reset[\s\S]*?x\.com\/thsottiaux\/status\/(\d+)/gm)].map((m) => ({ at: m[1], kind: m[2].toLowerCase(), id: m[3] }));
+  let added = 0;
+  for (const r of listed) {
+    if (store[r.id]?.curated) continue;
+    if (!store[r.id]) {
+      let t = null;
+      for (let i = 0; i < 3 && !t; i++) {
+        try { t = (await (await fetch(`https://api.fxtwitter.com/2/status/${r.id}`, { headers: { "user-agent": "sirumors.com resets" }, signal: AbortSignal.timeout(20000) })).json()).status; } catch { await new Promise((s) => setTimeout(s, 1500)); }
+      }
+      if (!t?.text || t.author?.screen_name?.toLowerCase() !== "thsottiaux") continue;
+      store[r.id] = { id: r.id, handle: "thsottiaux", at: new Date(t.created_timestamp * 1000).toISOString(), text: t.text, url: `https://x.com/thsottiaux/status/${r.id}`, company: "openai", name: "Tibo" };
+    }
+    store[r.id].curated = r.kind;
+    added++;
+  }
+  log(`codex-resets.com index: ${listed.length} listed, ${added} confirmed from Tibo's own posts`);
+} catch (e) { log(`codex-resets.com index unavailable: ${e.message}`); }
 // The labs' own posts (OpenAI, Claude, Grok, Gemini...), collected by labx.mjs.
 try {
   const labx = JSON.parse(readFileSync(join(DATA, "labx.json"), "utf8"));
@@ -135,7 +158,7 @@ try {
 // Tweets stored before every lab was tracked are Tibo's or the tracker's.
 for (const t of Object.values(store)) t.company ??= "openai";
 // Only reset-related tweets are worth keeping long term.
-for (const [id, t] of Object.entries(store)) if (!/reset/i.test(t.text)) delete store[id];
+for (const [id, t] of Object.entries(store)) if (!t.curated && !/reset/i.test(t.text)) delete store[id];
 const ev = events(Object.values(store));
 writeFileSync(FILE, JSON.stringify({ fetchedAt: new Date().toISOString(), source: "X: the labs' own accounts, their staff, @Codexresets_", accounts: [...seen], events: ev, tweets: store }, null, 1));
 const by = Object.groupBy(ev, (e) => e.company);

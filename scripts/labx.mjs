@@ -13,6 +13,8 @@ const log = (...a) => console.log("[labx]", ...a);
 
 export const LAB_ACCOUNTS = [
   { handle: "openai", company: "openai", name: "OpenAI" },
+  // Tibo runs Codex at OpenAI; his launch posts are first-hand.
+  { handle: "thsottiaux", company: "openai", name: "Tibo (OpenAI Codex)" },
   { handle: "anthropicai", company: "anthropic", name: "Anthropic" },
   { handle: "claudeai", company: "anthropic", name: "Claude" },
   { handle: "googledeepmind", company: "google", name: "Google DeepMind" },

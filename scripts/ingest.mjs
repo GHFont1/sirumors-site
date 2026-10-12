@@ -436,7 +436,7 @@ function scoreRumor(r, officialTitles) {
 
 // ---------- the labs' own X posts (scripts/labx.mjs) ----------
 // Launch posts from the labs themselves are the source of truth for releases.
-const X_LAUNCH_RE = /\b(launch(?:es|ed|ing)?|releas(?:e|es|ed|ing)|introduc(?:es|ed|ing)|announc(?:e|es|ed|ing)|rolls? out|rolling out|now available|available (?:now|today|starting today)|is (?:here|live|out)|now live|meet\b|debut)/i;
+const X_LAUNCH_RE = /\b(launch(?:es|ed|ing)?|releas(?:e|es|ed|ing)|introduc(?:es|ed|ing)|announc(?:e|es|ed|ing)|rolls? out|rolling out|now available|available (?:now|today|starting today)|(?:is|are) (?:here|live|out)|now live|(?:just|we) shipped|meet\b|debut)/i;
 const X_NOISE_RE = /^(try|use|build with|join us|tune in|watch|we.?re hiring|reminder)\b|chance to win|livestream|webinar|giveaway|% off/i;
 const LABX = readJSON("labx.json", { tweets: {}, accounts: {} });
 // The earliest post we hold per company: inside that window a release needs a lab post to count.
