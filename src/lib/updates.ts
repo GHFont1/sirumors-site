@@ -128,7 +128,7 @@ export function allUpdates(days = 14): Update[] {
       seen.add(day);
       out.push({
         id: `g-${repo.repo}-${g.tag}`, kind: "update", badge: "Update",
-        headline: `${repo.name} ${g.name.replace(/^v/, "")} is out`,
+        headline: `${repo.name} ${g.name.replace(new RegExp(`^${repo.name}\\s*`, "i"), "").replace(/^v/, "")} is out`,
         summary: `A new stable version of ${repo.name} is available.`,
         url: pagePath(`g-${repo.repo}-${g.tag}`), date: g.date, company: repo.company, companies: [repo.company], topics: ["codex"], people: [],
         source: "GitHub", sources: 1, weight: 38, discuss: discussLink("codex", `${repo.name} ${g.name}`, pagePath(`g-${repo.repo}-${g.tag}`)),
