@@ -3,6 +3,7 @@ import { NOW, allReleases, frontier, markets, resetHistory, upcoming } from "@/l
 import { FrontierList, LabResets, MarketCard, ReleaseFeed, ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
+import { DigestSignup } from "@/components/site/DigestSignup";
 
 // The right-hand column on the home page and every story page: the things people come back for.
 
@@ -38,6 +39,8 @@ export function Sidebar() {
           </div>
         )}
       </Side>
+
+      <DigestSignup source="sidebar" />
 
       <Side title="Resets" href="/resets/" linkLabel="Every reset">
         <LabResets items={resets} />

@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { Session } from "@supabase/supabase-js";
 import { sb } from "@/lib/supabase";
 
-export type Profile = { id: string; username: string | null; is_admin: boolean; email_releases: boolean; email_rumors: boolean; email_replies: boolean; points: number; streak_current: number; streak_best: number; founding: boolean };
+export type Profile = { id: string; username: string | null; is_admin: boolean; email_releases: boolean; email_rumors: boolean; email_replies: boolean; email_digest: boolean; email_resets: boolean; points: number; streak_current: number; streak_best: number; founding: boolean };
 export type FollowKind = "company" | "topic" | "person" | "line";
 const key = (k: FollowKind, s: string) => `${k}:${s}`;
 
@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!s) { setProfile(null); setFollows(new Set()); setUnread(0); return; }
     const c = sb();
     const [p, f, n] = await Promise.all([
-      c.from("profiles").select("id,username,is_admin,email_releases,email_rumors,email_replies,points,streak_current,streak_best,founding").eq("id", s.user.id).maybeSingle(),
+      c.from("profiles").select("id,username,is_admin,email_releases,email_rumors,email_replies,email_digest,email_resets,points,streak_current,streak_best,founding").eq("id", s.user.id).maybeSingle(),
       c.from("follows").select("kind,slug"),
       c.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
     ]);

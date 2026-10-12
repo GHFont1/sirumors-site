@@ -9,6 +9,7 @@ import { MainNav, type Tab } from "@/components/Nav";
 import { BrandMark } from "@/components/Logo";
 import { TimeAgo } from "@/components/TimeAgo";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { Track } from "@/components/site/Track";
 import { PointsToast, SignInModal, UsernamePrompt, UserMenu } from "@/components/auth/UserUI";
 
 export const metadata: Metadata = {
@@ -97,6 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <p className="mx-auto mt-6 max-w-6xl px-4 text-xs text-faint sm:px-5">© {new Date(generatedAt).getUTCFullYear()} SI Rumors. Not affiliated with any AI lab or publication. Rumors are rated, not confirmed; estimates are estimates.</p>
         </footer>
+        <Track />
         <SignInModal />
         <UsernamePrompt />
         <PointsToast />

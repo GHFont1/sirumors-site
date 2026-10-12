@@ -44,7 +44,7 @@ const rpc = (fn, args) => api(`rpc/${fn}`, { method: "POST", body: args });
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const companyName = (slug) => ENT.companies.find((c) => c.slug === slug)?.name ?? slug;
 
-function emailHtml({ kicker, title, lines, cta, ctaUrl, token, what }) {
+function emailHtml({ kicker, title, lines, cta, ctaUrl, token, what, why = "You follow this on SI Rumors." }) {
   const unsub = `${SITE}/unsubscribe/?t=${token}&w=${what}`;
   return {
     html: `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px;margin:0 auto;padding:28px 22px;color:#0e1116">
@@ -53,7 +53,7 @@ function emailHtml({ kicker, title, lines, cta, ctaUrl, token, what }) {
 <h1 style="font-size:22px;line-height:1.25;margin:6px 0 12px">${esc(title)}</h1>
 ${lines.map((l) => `<p style="color:#5b6170;margin:0 0 10px;font-size:15px">${esc(l)}</p>`).join("")}
 <a href="${ctaUrl}" style="display:inline-block;margin-top:10px;background:#5b3df5;color:#fff;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:10px">${esc(cta)}</a>
-<p style="color:#8a90a0;font-size:12px;margin-top:28px">You follow this on SI Rumors. <a href="${SITE}/account/" style="color:#8a90a0">Email settings</a> · <a href="${unsub}" style="color:#8a90a0">Unsubscribe</a></p></div>`,
+<p style="color:#8a90a0;font-size:12px;margin-top:28px">${esc(why)} <a href="${SITE}/account/" style="color:#8a90a0">Email settings</a> · <a href="${unsub}" style="color:#8a90a0">Unsubscribe</a></p></div>`,
     text: `${kicker}\n\n${title}\n\n${lines.join("\n")}\n\n${cta}: ${ctaUrl}\n\nUnsubscribe: ${unsub}`,
     unsub,
   };
@@ -85,6 +85,24 @@ async function queueEmails(targets, pref, build, dedupe) {
   });
   return rec.length;
 }
+
+// Broadcast emails (digest, resets, big-lab releases) go to everyone who opted in.
+async function queueBroadcast(pref, build, dedupe, priority = 3) {
+  const rec = await rpc("broadcast_recipients", { pref });
+  if (!rec.length) return 0;
+  for (let i = 0; i < rec.length; i += 200) {
+    await api("email_queue?on_conflict=dedupe_key", {
+      method: "POST", prefer: "resolution=ignore-duplicates",
+      body: rec.slice(i, i + 200).map((r) => { const m = build(r); return { to_email: r.email, subject: m.subject, html: m.html, text_body: m.text, dedupe_key: `${dedupe}:${r.email}`, priority }; }),
+    });
+  }
+  return rec.length;
+}
+const BIG_LABS = new Set(["openai", "anthropic", "google", "xai"]);
+const etDay = (t = NOW) => new Date(t).toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+const etHour = (t = NOW) => Number(new Date(t).toLocaleString("en-US", { timeZone: "America/New_York", hour: "numeric", hour12: false }));
+const RESETS = existsSync(join(DATA, "xresets.json")) ? JSON.parse(readFileSync(join(DATA, "xresets.json"), "utf8")).events : [];
+const pageOf = (id) => `/n/${id.replace(/[^a-zA-Z0-9._-]/g, "-")}/`;
 
 async function main() {
   let log = { threads: 0, notified: 0, queued: 0, sent: 0 };
@@ -118,7 +136,13 @@ async function main() {
         const targets = [{ kind: "line", slug: line.id }, { kind: "company", slug: line.company }];
         const url = `/forums/thread/?id=${threadId}`;
         log.notified += await notifyFollowers(targets, { kind: "release", title: `${r.name} just shipped`, body: `${companyName(line.company)} · ${r.date}. Join the discussion.`, url, dedupe_key: `release:${key}` });
-        log.queued += await queueEmails(targets, "releases", (rec) => {
+        if (BIG_LABS.has(line.company)) {
+          const page = pageOf(`r-${line.id}-${r.version}`);
+          log.queued += await queueBroadcast("releases", (rec) => {
+            const m = emailHtml({ kicker: `${companyName(line.company)} release`, title: `${r.name} just shipped`, lines: [`${companyName(line.company)} released ${r.name} on ${r.date}.`], cta: "Read it on SI Rumors", ctaUrl: SITE + page, token: rec.token, what: "releases", why: "You get release alerts from SI Rumors." });
+            return { subject: `${r.name} just shipped`, ...m };
+          }, `release:${key}`, 2);
+        } else log.queued += await queueEmails(targets, "releases", (rec) => {
           const m = emailHtml({ kicker: `${line.name} release`, title: `${r.name} just shipped`, lines: [`${companyName(line.company)} released ${r.name} on ${r.date}.`, r.evidence ? `Confirmed by ${r.evidence.source}.` : ""].filter(Boolean), cta: "See it on SI Rumors", ctaUrl: SITE + url, token: rec.unsubscribe_token, what: "releases" });
           return { subject: `${r.name} just shipped`, ...m };
         }, `release:${key}`);
@@ -147,6 +171,48 @@ async function main() {
   // forget rumor ids older than 30 days of tracking
   if (Object.keys(state.rumors).length > 5000) state.rumors = Object.fromEntries(Object.entries(state.rumors).slice(-2000));
 
+  // ---- usage resets: everyone who wants them, the moment one lands ----
+  if (!state.resets) { state.resets = Object.fromEntries(RESETS.map((e) => [e.id, e.status])); }
+  for (const e of RESETS) {
+    if (e.status !== "done" || state.resets[e.id] === "done") continue;
+    state.resets[e.id] = "done";
+    if (NOW - Date.parse(e.date) > 12 * 3600000) continue;
+    log.queued += await queueBroadcast("resets", (rec) => {
+      const m = emailHtml({ kicker: `${e.product} reset`, title: e.title, lines: [`${e.product} usage limits${e.banked ? " got a banked reset you can use any time" : " were just reset"}.`, `"${e.quote}" (${e.byName ?? e.by})`], cta: "See the reset on SI Rumors", ctaUrl: SITE + pageOf(e.id), token: rec.token, what: "resets", why: "You get reset alerts from SI Rumors." });
+      return { subject: `${e.product} reset: ${e.title}`.slice(0, 120), ...m };
+    }, `reset:${e.id}`, 1);
+  }
+
+  // ---- digest sign-up confirmations ----
+  const fresh = await api(`digest_subscribers?select=id,email,token&confirmed_at=is.null&confirm_sent_at=is.null&created_at=gte.${new Date(NOW - 2 * DAY).toISOString()}&limit=50`);
+  for (const sub of fresh) {
+    const url = `${SITE}/confirm/?t=${sub.token}`;
+    const m = emailHtml({ kicker: "Confirm", title: "Confirm your SI Rumors digest", lines: ["Tap below to start getting the day's biggest AI news every morning, plus an instant email when a usage reset or a big release lands.", "If you didn't sign up, ignore this email."], cta: "Confirm my email", ctaUrl: url, token: sub.token, what: "digest", why: "Someone entered this address on SI Rumors." });
+    await api("email_queue?on_conflict=dedupe_key", { method: "POST", prefer: "resolution=ignore-duplicates", body: [{ to_email: sub.email, subject: "Confirm your SI Rumors digest", html: m.html, text_body: m.text, dedupe_key: `confirm:${sub.id}`, priority: 0 }] });
+    await api(`digest_subscribers?id=eq.${sub.id}`, { method: "PATCH", body: { confirm_sent_at: new Date().toISOString() } });
+    log.queued++;
+  }
+
+  // ---- the morning digest (7 AM Eastern or the first run after) ----
+  if (!firstRun && etHour() >= 7 && state.digestDay !== etDay()) {
+    try {
+      const d = await (await fetch(`${SITE}/data/digest.json?t=${NOW}`, { signal: AbortSignal.timeout(20000) })).json();
+      const items = (d.items ?? []).slice(0, 7);
+      if (items.length >= 3) {
+        const day = new Date(NOW).toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "long", month: "long", day: "numeric" });
+        const subject = `${items[0].headline}`.slice(0, 90) + ` + ${items.length - 1} more`;
+        const block = items.map((it) => `<div style="margin:0 0 18px"><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5b3df5">${esc(it.badge)}${it.company ? ` · ${esc(it.company)}` : ""}</div><a href="${SITE}${it.url}" style="display:block;margin-top:3px;font-size:17px;font-weight:700;color:#0e1116;text-decoration:none;line-height:1.3">${esc(it.headline)}</a>${it.summary ? `<div style="margin-top:4px;color:#5b6170;font-size:14px;line-height:1.45">${esc(it.summary).slice(0, 260)}</div>` : ""}</div>`).join("");
+        log.queued += await queueBroadcast("digest", (rec) => {
+          const unsub = `${SITE}/unsubscribe/?t=${rec.token}&w=digest`;
+          const html = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:28px 22px;color:#0e1116"><div style="font-size:20px;font-weight:800;letter-spacing:-.02em"><span style="color:#5b3df5">SI</span>Rumors</div><div style="margin:6px 0 22px;color:#8a90a0;font-size:13px">Daily digest · ${esc(day)}</div>${block}<a href="${SITE}/" style="display:inline-block;margin-top:4px;background:#5b3df5;color:#fff;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:10px">All the latest on SI Rumors</a><p style="color:#8a90a0;font-size:12px;margin-top:28px">You get the SI Rumors daily digest. <a href="${SITE}/account/" style="color:#8a90a0">Email settings</a> · <a href="${unsub}" style="color:#8a90a0">Unsubscribe</a></p></div>`;
+          const text = `SI Rumors daily digest, ${day}\n\n` + items.map((it) => `${it.badge}: ${it.headline}\n${SITE}${it.url}`).join("\n\n") + `\n\nUnsubscribe: ${unsub}`;
+          return { subject, html, text };
+        }, `digest:${etDay()}`, 8);
+        state.digestDay = etDay();
+      }
+    } catch (e) { console.error("digest failed:", e.message); }
+  }
+
   // ---- reply emails ----
   const since = state.replyCursor || new Date(NOW - 3600000).toISOString();
   const replies = await rpc("reply_email_targets", { since });
@@ -158,9 +224,15 @@ async function main() {
   state.replyCursor = new Date(NOW - 5 * 60000).toISOString();
 
   // ---- send ----
-  const pending = await api("email_queue?select=id,to_email,subject,html,text_body,attempts,created_at&sent_at=is.null&attempts=lt.5&order=created_at.asc&limit=80");
+  const pending = await api("email_queue?select=id,to_email,subject,html,text_body,attempts,created_at,priority,dedupe_key&sent_at=is.null&attempts=lt.5&order=priority.asc,created_at.asc&limit=300");
+  // Resend's plan allows 100 emails a day: keep a margin and carry the rest to the next run.
+  if (state.sentDay !== etDay()) { state.sentDay = etDay(); state.sentToday = 0; }
+  const CAP = Number(process.env.EMAIL_DAILY_CAP || 95);
   if (RESEND) {
     for (const e of pending) {
+      if (state.sentToday >= CAP) { log.capped = (log.capped ?? 0) + 1; continue; }
+      // Yesterday's digest is stale.
+      if (e.dedupe_key?.startsWith("digest:") && NOW - Date.parse(e.created_at) > 20 * 3600000) { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { attempts: 5, last_error: "digest expired" } }); continue; }
       // An alert more than 3 days old is stale news: mark it skipped instead of sending.
       if (NOW - Date.parse(e.created_at) > 3 * DAY) { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { attempts: 5, last_error: "expired before a sender was available" } }); continue; }
       const unsub = (e.html.match(/href="(https:\/\/sirumors\.com\/unsubscribe\/[^"]+)"/) || [])[1];
@@ -169,12 +241,12 @@ async function main() {
         headers: { authorization: `Bearer ${RESEND}`, "content-type": "application/json" },
         body: JSON.stringify({ from: FROM, to: [e.to_email], subject: e.subject, html: e.html, text: e.text_body, headers: unsub ? { "List-Unsubscribe": `<${unsub}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" } : undefined }),
       });
-      if (res.ok) { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { sent_at: new Date().toISOString(), attempts: e.attempts + 1 } }); log.sent++; }
+      if (res.ok) { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { sent_at: new Date().toISOString(), attempts: e.attempts + 1 } }); log.sent++; state.sentToday++; }
       else { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { attempts: e.attempts + 1, last_error: (await res.text()).slice(0, 300) } }); }
     }
   }
   writeFileSync(statePath, JSON.stringify(state));
-  console.log(`notify: ${log.threads} release threads, ${log.notified} notifications, ${log.queued} emails queued, ${log.sent} sent, ${pending.length} pending${RESEND ? "" : " (no email provider yet; queued)"}${firstRun ? " [first run: seeded, nobody notified]" : ""}`);
+  console.log(`notify: ${log.threads} release threads, ${log.notified} notifications, ${log.queued} emails queued, ${log.sent} sent (${state.sentToday} today${log.capped ? `, ${log.capped} held for tomorrow by the daily cap` : ""}), ${pending.length} pending${RESEND ? "" : " (no email provider yet; queued)"}${firstRun ? " [first run: seeded, nobody notified]" : ""}`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

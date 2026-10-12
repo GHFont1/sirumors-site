@@ -36,7 +36,7 @@ export default function Account() {
       </div>
     );
   }
-  const set = async (k: "email_releases" | "email_rumors" | "email_replies", v: boolean) => {
+  const set = async (k: "email_releases" | "email_rumors" | "email_replies" | "email_digest" | "email_resets", v: boolean) => {
     await sb().from("profiles").update({ [k]: v }).eq("id", session.user.id);
     await refresh(); setSaved("Saved"); setTimeout(() => setSaved(""), 1500);
   };
@@ -67,7 +67,9 @@ export default function Account() {
       ); })()}
       <h2 className="mt-8 text-lg font-extrabold">Email alerts {saved && <span className="ml-2 text-xs font-semibold" style={{ color: "var(--good)" }}>{saved}</span>}</h2>
       <div className="card mt-3 divide-y divide-line px-5">
-        <Toggle on={!!profile?.email_releases} onChange={(v) => set("email_releases", v)} label="Releases" sub="When a company or release line you follow ships something new." />
+        <Toggle on={!!profile?.email_digest} onChange={(v) => set("email_digest", v)} label="Daily digest" sub="The day's biggest AI news in one short email every morning." />
+        <Toggle on={!!profile?.email_resets} onChange={(v) => set("email_resets", v)} label="Usage resets" sub="The moment ChatGPT/Codex, Claude, Gemini or Grok usage limits reset." />
+        <Toggle on={!!profile?.email_releases} onChange={(v) => set("email_releases", v)} label="Releases" sub="When OpenAI, Anthropic, Google or xAI ships a model, or anything you follow ships." />
         <Toggle on={!!profile?.email_rumors} onChange={(v) => set("email_rumors", v)} label="Strong rumors" sub="When a rumor about something you follow is rated Strong or Confirmed." />
         <Toggle on={!!profile?.email_replies} onChange={(v) => set("email_replies", v)} label="Forum replies" sub="When someone replies to your thread." />
       </div>

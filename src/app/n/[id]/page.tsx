@@ -8,6 +8,7 @@ import { Logo } from "@/components/Logo";
 import { RumorMeter, TagChips } from "@/components/Story";
 import { TimeAgo } from "@/components/TimeAgo";
 import { Sidebar } from "@/components/Sidebar";
+import { DigestSignup } from "@/components/site/DigestSignup";
 
 // Our own page for each story, release, reset, tool update and video.
 export const dynamicParams = false;
@@ -99,6 +100,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
         <TagChips s={p} max={6} />
         <Link href={discuss} className="text-sm font-bold text-accent hover:underline">Discuss in the forums →</Link>
       </div>
+
+      <div className="mt-8"><DigestSignup source="article" /></div>
 
       {more.length > 0 && (
         <section className="mt-10">
