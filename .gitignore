@@ -8,3 +8,4 @@ out
 /.copy/
 /.copy-state.json
 /copy/
+/.indexnow-pending.json

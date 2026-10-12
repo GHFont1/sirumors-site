@@ -3,6 +3,7 @@ import Link from "next/link";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import "./globals.css";
+import { GOOGLE_SITE_VERIFICATION } from "@/lib/seo";
 import { companies, topics, generatedAt } from "@/lib/data";
 import { MainNav, type Tab } from "@/components/Nav";
 import { BrandMark } from "@/components/Logo";
@@ -26,7 +27,18 @@ export const metadata: Metadata = {
   },
   openGraph: { siteName: "SI Rumors", type: "website", url: "https://sirumors.com/", images: [{ url: "/og.png", width: 1200, height: 630, alt: "SI Rumors: superintelligence news, before it's news" }] },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: { "application/rss+xml": [{ url: "/feed.xml", title: "SI Rumors" }] } },
+  // Search engine ownership checks. Google's token is added once Search Console verification is set up.
+  verification: { ...(GOOGLE_SITE_VERIFICATION ? { google: GOOGLE_SITE_VERIFICATION } : {}), other: { "msvalidate.01": "6B3AA32291700B0BB5E8DE2CD348FE7C" } },
+};
+
+/** Who publishes the site, for search engines. */
+const SITE_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://sirumors.com/#org", name: "SI Rumors", url: "https://sirumors.com/", logo: { "@type": "ImageObject", url: "https://sirumors.com/icon-512.png", width: 512, height: 512 } },
+    { "@type": "WebSite", "@id": "https://sirumors.com/#site", name: "SI Rumors", url: "https://sirumors.com/", publisher: { "@id": "https://sirumors.com/#org" }, inLanguage: "en-US" },
+  ],
 };
 
 export const viewport: Viewport = {
@@ -48,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_LD) }} />
         <AuthProvider>
         <header className="sticky top-0 z-30 border-b border-line backdrop-blur-md" style={{ background: "color-mix(in srgb, var(--bg) 88%, transparent)" }}>
           <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 py-3 sm:flex-nowrap sm:px-5">

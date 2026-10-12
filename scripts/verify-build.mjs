@@ -17,6 +17,12 @@ if (new Set(xr.events.map((e) => e.company ?? "openai")).size < 2) { console.err
 if ((rk.frontier ?? []).length < 5) { console.error(`only ${(rk.frontier ?? []).length} frontier models`); process.exit(1); }
 for (const m of rk.frontier.slice(0, 5)) if (!existsSync(`out/models/${m.slug}/index.html`)) { console.error(`missing model page ${m.slug}`); process.exit(1); }
 if (rk.boards.length < 4 || mk.markets.length < 3) { console.error(`rankings ${rk.boards.length} boards, ${mk.markets.length} markets`); process.exit(1); }
+// Search plumbing: every article in the sitemap, plus the news sitemap, RSS and ownership files.
+const sm = readFileSync("out/sitemap.xml", "utf8");
+const arts = (sm.match(/\/n\//g) || []).length;
+if (arts < 50) { console.error(`sitemap lists only ${arts} article pages`); process.exit(1); }
+for (const f of ["news-sitemap.xml", "feed.xml", "BingSiteAuth.xml", "robots.txt"]) if (!existsSync(`out/${f}`)) { console.error(`missing ${f}`); process.exit(1); }
+if (!readFileSync("out/index.html", "utf8").includes("msvalidate.01")) { console.error("Bing verification tag missing"); process.exit(1); }
 // Every link stays on the site: no page may link out to another website.
 import { readdirSync, statSync } from "node:fs";
 const walk = (d) => readdirSync(d).flatMap((f) => { const p = `${d}/${f}`; return statSync(p).isDirectory() ? walk(p) : p.endsWith(".html") ? [p] : []; });

@@ -99,12 +99,20 @@ jobs:
       - name: Publish status file
         run: node -e 'const m=require("./data/meta.json");require("fs").writeFileSync("out/status.json",JSON.stringify({lastUpdated:m.lastUpdated,lastAttempt:m.lastAttempt,lastAttemptOk:m.lastAttemptOk,counts:m.counts,failing:m.failing,rankingsAt:(()=>{try{return require("./data/rankings.json").generatedAt}catch{return null}})(),marketsAt:(()=>{try{return require("./data/markets.json").generatedAt}catch{return null}})(),resetsAt:(()=>{try{return require("./data/xresets.json").fetchedAt}catch{return null}})(),labxAt:(()=>{try{return require("./data/labx.json").fetchedAt}catch{return null}})(),copyAt:(()=>{try{return require("./copy/copy.json").updatedAt}catch{return null}})(),copyBacklog:(()=>{try{return require("./out/data/copy-queue.json").count}catch{return null}})()}))'
 
+      - name: Prepare IndexNow list
+        continue-on-error: true
+        run: node scripts/indexnow.mjs prepare
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
       - id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Tell Bing and IndexNow about new pages
+        continue-on-error: true
+        run: node scripts/indexnow.mjs submit
 
       - name: Fail if alerts are broken
         if: steps.notify.outcome == 'failure'

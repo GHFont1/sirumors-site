@@ -17,8 +17,16 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const p = pageById((await params).id);
   if (!p) return {};
-  return { title: p.headline, description: (p.dek ?? p.body[0] ?? "").slice(0, 160), alternates: { canonical: pagePath(p.id) } };
+  const description = (p.dek ?? p.body[0] ?? p.headline).slice(0, 160);
+  const images = p.image ? [{ url: p.image }] : [{ url: "/og.png", width: 1200, height: 630 }];
+  return {
+    title: p.headline, description, alternates: { canonical: pagePath(p.id) },
+    openGraph: { type: "article", title: p.headline, description, url: pagePath(p.id), siteName: "SI Rumors", publishedTime: isoDate(p.date), images },
+    twitter: { card: "summary_large_image", title: p.headline, description, images: images.map((i) => i.url) },
+  };
 }
+
+const isoDate = (d: string) => new Date(d.length === 10 ? d + "T12:00:00Z" : d).toISOString();
 
 const TONE: Record<string, string> = { release: "var(--good)", reset: "var(--accent-2)", rumor: "var(--rumor)", story: "var(--accent)", update: "var(--accent)", video: "var(--accent)" };
 
@@ -29,9 +37,21 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   const more = related(p);
   const tone = TONE[p.kind];
   const discuss = `/forums/new/?c=${p.kind === "rumor" ? "rumors" : "general"}&title=${encodeURIComponent(p.headline.slice(0, 150))}&link=${encodeURIComponent(pagePath(p.id))}`;
+  // NewsArticle markup so search engines read it as our own article.
+  const ld = {
+    "@context": "https://schema.org", "@type": p.kind === "video" ? "VideoObject" : "NewsArticle",
+    ...(p.kind === "video" ? { name: p.headline, description: p.body[0], thumbnailUrl: p.image, uploadDate: isoDate(p.date), embedUrl: `https://www.youtube-nocookie.com/embed/${p.youtubeId}` } : {
+      headline: p.headline.slice(0, 110), description: p.dek ?? p.body[0], articleBody: p.body.join("\n\n") || undefined,
+      datePublished: isoDate(p.date), dateModified: isoDate(p.date), image: [p.image ?? "https://sirumors.com/og.png"],
+      author: { "@type": "Organization", name: "SI Rumors", url: "https://sirumors.com/" },
+      publisher: { "@id": "https://sirumors.com/#org" }, mainEntityOfPage: `https://sirumors.com${pagePath(p.id)}`,
+      about: co ? { "@type": "Organization", name: co.name } : undefined, articleSection: p.badge,
+    }),
+  };
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] [&>*]:min-w-0">
     <article className="max-w-3xl">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <div className="flex flex-wrap items-center gap-2 text-xs">
         <span className="rounded-full border px-2.5 py-0.5 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{p.badge}</span>
         <span className="text-faint">{fmtDate(p.date)} · <TimeAgo iso={p.date} built={NOW} /></span>
