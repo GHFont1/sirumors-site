@@ -1,6 +1,8 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import entities from "../../config/entities.json";
+import { isMajor, majorOutlets } from "./major";
+import { sig, similar } from "./similar";
 
 // Build-time data loader. The ingest job writes JSON into ./data (or
 // SIR_DATA); every page reads it while the static site is generated.
@@ -104,7 +106,8 @@ const feed = load<{ generatedAt?: string; items: Story[] }>("feed.json", { items
 
 // Our own wording for each story (headline, short summary, body), written by the
 // copywriter lane into copy/copy.json. Until a story is written it shows the feed's text.
-export type Copy = { headline: string; summary: string; body: string[] };
+/** v2: researched on the web and written as a full article (v1 was a rewrite of the feed's few lines). */
+export type Copy = { headline: string; summary: string; body: string[]; v?: number };
 const COPY_FILE = process.env.SIR_COPY || join(/*turbopackIgnore: true*/ process.cwd(), "copy", "copy.json");
 const copyData: { items: Record<string, Copy> } = (() => {
   try { return existsSync(COPY_FILE) ? JSON.parse(readFileSync(COPY_FILE, "utf8")) : { items: {} }; } catch { return { items: {} }; }
@@ -157,8 +160,25 @@ export const companies = entities.companies as Company[];
 export const topics = entities.topics as Topic[];
 export const people = entities.people as Person[];
 
-export const stories = feed.items;
-export const rumors = [...rumorsData.rumors].sort(
+// Only the stories that matter make the site (see major.ts); the rest stay in the raw feed.
+// Several outlets' versions of the same news become one story: the best-sourced one keeps
+// its page, and the others' outlets count toward it.
+/** Story id -> the stories folded into it. */
+export const foldedInto = new Map<string, Story[]>();
+function fold(list: Story[]) {
+  const strength = (s: Story) => majorOutlets(s).length * 10 + (s.type === "official" ? 25 : 0) + (s.sourceCount ?? 1);
+  const kept: { s: Story; w: ReturnType<typeof sig> }[] = [];
+  for (const s of [...list].sort((a, b) => strength(b) - strength(a) || a.publishedAt.localeCompare(b.publishedAt))) {
+    const w = sig(s.origTitle ?? s.title);
+    const k = kept.find((k) => Math.abs(Date.parse(k.s.publishedAt) - Date.parse(s.publishedAt)) < 4 * 86400000 && (k.s.isRumor === s.isRumor || s.isRumor) && similar(k.w, w));
+    if (k) { foldedInto.set(k.s.id, [...(foldedInto.get(k.s.id) ?? []), s]); continue; }
+    kept.push({ s, w });
+  }
+  const ids = new Set(kept.map((k) => k.s.id));
+  return list.filter((s) => ids.has(s.id));
+}
+export const stories = fold(feed.items.filter(isMajor));
+export const rumors = [...fold(rumorsData.rumors.filter(isMajor))].sort(
   (a, b) => (b.confidence ?? 0) - (a.confidence ?? 0) || b.publishedAt.localeCompare(a.publishedAt),
 );
 export const videos = videosData.videos;

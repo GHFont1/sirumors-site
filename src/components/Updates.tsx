@@ -75,8 +75,6 @@ function Meta({ u }: { u: Update }) {
   return (
     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
       <span className="font-semibold">{u.source}</span>
-      {u.sources > 1 && <span className="font-semibold text-text">{u.sources} outlets</span>}
-      {u.points ? <span>▲ {u.points}</span> : null}
       <Link href={u.discuss} className="font-semibold text-accent hover:underline">Discuss →</Link>
     </div>
   );
@@ -109,7 +107,6 @@ export function UpdateCard({ u }: { u: Update }) {
         <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
           {<Link href={u.url} className="mr-1 text-sm font-bold text-accent hover:underline">Read more →</Link>}
           {c && <Link href={`/c/${c.slug}/`} className="chip hover:text-accent" style={{ padding: "2px 9px", fontSize: 11 }}>{c.name.replace(/ AI$/, "")}</Link>}
-          {u.sources > 1 && <span className="chip" style={{ padding: "2px 9px", fontSize: 11 }}>{u.sources} outlets</span>}
           <span className="chip" style={{ padding: "2px 9px", fontSize: 11 }}>{u.source}</span>
         </div>
       </div>
@@ -147,7 +144,7 @@ export function SubLead({ u }: { u: Update }) {
     <article className="card flex flex-col p-4">
       <div className="flex flex-wrap items-center gap-2"><Badge u={u} /><TimingBadge u={u} /><Who u={u} /></div>
       <h3 className="mt-2 text-[15px] font-bold leading-snug"><Headline u={u} className="" /></h3>
-      <div className="mt-auto pt-2 text-xs text-faint"><TimeAgo iso={u.date} built={NOW} />{u.sources > 1 ? ` · ${u.sources} outlets` : ""}</div>
+      <div className="mt-auto pt-2 text-xs text-faint"><TimeAgo iso={u.date} built={NOW} /></div>
     </article>
   );
 }

@@ -1,5 +1,6 @@
-import { NOW, allReleases, companyBySlug, pageId, releaseLines, resetHistory, rumors, stories, videos, type Story } from "./data";
+import { NOW, foldedInto, allReleases, companyBySlug, pageId, releaseLines, resetHistory, rumors, stories, videos, type Story } from "./data";
 import { allUpdates, cleanTitle } from "./updates";
+import { majorOutlets } from "./major";
 import { daysBetween, fmtDate } from "./format";
 
 // One page on our own site for every story, release, reset, tool update and video,
@@ -38,26 +39,23 @@ function paras(t?: string) {
   return out.slice(0, 4);
 }
 
-function storyItem(s: Story): PageItem {
-  const outlets = [...new Set([s.source, ...(s.cluster ?? []).map((c) => c.source)])];
+function storyItem(s: Story, also: Story[]): PageItem {
+  const all = [s, ...also];
+  const outlets = [...new Set(all.flatMap((x) => [x.source, ...(x.cluster ?? []).map((c) => c.source)]))];
+  const major = [...new Set(all.flatMap(majorOutlets))];
   const rumor = s.isRumor && s.status;
-  const badge = rumor ? ({ confirmed: "Confirmed", strong: "Strong rumor", developing: "Rumor", whisper: "Whisper" } as const)[s.status!] : s.type === "official" ? "Official" : (s.sourceCount ?? 1) >= 3 ? "Big story" : "News";
+  const badge = rumor ? ({ confirmed: "Confirmed", strong: "Strong rumor", developing: "Rumor", whisper: "Rumor" } as const)[s.status!] : s.type === "official" ? "Official" : major.length >= 3 ? "Big story" : "News";
   const facts: [string, string][] = [["Published", fmtDate(s.publishedAt)]];
-  if (outlets.length > 1) facts.push(["Reported by", `${outlets.length} outlets`]);
-  if (rumor) facts.push(["Confidence", `${s.confidence ?? 0}/100`]);
   if (s.type === "official") facts.push(["Source", "The company itself"]);
-  if (s.points) facts.push(["Hacker News", `${s.points} points`]);
+  else if (major.length) facts.push(["Verified by", major.length === 1 ? "1 major outlet" : `${major.length} major outlets`]);
+  if (rumor) facts.push(["Confidence", `${s.confidence ?? 0}/100`]);
   return {
     id: `s-${s.id}`, kind: rumor ? "rumor" : "story", badge,
     headline: s.body ? s.title : cleanTitle(s.title, s.source),
     dek: s.body ? s.summary : undefined,
-    body: s.body ?? (() => {
-      // Feeds often repeat the title as the summary; say who reported it instead.
-      const b = paras(s.summary).filter((t) => !t.toLowerCase().startsWith(cleanTitle(s.title, s.source).toLowerCase().slice(0, 40)));
-      return b.length ? b : [`${outlets.length > 1 ? `${outlets.slice(0, -1).join(", ")} and ${outlets[outlets.length - 1]} reported` : `${outlets[0]} reported`} this on ${fmtDate(s.publishedAt)}.${rumor ? " It has not been confirmed by the company." : ""}`];
-    })(),
+    body: s.body ?? paras(s.summary).filter((t) => !/^https?:|submitted by/.test(t) && !t.toLowerCase().startsWith(cleanTitle(s.title, s.source).toLowerCase().slice(0, 40))),
     date: s.publishedAt, company: s.companies[0], companies: s.companies, topics: s.topics, people: s.people,
-    image: s.image, outlets, facts, story: s, ours: !!s.body,
+    image: s.image ?? also.find((x) => x.image)?.image, outlets, facts, story: s, ours: !!s.body,
   };
 }
 
@@ -67,10 +65,11 @@ export function pageItems(): PageItem[] {
   if (cache) return cache;
   const out: PageItem[] = [];
   const seen = new Set<string>();
+  // One page per piece of news: copies of the same story were folded into the strongest one.
   for (const s of [...stories, ...rumors]) {
     if (seen.has(s.id)) continue;
     seen.add(s.id);
-    out.push(storyItem(s));
+    out.push(storyItem(s, foldedInto.get(s.id) ?? []));
   }
 
   // Releases: our own text from the release record.

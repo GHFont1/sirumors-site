@@ -1,4 +1,6 @@
-import { NOW, companyBySlug, pagePath, releaseLines, repos, stories, xresets, videos, type Filter, type Story } from "./data";
+import { sig, similar, type Sig } from "./similar";
+import { credLabel } from "./major";
+import { NOW, foldedInto, companyBySlug, pagePath, releaseLines, repos, stories, xresets, videos, type Filter, type Story } from "./data";
 
 // The Updates stream: the handful of things that actually happened, each with
 // a type badge. Plain single-source articles stay in /news.
@@ -42,22 +44,6 @@ const LABS = new Set(["openai", "anthropic", "google", "xai", "meta", "deepseek"
 // Customer case studies, gaming and marketing posts from official blogs are not updates.
 const OFFICIAL_NOISE = /\b(halves|cuts|slashes)\b.*\bcosts?\b|\b(cuts?|halves|saves?|turns?|helps?|powers?)\b.*\b(with|using|into)\b|\bhow .+ (uses?|built|turns?)\b|customer stor|case study|geforce now|gaming|gears of war|\bmyths?\b|webinar|\bevent recap\b|into the omniverse/i;
 
-const STOP = new Set("the and for with from that this into over amid after about says said will have has are was its their than more most what when where which while your reportedly report reports new ai how why who".split(" "));
-const COMMON = new Set(["ai", "the", "a", "an", "how", "why", "what", "is", "new", "massive", "leak", "report", "exclusive", "breaking"]);
-// Crude stems (first 5 letters) so "catastrophe" and "catastrophic" match.
-const words = (t: string) => new Set(t.toLowerCase().replace(/[^a-z0-9.\s]/g, " ").split(/\s+/).filter((w) => w.length > 2 && !STOP.has(w)).map((w) => w.slice(0, 5)));
-const names = (t: string) => new Set((t.match(/\b[A-Z][A-Za-z0-9.]+\b/g) ?? []).map((w) => w.toLowerCase()).filter((w) => !COMMON.has(w)));
-type Sig = { w: Set<string>; n: Set<string> };
-const sig = (t: string): Sig => ({ w: words(t), n: names(t) });
-const shared = (a: Set<string>, b: Set<string>) => { let n = 0; for (const x of a) if (b.has(x)) n++; return n; };
-function similar(a: Sig, b: Sig) {
-  const n = shared(a.w, b.w);
-  if (n >= 3 && n / Math.max(1, Math.min(a.w.size, b.w.size)) >= 0.4) return true;
-  // Same named entities (Gemini + Carbon, Nadella + trust) plus one more shared word.
-  const pn = shared(a.n, b.n);
-  return pn >= 2 && n >= pn + 1;
-}
-
 /** Strip " - Publisher" and " | Site" tails that news feeds append to titles. */
 export const cleanTitle = (t: string, source?: string) => {
   let s = t.replace(/\s+[|–—-]\s+[^|–—-]{2,40}$/, (m) => (source && m.toLowerCase().includes(source.toLowerCase().slice(0, 6)) ? "" : /\s[|]\s/.test(m) || m.length < 34 ? "" : m)).trim();
@@ -85,7 +71,7 @@ function fromStory(s: Story): Update | null {
   const n = s.sourceCount ?? 1;
   const base = {
     id: `s-${s.id}`, url: s.url, date: s.publishedAt, company: leadCompany(s), companies: s.companies, topics: s.topics, people: s.people,
-    source: s.source, sources: n, image: s.image, summary: s.summary, points: s.points,
+    source: credLabel(s, foldedInto.get(s.id)), sources: n, image: s.image, summary: s.summary, points: s.points,
     headline: cleanTitle(s.title, s.source),
   };
   // Resets come from X (Tibo), not from news write-ups of them.

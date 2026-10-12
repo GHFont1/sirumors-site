@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { companyBySlug, topicBySlug, personBySlug, NOW, type Story } from "@/lib/data";
-import { Logo, sourceLogo } from "./Logo";
+import { companyBySlug, topicBySlug, personBySlug, NOW, foldedInto, type Story } from "@/lib/data";
+import { credLabel } from "@/lib/major";
+import { Logo } from "./Logo";
 import { TimeAgo } from "./TimeAgo";
 
 const STATUS: Record<string, { label: string; color: string }> = {
@@ -46,18 +47,14 @@ export function TagChips({ s, max = 4 }: { s: Pick<Story, "companies" | "topics"
 }
 
 export function StoryRow({ s, showSummary = false, rank }: { s: Story; showSummary?: boolean; rank?: number }) {
-  const more = s.cluster?.length ?? 0;
   return (
     <article className="flex gap-3 border-b border-line py-4 last:border-b-0">
       {rank != null && <span className="tabular w-6 shrink-0 pt-0.5 text-lg font-extrabold text-faint">{rank}</span>}
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted">
-          <Logo slug={sourceLogo(s.sourceId, s.source)} name={s.source} size={16} />
-          <span className="font-semibold text-text">{s.source}</span>
-          {s.type === "official" && <span className="chip" style={{ padding: "0 7px", color: "var(--good)" }}>Official</span>}
+          <span className="font-semibold" style={{ color: s.type === "official" ? "var(--good)" : "var(--text)" }}>{credLabel(s, foldedInto.get(s.id))}</span>
           <span>·</span>
           <TimeAgo iso={s.publishedAt} built={NOW} />
-          {s.points ? <><span>·</span><span>▲ {s.points} on HN</span></> : null}
           <span>·</span>
           <Link href={`/forums/new/?c=${s.isRumor ? "rumors" : "general"}&title=${encodeURIComponent(s.title.slice(0, 150))}&link=${encodeURIComponent(s.url)}`} className="link-hover">Discuss</Link>
         </div>
@@ -69,16 +66,6 @@ export function StoryRow({ s, showSummary = false, rank }: { s: Story; showSumma
           {s.isRumor && s.status && <RumorMeter s={s} />}
           <TagChips s={s} />
         </div>
-        {more > 0 && (
-          <details className="mt-2 text-xs text-muted">
-            <summary className="cursor-pointer select-none font-semibold link-hover">+{more} more {more === 1 ? "outlet" : "outlets"}</summary>
-            <ul className="mt-1 space-y-0.5 pl-1">
-              {s.cluster!.map((c) => (
-                <li key={c.url}>{c.source}</li>
-              ))}
-            </ul>
-          </details>
-        )}
       </div>
     </article>
   );

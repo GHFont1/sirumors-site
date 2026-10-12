@@ -60,11 +60,8 @@ export function FeedFilter({ items, companies }: { items: LiteStory[]; companies
             <div className="min-w-0">
               <a href={s.url} className="text-[15px] font-semibold leading-snug hover:text-accent">{s.title}</a>
               <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-muted">
-                <span className="font-semibold">{s.source}</span>
-                {(s.sourceCount ?? 1) > 1 && <span>+{(s.sourceCount ?? 1) - 1} more</span>}
-                {s.type === "official" && <span style={{ color: "var(--good)" }}>Official</span>}
+                <span className="font-semibold" style={s.type === "official" ? { color: "var(--good)" } : undefined}>{s.source}</span>
                 {s.isRumor && <span style={{ color: "var(--rumor)" }}>Rumor · {s.confidence ?? "?"}/100</span>}
-                {s.points ? <span>▲ {s.points}</span> : null}
               </div>
             </div>
           </div>

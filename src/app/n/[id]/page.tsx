@@ -7,6 +7,7 @@ import { fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
 import { RumorMeter, TagChips } from "@/components/Story";
 import { TimeAgo } from "@/components/TimeAgo";
+import { Sidebar } from "@/components/Sidebar";
 
 // Our own page for each story, release, reset, tool update and video.
 export const dynamicParams = false;
@@ -29,7 +30,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   const tone = TONE[p.kind];
   const discuss = `/forums/new/?c=${p.kind === "rumor" ? "rumors" : "general"}&title=${encodeURIComponent(p.headline.slice(0, 150))}&link=${encodeURIComponent(pagePath(p.id))}`;
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] [&>*]:min-w-0">
+    <article className="max-w-3xl">
       <div className="flex flex-wrap items-center gap-2 text-xs">
         <span className="rounded-full border px-2.5 py-0.5 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{p.badge}</span>
         <span className="text-faint">{fmtDate(p.date)} · <TimeAgo iso={p.date} built={NOW} /></span>
@@ -52,7 +54,7 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
       ) : null}
 
       <div className="mt-6 space-y-4 text-[17px] leading-relaxed">
-        {p.body.length ? p.body.map((t, i) => <p key={i}>{t}</p>) : <p className="text-muted">{p.headline}.</p>}
+        {p.body.map((t, i) => <p key={i}>{t}</p>)}
       </div>
 
       {p.quote && (
@@ -72,12 +74,6 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
         {p.story?.isRumor && p.story.status && <div className="col-span-2 sm:col-span-3"><RumorMeter s={p.story} wide /></div>}
       </div>
 
-      {p.outlets.length > 0 && (
-        <p className="mt-4 text-sm text-muted">
-          <span className="font-semibold text-text">{p.kind === "reset" || p.kind === "release" ? "Source" : "Reported by"}:</span> {p.outlets.join(", ")}
-        </p>
-      )}
-      
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <TagChips s={p} max={6} />
@@ -100,6 +96,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
           </ol>
         </section>
       )}
+    </article>
+    <Sidebar />
     </div>
   );
 }
