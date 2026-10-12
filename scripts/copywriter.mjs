@@ -34,7 +34,10 @@ function lock() {
 }
 
 function worktree() {
-  if (existsSync(join(WT, ".git"))) { try { git("pull", "-q", "--rebase", "origin", "copy"); } catch (e) { log("pull failed", e.message.split("\n")[0]); } return; }
+  if (existsSync(join(WT, ".git"))) {
+    // A run that wrote copy.json but died before committing would block the pull; keep its work.
+    if (git("status", "--porcelain", "copy.json")) git("-c", "user.name=sirumors-copywriter", "-c", "user.email=sirumors-bot@users.noreply.github.com", "commit", "-qam", "copy: leftover from an unfinished run");
+    try { git("pull", "-q", "--rebase", "origin", "copy"); } catch (e) { log("pull failed", e.message.split("\n")[0]); } return; }
   execFileSync("git", ["-C", ROOT, "fetch", "-q", "origin", "copy"], { stdio: "ignore" });
   execFileSync("git", ["-C", ROOT, "worktree", "add", "-f", WT, "copy"], { stdio: "ignore" });
 }
