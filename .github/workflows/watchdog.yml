@@ -74,3 +74,28 @@ jobs:
           gh label create copywriter -R "$REPO" --color FBCA04 2>/dev/null || true
           msg="Our write-ups are ${age}h old with ${backlog} stories waiting. The copywriter lane runs on the Mac (com.sirumors.copywriter, log ~/Library/Logs/sirumors-copywriter.log); stories show the publisher's summary on our own pages until it catches up."
           if [ -z "$open" ]; then gh issue create -R "$REPO" --label copywriter --title "Copywriter lane is behind" --body "$msg"; else gh issue comment "$open" -R "$REPO" --body "$msg"; fi
+
+  digest:
+    # The morning digest goes out at 7 AM Eastern from the update workflow (scripts/notify.mjs).
+    # By 10 AM it must have gone out; if not, rerun the update and keep one open issue.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check today's digest went out
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          hour=$(TZ=America/New_York date +%H); today=$(TZ=America/New_York date +%F)
+          body=$(curl -fsS -m 30 "https://sirumors.com/status.json?ts=$(date +%s)")
+          day=$(node -e 'console.log(JSON.parse(process.argv[1]).digestDay||"")' "$body")
+          echo "hour $hour, digest day '$day', today $today"
+          open=$(gh issue list -R "$REPO" --label digest --state open --json number --jq '.[0].number')
+          if [ "$day" = "$today" ] || [ "$hour" -lt 10 ]; then
+            [ -n "$open" ] && [ "$day" = "$today" ] && gh issue comment "$open" -R "$REPO" --body "Recovered: today's digest went out." && gh issue close "$open" -R "$REPO"
+            exit 0
+          fi
+          gh label create digest -R "$REPO" --color 5B3DF5 2>/dev/null || true
+          msg="The daily digest for $today has not gone out (last: '$day'). Rerunning the update workflow; see the 'Alerts, release threads and emails' step log."
+          if [ -z "$open" ]; then gh issue create -R "$REPO" --label digest --title "Daily digest did not go out" --body "$msg"; else gh issue comment "$open" -R "$REPO" --body "$msg"; fi
+          gh workflow run update.yml -R "$REPO"
+          exit 1

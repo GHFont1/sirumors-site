@@ -202,12 +202,13 @@ async function main() {
         const day = new Date(NOW).toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "long", month: "long", day: "numeric" });
         const subject = `${items[0].headline}`.slice(0, 90) + ` + ${items.length - 1} more`;
         const block = items.map((it) => `<div style="margin:0 0 18px"><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5b3df5">${esc(it.badge)}${it.company ? ` · ${esc(it.company)}` : ""}</div><a href="${SITE}${it.url}" style="display:block;margin-top:3px;font-size:17px;font-weight:700;color:#0e1116;text-decoration:none;line-height:1.3">${esc(it.headline)}</a>${it.summary ? `<div style="margin-top:4px;color:#5b6170;font-size:14px;line-height:1.45">${esc(it.summary).slice(0, 260)}</div>` : ""}</div>`).join("");
-        log.queued += await queueBroadcast("digest", (rec) => {
+        state.digestRecipients = await queueBroadcast("digest", (rec) => {
           const unsub = `${SITE}/unsubscribe/?t=${rec.token}&w=digest`;
           const html = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:28px 22px;color:#0e1116"><div style="font-size:20px;font-weight:800;letter-spacing:-.02em"><span style="color:#5b3df5">SI</span>Rumors</div><div style="margin:6px 0 22px;color:#8a90a0;font-size:13px">Daily digest · ${esc(day)}</div>${block}<a href="${SITE}/" style="display:inline-block;margin-top:4px;background:#5b3df5;color:#fff;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:10px">All the latest on SI Rumors</a><p style="color:#8a90a0;font-size:12px;margin-top:28px">You get the SI Rumors daily digest. <a href="${SITE}/account/" style="color:#8a90a0">Email settings</a> · <a href="${unsub}" style="color:#8a90a0">Unsubscribe</a></p></div>`;
           const text = `SI Rumors daily digest, ${day}\n\n` + items.map((it) => `${it.badge}: ${it.headline}\n${SITE}${it.url}`).join("\n\n") + `\n\nUnsubscribe: ${unsub}`;
           return { subject, html, text };
         }, `digest:${etDay()}`, 8);
+        log.queued += state.digestRecipients;
         state.digestDay = etDay();
       }
     } catch (e) { console.error("digest failed:", e.message); }
