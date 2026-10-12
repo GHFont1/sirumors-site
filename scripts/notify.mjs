@@ -18,6 +18,8 @@ const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const RESEND = process.env.RESEND_API_KEY || "";
 const FROM = process.env.ALERTS_FROM || "SI Rumors <alerts@sirumors.com>";
 const SITE = "https://sirumors.com";
+// Contact form messages go here; the address never appears on the site.
+const CONTACT_TO = process.env.CONTACT_TO || "team@greatcallathletics.com";
 if (!KEY) { console.error("SUPABASE_SERVICE_ROLE_KEY missing"); process.exit(1); }
 
 const ENT = JSON.parse(readFileSync(join(ROOT, "config/entities.json"), "utf8"));
@@ -214,6 +216,17 @@ async function main() {
     } catch (e) { console.error("digest failed:", e.message); }
   }
 
+  // ---- contact form: forward each message to the team (reply goes to the sender) ----
+  const msgs = await api("contact_messages?select=id,name,email,topic,message,created_at&forwarded_at=is.null&order=created_at.asc&limit=20");
+  for (const c of msgs) {
+    const subject = `SI Rumors contact: ${c.topic || "message"} from ${c.name || c.email}`.slice(0, 120);
+    const text = `From: ${c.name || "(no name)"} <${c.email}>\nTopic: ${c.topic || "-"}\nSent: ${c.created_at}\n\n${c.message}`;
+    const html = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;color:#0e1116"><p><b>From:</b> ${esc(c.name || "(no name)")} &lt;${esc(c.email)}&gt;<br><b>Topic:</b> ${esc(c.topic || "-")}</p><p style="white-space:pre-wrap">${esc(c.message)}</p><p style="color:#8a90a0;font-size:12px">Sent from the sirumors.com contact form. Reply to this email to answer them.</p></div>`;
+    await api("email_queue?on_conflict=dedupe_key", { method: "POST", prefer: "resolution=ignore-duplicates", body: [{ to_email: CONTACT_TO, subject, html, text_body: text, dedupe_key: `contact:${c.id}`, priority: 0, reply_to: c.email }] });
+    await api(`contact_messages?id=eq.${c.id}`, { method: "PATCH", body: { forwarded_at: new Date().toISOString() } });
+    log.queued++;
+  }
+
   // ---- reply emails ----
   const since = state.replyCursor || new Date(NOW - 3600000).toISOString();
   const replies = await rpc("reply_email_targets", { since });
@@ -225,7 +238,7 @@ async function main() {
   state.replyCursor = new Date(NOW - 5 * 60000).toISOString();
 
   // ---- send ----
-  const pending = await api("email_queue?select=id,to_email,subject,html,text_body,attempts,created_at,priority,dedupe_key&sent_at=is.null&attempts=lt.5&order=priority.asc,created_at.asc&limit=300");
+  const pending = await api("email_queue?select=id,to_email,subject,html,text_body,attempts,created_at,priority,dedupe_key,reply_to&sent_at=is.null&attempts=lt.5&order=priority.asc,created_at.asc&limit=300");
   // Resend's plan allows 100 emails a day: keep a margin and carry the rest to the next run.
   if (state.sentDay !== etDay()) { state.sentDay = etDay(); state.sentToday = 0; }
   const CAP = Number(process.env.EMAIL_DAILY_CAP || 95);
@@ -240,7 +253,7 @@ async function main() {
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { authorization: `Bearer ${RESEND}`, "content-type": "application/json" },
-        body: JSON.stringify({ from: FROM, to: [e.to_email], subject: e.subject, html: e.html, text: e.text_body, headers: unsub ? { "List-Unsubscribe": `<${unsub}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" } : undefined }),
+        body: JSON.stringify({ from: FROM, to: [e.to_email], subject: e.subject, html: e.html, text: e.text_body, ...(e.reply_to ? { reply_to: e.reply_to } : {}), headers: unsub ? { "List-Unsubscribe": `<${unsub}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" } : undefined }),
       });
       if (res.ok) { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { sent_at: new Date().toISOString(), attempts: e.attempts + 1 } }); log.sent++; state.sentToday++; }
       else { await api(`email_queue?id=eq.${e.id}`, { method: "PATCH", body: { attempts: e.attempts + 1, last_error: (await res.text()).slice(0, 300) } }); }

@@ -86,7 +86,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <p className="mt-1 max-w-md">The all-in-one tracker for the road to superintelligence. SI stands for superintelligence. Every story has its own page here, in our words.</p>
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link href="/about/" className="link-hover">About & sources</Link>
+              <Link href="/about/" className="link-hover">About</Link>
+              <Link href="/faq/" className="link-hover">FAQ</Link>
+              <Link href="/contact/" className="link-hover">Contact</Link>
+              <Link href="/terms/" className="link-hover">Terms</Link>
+              <Link href="/privacy/" className="link-hover">Privacy</Link>
               <Link href="/releases/" className="link-hover">Release tracker</Link>
               <Link href="/rumors/" className="link-hover">Rumor board</Link>
               <Link href="/resets/" className="link-hover">Resets</Link>
