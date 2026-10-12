@@ -366,7 +366,8 @@ async function ingestGitHub(state) {
     const pages = known.releases.length ? 2 : 10;
     try {
       for (let p = 1; p <= pages; p++) {
-        const d = await fetchJSON(`https://api.github.com/repos/${r.repo}/releases?per_page=100&page=${p}`, { headers });
+        // Once history is stored only the newest releases matter; big repos (Codex has 1,000+) answer slowly at 100 a page.
+        const d = await fetchJSON(`https://api.github.com/repos/${r.repo}/releases?per_page=${known.releases.length ? 30 : 100}&page=${p}`, { headers, timeout: 45000, retries: 2 });
         if (!d.length) break;
         let fresh = 0;
         for (const x of d) {
