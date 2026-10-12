@@ -1,2 +1,2 @@
-// Google Search Console HTML-tag verification token (empty until verified).
-export const GOOGLE_SITE_VERIFICATION = "";
+// Google Search Console HTML-tag verification token.
+export const GOOGLE_SITE_VERIFICATION = "wsz7HXBLg1QEKjIkf98Zvv01xgzEgXcVzo-_Ekaq2t0";
