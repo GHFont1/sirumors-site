@@ -450,7 +450,7 @@ function labxItems() {
     if (!first || X_NOISE_RE.test(first) || !X_LAUNCH_RE.test(text.slice(0, 280))) continue;
     const title = clip(first.length < 25 ? text.replace(/\s*\n+\s*/g, " ") : first, 150);
     const it = makeItem({ title, url: t.url, summary: text.slice(first.length).replace(/\s*\n+\s*/g, " ").trim(), date: t.at, image: t.image }, { id: `x-${t.company}`, name: `${t.name} on X`, type: "official", company: t.company });
-    if (it) { it.isX = true; out.push(it); }
+    if (it) { it.isX = true; if (t.person) it.person = true; out.push(it); }
   }
   return out;
 }

@@ -50,6 +50,8 @@ export type Story = {
   sourceUrl?: string;
   /** The publisher's original headline, before our rewrite. */
   origTitle?: string;
+  /** Posted by a lab leader's own X account (Musk, Altman...), not the company's. */
+  person?: boolean;
   /** Our own write-up, when the copywriter has done this story. */
   body?: string[];
 };

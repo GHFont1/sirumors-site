@@ -42,6 +42,23 @@ export const LAB_ACCOUNTS = [
   { handle: "perplexity_ai", company: "perplexity", name: "Perplexity" },
   { handle: "cursor_ai", company: "cursor", name: "Cursor" },
   { handle: "cognition", company: "cognition", name: "Cognition" },
+  { handle: "openclaw", company: "openclaw", name: "OpenClaw" },
+  { handle: "nousresearch", company: "nous", name: "Nous Research" },
+  { handle: "omarchy", company: "omarchy", name: "Omarchy" },
+  { handle: "alibaba_qwen", company: "qwen", name: "Qwen" },
+  { handle: "kimi_moonshot", company: "moonshot", name: "Kimi" },
+  { handle: "zai_org", company: "zai", name: "Z.ai" },
+  { handle: "ollama", company: "ollama", name: "Ollama" },
+  // Leaders who announce things first. Their posts count only when they announce a product or model.
+  { handle: "elonmusk", company: "xai", name: "Elon Musk", person: true },
+  { handle: "sama", company: "openai", name: "Sam Altman", person: true },
+  { handle: "gdb", company: "openai", name: "Greg Brockman", person: true },
+  { handle: "demishassabis", company: "google", name: "Demis Hassabis", person: true },
+  { handle: "sundarpichai", company: "google", name: "Sundar Pichai", person: true },
+  { handle: "satyanadella", company: "microsoft", name: "Satya Nadella", person: true },
+  { handle: "aravsrinivas", company: "perplexity", name: "Aravind Srinivas", person: true },
+  { handle: "steipete", company: "openclaw", name: "Peter Steinberger", person: true },
+  { handle: "dhh", company: "omarchy", name: "DHH", person: true },
 ];
 
 async function timeline(handle, pages = 3) {
@@ -78,7 +95,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       try {
         const list = await timeline(a.handle, accounts[a.handle]?.ok ? 2 : 6);
         for (const t of list) {
-          tweets[t.id] = { id: t.id, handle: a.handle, company: a.company, name: a.name, at: new Date(t.created_timestamp * 1000).toISOString(), text: t.text, url: t.url, image: t.media?.photos?.[0]?.url ?? t.media?.videos?.[0]?.thumbnail_url ?? null, likes: t.likes ?? 0 };
+          tweets[t.id] = { id: t.id, handle: a.handle, company: a.company, name: a.name, at: new Date(t.created_timestamp * 1000).toISOString(), text: t.text, url: t.url, image: t.media?.photos?.[0]?.url ?? t.media?.videos?.[0]?.thumbnail_url ?? null, likes: t.likes ?? 0, ...(a.person ? { person: true } : {}) };
         }
         if (list.length) ok++;
         accounts[a.handle] = { company: a.company, name: a.name, ok: list.length > 0 || !!accounts[a.handle]?.ok, lastFetched: list.length ? new Date().toISOString() : accounts[a.handle]?.lastFetched ?? null, count: list.length };

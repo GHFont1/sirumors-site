@@ -357,6 +357,84 @@
         "devin ai",
         "cognition's"
       ]
+    },
+    {
+      "slug": "openclaw",
+      "name": "OpenClaw",
+      "domain": "openclaw.ai",
+      "blurb": "The open-source personal AI agent from Peter Steinberger, formerly Clawdbot and Moltbot.",
+      "keywords": [
+        "openclaw",
+        "clawdbot",
+        "moltbot"
+      ]
+    },
+    {
+      "slug": "nous",
+      "name": "Nous Research",
+      "domain": "nousresearch.com",
+      "blurb": "Open-source AI lab behind the Hermes models and Hermes Agent.",
+      "keywords": [
+        "nous research",
+        "hermes agent",
+        "hermes 4",
+        "hermes 5",
+        "nousresearch"
+      ]
+    },
+    {
+      "slug": "omarchy",
+      "name": "Omarchy",
+      "domain": "omarchy.org",
+      "blurb": "DHH's opinionated Arch Linux and Hyprland setup for developers.",
+      "keywords": [
+        "omarchy"
+      ]
+    },
+    {
+      "slug": "qwen",
+      "name": "Qwen",
+      "domain": "qwen.ai",
+      "blurb": "Alibaba's open model family.",
+      "keywords": [
+        "qwen",
+        "alibaba's qwen",
+        "tongyi qianwen"
+      ]
+    },
+    {
+      "slug": "moonshot",
+      "name": "Moonshot AI",
+      "domain": "moonshot.ai",
+      "blurb": "The Chinese lab behind the Kimi models.",
+      "keywords": [
+        "moonshot ai",
+        "kimi k2",
+        "kimi k3",
+        "kimi.ai"
+      ]
+    },
+    {
+      "slug": "zai",
+      "name": "Z.ai",
+      "domain": "z.ai",
+      "blurb": "Zhipu's lab behind the GLM models.",
+      "keywords": [
+        "z.ai",
+        "zhipu",
+        "glm-5",
+        "glm-4.5",
+        "glm-4.6"
+      ]
+    },
+    {
+      "slug": "ollama",
+      "name": "Ollama",
+      "domain": "ollama.com",
+      "blurb": "Run open models on your own computer.",
+      "keywords": [
+        "ollama"
+      ]
     }
   ],
   "topics": [

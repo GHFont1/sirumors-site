@@ -293,6 +293,32 @@
       "q": "\"Perplexity\" AI",
       "company": "perplexity",
       "match": "\\bPerplexity\\b"
+    },
+    {
+      "id": "gn-openclaw",
+      "name": "Google News",
+      "q": "OpenClaw OR Clawdbot OR Moltbot",
+      "company": "openclaw",
+      "match": "\\b(OpenClaw|Clawdbot|Moltbot)\\b"
+    },
+    {
+      "id": "gn-hermes",
+      "name": "Google News",
+      "q": "\"Nous Research\" OR \"Hermes Agent\"",
+      "company": "nous",
+      "match": "\\b(Nous Research|Hermes Agent|Hermes [45])\\b"
+    },
+    {
+      "id": "gn-omarchy",
+      "name": "Google News",
+      "q": "Omarchy",
+      "company": "omarchy",
+      "match": "\\bOmarchy\\b"
+    },
+    {
+      "id": "gn-openmodels",
+      "name": "Google News",
+      "q": "Qwen OR \"Kimi K3\" OR \"Kimi K2\" OR GLM-5 OR Zhipu model release"
     }
   ],
   "hnQueries": [
@@ -323,6 +349,26 @@
       "repo": "google-gemini/gemini-cli",
       "name": "Gemini CLI",
       "company": "google"
+    },
+    {
+      "repo": "openclaw/openclaw",
+      "name": "OpenClaw",
+      "company": "openclaw"
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "name": "Hermes Agent",
+      "company": "nous"
+    },
+    {
+      "repo": "omacom/omarchy",
+      "name": "Omarchy",
+      "company": "omarchy"
+    },
+    {
+      "repo": "ollama/ollama",
+      "name": "Ollama",
+      "company": "ollama"
     }
   ],
   "youtube": [
