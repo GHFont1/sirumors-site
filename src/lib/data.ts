@@ -172,7 +172,9 @@ function fold(list: Story[]) {
   const kept: { s: Story; w: ReturnType<typeof sig> }[] = [];
   for (const s of [...list].sort((a, b) => strength(b) - strength(a) || a.publishedAt.localeCompare(b.publishedAt))) {
     const w = sig(s.origTitle ?? s.title);
-    const k = kept.find((k) => Math.abs(Date.parse(k.s.publishedAt) - Date.parse(s.publishedAt)) < 4 * 86400000 && (k.s.isRumor === s.isRumor || s.isRumor) && similar(k.w, w));
+    // Different version numbers are different news ("v2026.9.9 is out" vs "v2026.10.1 is out").
+    const ver = (x: Story) => ((x.origTitle ?? x.title).match(/\bv?\d+(?:\.\d+)+\b/g) ?? []).join(",");
+    const k = kept.find((k) => (!ver(s) || !ver(k.s) || ver(s) === ver(k.s)) && Math.abs(Date.parse(k.s.publishedAt) - Date.parse(s.publishedAt)) < 4 * 86400000 && (k.s.isRumor === s.isRumor || s.isRumor) && similar(k.w, w));
     if (k) { foldedInto.set(k.s.id, [...(foldedInto.get(k.s.id) ?? []), s]); continue; }
     kept.push({ s, w });
   }
