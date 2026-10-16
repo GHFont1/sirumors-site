@@ -9,12 +9,15 @@ const NAV = [
   { href: "/", label: "Live updates" },
   { href: "/rankings/", label: "Rankings" },
   { href: "/resets/", label: "Resets" },
+  { href: "/codex/", label: "Codex" },
+  { href: "/claude/", label: "Claude" },
   { href: "/releases/", label: "Releases" },
   { href: "/rumors/", label: "Rumors" },
   { href: "/odds/", label: "Odds" },
 ];
 const MORE = [
   { href: "/news/", label: "All news" },
+  { href: "/models/", label: "Best AI models" },
   { href: "/videos/", label: "Videos" },
   { href: "/trends/", label: "Trends" },
   { href: "/people/", label: "People to follow" },

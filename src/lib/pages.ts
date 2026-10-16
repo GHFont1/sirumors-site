@@ -1,3 +1,4 @@
+import { resetPageTitle } from "./resetSeo";
 import { NOW, foldedInto, allReleases, companyBySlug, pageId, releaseLines, resetHistory, rumors, stories, videos, type Story } from "./data";
 import { allUpdates, cleanTitle } from "./updates";
 import { majorOutlets } from "./major";
@@ -11,6 +12,8 @@ export type PageItem = {
   kind: "story" | "rumor" | "release" | "reset" | "update" | "video";
   badge: string;
   headline: string;
+  /** The title search engines see, when it should differ from the on-page headline. */
+  seoTitle?: string;
   dek?: string;
   body: string[];
   date: string;
@@ -101,7 +104,7 @@ export function pageItems(): PageItem[] {
     const gap = prev ? daysBetween(prev.date.slice(0, 10), r.date.slice(0, 10)) : null;
     const by = r.byName ?? (r.by === "thsottiaux" ? "Tibo" : `@${r.by}`);
     out.push({
-      id: r.id, kind: "reset", badge: r.status === "coming" ? "Reset coming" : r.banked ? "Banked reset" : "Reset",
+      id: r.id, kind: "reset", seoTitle: resetPageTitle(r), badge: r.status === "coming" ? "Reset coming" : r.banked ? "Banked reset" : "Reset",
       headline: r.title, dek: `${r.product} usage limits${r.status === "coming" ? " are about to reset" : " were reset"}${r.banked ? ", as a reset you can save and use later" : ""}.`,
       body: [
         `${by} posted on X on ${fmtDate(r.date)}${r.status === "coming" ? " that a reset is on the way" : " that usage limits were reset"}${r.banked ? ". This one is banked: subscribers can keep it and use it when they want" : ""}.`,

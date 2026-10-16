@@ -95,6 +95,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/rumors/" className="link-hover">Rumor board</Link>
               <Link href="/resets/" className="link-hover">Resets</Link>
               <Link href="/codex/" className="link-hover">Codex tracker</Link>
+              <Link href="/claude/" className="link-hover">Claude tracker</Link>
+              <Link href="/models/" className="link-hover">Best AI models</Link>
+              <Link href="/rankings/" className="link-hover">Rankings</Link>
               <Link href="/forums/" className="link-hover">Forums</Link>
               <Link href="/leaderboard/" className="link-hover">Leaderboard</Link>
               <Link href="/me/" className="link-hover">My feed</Link>

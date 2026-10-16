@@ -21,6 +21,7 @@ export default function Home() {
         <div className="flex shrink-0 gap-2">
           <Link href="/models/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Best AI models</Link>
           <Link href="/resets/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Resets</Link>
+          <Link href="/codex/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Codex reset</Link>
         </div>
       </section>
 

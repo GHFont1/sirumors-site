@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { codexResetFaq, codexResetQA, codexResetSnippet } from "@/lib/resetSeo";
+import { resetSnippet } from "@/lib/resetSeo";
+import { ResetQuestions, ResetStatus } from "@/components/ResetAnswers";
 import { NOW, repos, resetHistory, stories } from "@/lib/data";
 import { ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
@@ -8,7 +9,7 @@ import { Bars } from "@/components/Charts";
 import { StoryList } from "@/components/Story";
 import { TimeAgo } from "@/components/TimeAgo";
 
-const snippet = codexResetSnippet("codex");
+const snippet = resetSnippet("codex");
 export const metadata: Metadata = {
   title: { absolute: snippet.title },
   description: snippet.description,
@@ -37,13 +38,12 @@ export default function CodexPage() {
   const codexStable = stable(codex);
   const latest = codexStable[0];
   const news = stories.filter((s) => /codex|claude code|gemini cli|coding agent/i.test(s.title)).slice(0, 25);
-  const faq = codexResetFaq();
   return (
     <>
-      {faq && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }} />}
       <div className="kicker">Codex tracker</div>
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Codex resets, releases and news</h1>
+      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Codex reset tracker: every usage limit reset</h1>
       <p className="mt-1 max-w-2xl text-muted">Every Codex and ChatGPT usage reset, straight from Tibo on X, the Codex CLI&apos;s full release history, and coding-agent news as it breaks.</p>
+      <ResetStatus name="Codex" />
 
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Last Codex reset" value={hours == null ? "—" : hours < 24 ? `${Math.max(1, Math.round(hours))}h ago` : `${Math.round(hours / 24)}d ago`} sub={last ? `${fmtDate(last.date)} · per Tibo on X` : "None found yet"} tone="accent" />
@@ -54,7 +54,7 @@ export default function CodexPage() {
 
       <Section title="Reset history" kicker="Every Codex and ChatGPT usage reset">
         <div className="card px-4"><ResetList items={resetHistory("openai")} limit={60} quotes /></div>
-        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<span className="link-hover">@thsottiaux</span>), who runs Codex at OpenAI and posts every reset, and <span className="link-hover">@Codexresets_</span>. Checked every 30 minutes. Claude, Grok and Gemini resets are on the <a className="link-hover text-accent" href="/resets/">resets page</a>.</p>
+        <p className="mt-2 text-xs text-faint">Straight from X: Tibo (<span className="link-hover">@thsottiaux</span>), who runs Codex at OpenAI and posts every reset, and <span className="link-hover">@Codexresets_</span>. Checked every 30 minutes. Claude resets have their own <a className="link-hover text-accent" href="/claude/">Claude tracker</a>; Grok and Gemini are on the <a className="link-hover text-accent" href="/resets/">resets page</a>.</p>
       </Section>
 
       <Section title="Shipping pace" kicker="Stable releases per week, last 26 weeks">
@@ -72,15 +72,7 @@ export default function CodexPage() {
       <Section title="Coding-agent news" kicker="Codex, Claude Code and friends" href="/t/codex/">
         <div className="card px-4"><StoryList items={news} /></div>
       </Section>
-      {codexResetQA().length > 0 && (
-        <Section title="Codex reset questions" kicker="Quick answers">
-          <div className="card divide-y divide-line">
-            {codexResetQA().map(([q, a]) => (
-              <div key={q} className="p-4"><h3 className="text-base font-bold text-text">{q}</h3><p className="mt-1 text-muted">{a}</p></div>
-            ))}
-          </div>
-        </Section>
-      )}
+      <ResetQuestions name="Codex" />
     </>
   );
 }

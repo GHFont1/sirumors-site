@@ -45,6 +45,7 @@ export function Sidebar() {
       <Side title="Resets" href="/resets/" linkLabel="Every reset">
         <LabResets items={resets} />
         <div className="mt-2 border-t border-line"><ResetList items={resets} limit={4} /></div>
+        <div className="mt-2 flex gap-3 border-t border-line pt-2 text-xs font-bold"><Link href="/codex/" className="text-accent hover:underline">Codex tracker →</Link><Link href="/claude/" className="text-accent hover:underline">Claude tracker →</Link><Link href="/rankings/" className="text-accent hover:underline">Rankings →</Link></div>
       </Side>
 
       {odds && (

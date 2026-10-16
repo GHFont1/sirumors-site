@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const description = (p.dek ?? p.body[0] ?? p.headline).slice(0, 160);
   const images = p.image ? [{ url: p.image }] : [{ url: "/og.png", width: 1200, height: 630 }];
   return {
-    title: p.headline, description, alternates: { canonical: pagePath(p.id) },
-    openGraph: { type: "article", title: p.headline, description, url: pagePath(p.id), siteName: "SI Rumors", publishedTime: isoDate(p.date), images },
+    title: p.seoTitle ? { absolute: p.seoTitle } : p.headline, description, alternates: { canonical: pagePath(p.id) },
+    openGraph: { type: "article", title: p.seoTitle ?? p.headline, description, url: pagePath(p.id), siteName: "SI Rumors", publishedTime: isoDate(p.date), images },
     twitter: { card: "summary_large_image", title: p.headline, description, images: images.map((i) => i.url) },
   };
 }
