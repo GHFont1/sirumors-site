@@ -48,6 +48,15 @@ try {
     }
     out.google = { sitemaps: "resubmitted" };
     log("Google: sitemaps resubmitted");
+    // Daily Search Console numbers (clicks, impressions, position) kept in state.gsc so progress is visible.
+    try {
+      const day = new Date(Date.now() - 3 * 86400000).toISOString().slice(0, 10);
+      const q = await fetch(`https://www.googleapis.com/webmasters/v3/sites/${prop}/searchAnalytics/query`, { method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify({ startDate: "2026-10-01", endDate: day, dimensions: ["date"] }), signal: AbortSignal.timeout(30000) });
+      const rows = (await q.json()).rows ?? [];
+      state.gsc = Object.fromEntries(rows.map((r) => [r.keys[0], { clicks: r.clicks, impressions: r.impressions, position: Math.round(r.position * 10) / 10 }]));
+      const w = rows.slice(-7);
+      log(`Google: last 7 final days ${w.reduce((a, r) => a + r.clicks, 0)} clicks, ${w.reduce((a, r) => a + r.impressions, 0)} impressions`);
+    } catch (e) { log("Google stats skipped:", e.message); }
   } else out.google = { pending: "Search Console consent not given yet" };
   state.failures = 0;
   state.lastSuccess = out.at;
