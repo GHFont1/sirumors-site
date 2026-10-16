@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { codexResetFaq, codexResetQA, codexResetSnippet } from "@/lib/resetSeo";
 import { NOW, resetHistory } from "@/lib/data";
 import { LabResets, RESET_LABS, ResetList } from "@/components/Boards";
 import { daysBetween } from "@/lib/format";
 import { Section, Stat } from "@/components/Blocks";
 
+const snippet = codexResetSnippet("resets");
 export const metadata: Metadata = {
-  title: "AI Usage Resets: ChatGPT, Codex, Claude, Grok and Gemini Limit Resets",
-  description: "When did ChatGPT, Codex, Claude, Grok or Gemini last reset usage limits? Every reset, straight from the labs and their staff on X, checked every 30 minutes.",
+  title: { absolute: snippet.title },
+  description: snippet.description,
   alternates: { canonical: "/resets/" },
 };
 
@@ -17,8 +19,10 @@ export default function ResetsPage() {
   const most = RESET_LABS.map(([slug, product]) => ({ product, n: in30.filter((r) => r.company === slug).length })).sort((a, b) => b.n - a.n)[0];
   const oa = done.filter((r) => r.company === "openai").slice(0, 8);
   const gaps = oa.map((r, i) => (i ? daysBetween(r.date.slice(0, 10), oa[i - 1].date.slice(0, 10)) : null)).filter((x): x is number => x != null && x > 0).sort((a, b) => a - b);
+  const faq = codexResetFaq();
   return (
     <>
+      {faq && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }} />}
       <div className="kicker">Resets</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">AI usage resets, <span className="grad-text">every lab</span></h1>
       <p className="mt-1 max-w-2xl text-muted">When ChatGPT and Codex, Claude, Grok or Gemini reset usage limits, straight from the lab or its staff on X. Checked every 30 minutes.</p>
@@ -40,6 +44,15 @@ export default function ResetsPage() {
           {" "}Google&apos;s @GeminiApp, Logan Kilpatrick, Gemini CLI and Antigravity. A reset counts only when one of them posts it.
         </p>
       </Section>
+      {codexResetQA().length > 0 && (
+        <Section title="Codex reset questions" kicker="Quick answers">
+          <div className="card divide-y divide-line">
+            {codexResetQA().map(([q, a]) => (
+              <div key={q} className="p-4"><h3 className="text-base font-bold text-text">{q}</h3><p className="mt-1 text-muted">{a}</p></div>
+            ))}
+          </div>
+        </Section>
+      )}
     </>
   );
 }

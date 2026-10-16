@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { codexResetFaq, codexResetQA, codexResetSnippet } from "@/lib/resetSeo";
 import { NOW, repos, resetHistory, stories } from "@/lib/data";
 import { ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
@@ -7,9 +8,10 @@ import { Bars } from "@/components/Charts";
 import { StoryList } from "@/components/Story";
 import { TimeAgo } from "@/components/TimeAgo";
 
+const snippet = codexResetSnippet("codex");
 export const metadata: Metadata = {
-  title: "Codex Tracker: Limit Resets, Releases and News",
-  description: "When were Codex usage limits last reset? Every Codex and ChatGPT usage reset, straight from Tibo on X, plus Codex CLI release history and the latest coding-agent news.",
+  title: { absolute: snippet.title },
+  description: snippet.description,
   alternates: { canonical: "/codex/" },
 };
 
@@ -35,8 +37,10 @@ export default function CodexPage() {
   const codexStable = stable(codex);
   const latest = codexStable[0];
   const news = stories.filter((s) => /codex|claude code|gemini cli|coding agent/i.test(s.title)).slice(0, 25);
+  const faq = codexResetFaq();
   return (
     <>
+      {faq && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }} />}
       <div className="kicker">Codex tracker</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Codex resets, releases and news</h1>
       <p className="mt-1 max-w-2xl text-muted">Every Codex and ChatGPT usage reset, straight from Tibo on X, the Codex CLI&apos;s full release history, and coding-agent news as it breaks.</p>
@@ -68,6 +72,15 @@ export default function CodexPage() {
       <Section title="Coding-agent news" kicker="Codex, Claude Code and friends" href="/t/codex/">
         <div className="card px-4"><StoryList items={news} /></div>
       </Section>
+      {codexResetQA().length > 0 && (
+        <Section title="Codex reset questions" kicker="Quick answers">
+          <div className="card divide-y divide-line">
+            {codexResetQA().map(([q, a]) => (
+              <div key={q} className="p-4"><h3 className="text-base font-bold text-text">{q}</h3><p className="mt-1 text-muted">{a}</p></div>
+            ))}
+          </div>
+        </Section>
+      )}
     </>
   );
 }
