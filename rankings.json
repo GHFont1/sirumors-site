@@ -1,0 +1,2481 @@
+{
+ "generatedAt": "2026-10-17T19:32:58.811Z",
+ "published": "2026-10-16",
+ "source": "Arena (arena.ai) leaderboards via Hugging Face",
+ "boards": [
+  {
+   "id": "overall",
+   "label": "Best AI model",
+   "blurb": "Overall text Arena",
+   "unit": "Elo",
+   "published": "2026-10-15",
+   "top": [
+    {
+     "model": "Gemini 4 Argon",
+     "raw": "Gemini 4 Argon (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1532,
+     "votes": 4904,
+     "rank": 1
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "Claude Opus 5.5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1516,
+     "votes": 8300,
+     "rank": 2
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "Claude Fable 5.1 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1512,
+     "votes": 14590,
+     "rank": 3
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "Claude Opus 5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1508,
+     "votes": 32495,
+     "rank": 4
+    },
+    {
+     "model": "Claude Opus 4.6",
+     "raw": "Claude Opus 4.6 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1502,
+     "votes": 81394,
+     "rank": 6
+    },
+    {
+     "model": "Muse Wonder",
+     "raw": "Muse Wonder (Max)",
+     "org": "meta",
+     "company": "meta",
+     "rating": 1501,
+     "votes": 3247,
+     "rank": 7
+    },
+    {
+     "model": "Gemini 3.8 Flash",
+     "raw": "Gemini 3.8 Flash (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1499,
+     "votes": 37454,
+     "rank": 8
+    },
+    {
+     "model": "Claude Fable 5",
+     "raw": "Claude Fable 5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1491,
+     "votes": 42004,
+     "rank": 10
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "coding",
+   "label": "Best for coding",
+   "blurb": "WebDev Arena",
+   "unit": "Elo",
+   "published": "2026-10-16",
+   "top": [
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "Claude Opus 5.5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1807,
+     "votes": 2775,
+     "rank": 1
+    },
+    {
+     "model": "GPT-6 Astra",
+     "raw": "GPT-6 Astra (Max)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1777,
+     "votes": 6014,
+     "rank": 2
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "raw": "Claude Sonnet 5.5 (xHigh)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1768,
+     "votes": 3182,
+     "rank": 3
+    },
+    {
+     "model": "GPT-6.1 Sol",
+     "raw": "GPT-6.1 Sol (Max)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1755,
+     "votes": 2863,
+     "rank": 4
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "Claude Fable 5.1 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1741,
+     "votes": 7503,
+     "rank": 5
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "Claude Opus 5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1689,
+     "votes": 18310,
+     "rank": 7
+    },
+    {
+     "model": "GPT-6 Sol",
+     "raw": "GPT-6 Sol (Max)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1683,
+     "votes": 4364,
+     "rank": 8
+    },
+    {
+     "model": "Gemini 4 Argon",
+     "raw": "Gemini 4 Argon (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1678,
+     "votes": 1775,
+     "rank": 9
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "agent",
+   "label": "Best agent",
+   "blurb": "Agent Arena",
+   "unit": "score",
+   "published": "2026-10-16",
+   "top": [
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "Claude Opus 5.5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 18.9,
+     "votes": 10551,
+     "rank": 1
+    },
+    {
+     "model": "GPT-6 Astra",
+     "raw": "GPT-6 Astra (Max)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 14.1,
+     "votes": 13168,
+     "rank": 2
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "Claude Fable 5.1 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 14,
+     "votes": 16374,
+     "rank": 3
+    },
+    {
+     "model": "GPT-6.1 Sol",
+     "raw": "GPT-6.1 Sol (Max)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 13.6,
+     "votes": 13444,
+     "rank": 4
+    },
+    {
+     "model": "Gemini 4 Argon",
+     "raw": "Gemini 4 Argon (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 13.2,
+     "votes": 30489,
+     "rank": 5
+    },
+    {
+     "model": "Claude Sonnet 5.5",
+     "raw": "Claude Sonnet 5.5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 13,
+     "votes": 7560,
+     "rank": 6
+    },
+    {
+     "model": "GPT-6 Sol",
+     "raw": "GPT-6 Sol (Max)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 10.3,
+     "votes": 7887,
+     "rank": 7
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "Claude Opus 5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 8.7,
+     "votes": 23770,
+     "rank": 8
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "open",
+   "label": "Best open model",
+   "blurb": "Overall text, open weights only",
+   "unit": "Elo",
+   "published": "2026-10-15",
+   "top": [
+    {
+     "model": "MiMo V2.6 Pro",
+     "raw": "mimo-v2.6-pro",
+     "org": "xiaomi",
+     "company": null,
+     "rating": 1491,
+     "votes": 4075,
+     "rank": 11
+    },
+    {
+     "model": "Kimi K3",
+     "raw": "Kimi K3 (Max)",
+     "org": "moonshot",
+     "company": "moonshot",
+     "rating": 1475,
+     "votes": 32795,
+     "rank": 25
+    },
+    {
+     "model": "GLM 5.3",
+     "raw": "glm-5.3-max",
+     "org": "zai",
+     "company": "zai",
+     "rating": 1471,
+     "votes": 22543,
+     "rank": 27
+    },
+    {
+     "model": "GLM 5.3 Flash",
+     "raw": "glm-5.3-flash",
+     "org": "zai",
+     "company": "zai",
+     "rating": 1471,
+     "votes": 32925,
+     "rank": 29
+    },
+    {
+     "model": "GLM 5.2",
+     "raw": "glm-5.2-max",
+     "org": "zai",
+     "company": "zai",
+     "rating": 1470,
+     "votes": 49820,
+     "rank": 31
+    },
+    {
+     "model": "MiMo V2.5 Pro",
+     "raw": "mimo-v2.5-pro",
+     "org": "xiaomi",
+     "company": null,
+     "rating": 1465,
+     "votes": 75721,
+     "rank": 37
+    },
+    {
+     "model": "Deepseek V4.1 Flash",
+     "raw": "deepseek-v4.1-flash-max",
+     "org": "deepseek",
+     "company": "deepseek",
+     "rating": 1463,
+     "votes": 12793,
+     "rank": 38
+    },
+    {
+     "model": "GLM 5.1",
+     "raw": "glm-5.1",
+     "org": "zai",
+     "company": "zai",
+     "rating": 1462,
+     "votes": 62889,
+     "rank": 39
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "hard",
+   "label": "Best for hard problems",
+   "blurb": "Hard prompts",
+   "unit": "Elo",
+   "published": "2026-10-15",
+   "top": [
+    {
+     "model": "Gemini 4 Argon",
+     "raw": "Gemini 4 Argon (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1546,
+     "votes": 3129,
+     "rank": 1
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "Claude Opus 5.5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1535,
+     "votes": 5157,
+     "rank": 2
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "Claude Opus 5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1526,
+     "votes": 21001,
+     "rank": 3
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "Claude Fable 5.1 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1526,
+     "votes": 8511,
+     "rank": 4
+    },
+    {
+     "model": "Claude Opus 4.6",
+     "raw": "Claude Opus 4.6 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1525,
+     "votes": 51834,
+     "rank": 5
+    },
+    {
+     "model": "MiMo V2.6 Pro",
+     "raw": "mimo-v2.6-pro",
+     "org": "xiaomi",
+     "company": null,
+     "rating": 1510,
+     "votes": 2624,
+     "rank": 8
+    },
+    {
+     "model": "Muse Wonder",
+     "raw": "Muse Wonder (Max)",
+     "org": "meta",
+     "company": "meta",
+     "rating": 1510,
+     "votes": 2018,
+     "rank": 9
+    },
+    {
+     "model": "Gemini 3.8 Flash",
+     "raw": "Gemini 3.8 Flash (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1509,
+     "votes": 24169,
+     "rank": 10
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "math",
+   "label": "Best at math",
+   "blurb": "Math prompts",
+   "unit": "Elo",
+   "published": "2026-10-15",
+   "top": [
+    {
+     "model": "Gemini 4 Argon",
+     "raw": "Gemini 4 Argon (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1536,
+     "votes": 273,
+     "rank": 1
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "Claude Opus 5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1532,
+     "votes": 3152,
+     "rank": 2
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "Claude Fable 5.1 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1528,
+     "votes": 695,
+     "rank": 4
+    },
+    {
+     "model": "Gemini 3.8 Flash",
+     "raw": "Gemini 3.8 Flash (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1527,
+     "votes": 1883,
+     "rank": 5
+    },
+    {
+     "model": "Claude Opus 4.6",
+     "raw": "Claude Opus 4.6 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1519,
+     "votes": 4186,
+     "rank": 6
+    },
+    {
+     "model": "Claude Fable 5",
+     "raw": "Claude Fable 5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1519,
+     "votes": 2069,
+     "rank": 7
+    },
+    {
+     "model": "Gemini 3.7 Flash",
+     "raw": "Gemini 3.7 Flash (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1510,
+     "votes": 1390,
+     "rank": 9
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "Claude Opus 5.5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1508,
+     "votes": 416,
+     "rank": 10
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "writing",
+   "label": "Best writer",
+   "blurb": "Creative writing",
+   "unit": "Elo",
+   "published": "2026-10-15",
+   "top": [
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "Claude Opus 5.5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1534,
+     "votes": 1945,
+     "rank": 1
+    },
+    {
+     "model": "Gemini 4 Argon",
+     "raw": "Gemini 4 Argon (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1527,
+     "votes": 1057,
+     "rank": 2
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "Claude Fable 5.1 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1508,
+     "votes": 3284,
+     "rank": 3
+    },
+    {
+     "model": "Claude Opus 4.6",
+     "raw": "Claude Opus 4.6 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1505,
+     "votes": 14950,
+     "rank": 4
+    },
+    {
+     "model": "Claude Fable 5",
+     "raw": "Claude Fable 5 (High)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1494,
+     "votes": 9020,
+     "rank": 5
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "Claude Opus 5 (Max)",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1492,
+     "votes": 7375,
+     "rank": 6
+    },
+    {
+     "model": "Gemini 3.8 Flash",
+     "raw": "Gemini 3.8 Flash (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1492,
+     "votes": 8232,
+     "rank": 7
+    },
+    {
+     "model": "Gemini 3.7 Flash",
+     "raw": "Gemini 3.7 Flash (High)",
+     "org": "google",
+     "company": "google",
+     "rating": 1489,
+     "votes": 6003,
+     "rank": 8
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "search",
+   "label": "Best AI search",
+   "blurb": "Search Arena",
+   "unit": "Elo",
+   "published": "2026-10-13",
+   "top": [
+    {
+     "model": "GPT-5.6 Sol",
+     "raw": "gpt-5.6-sol-xhigh",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1261,
+     "votes": 60437,
+     "rank": 1
+    },
+    {
+     "model": "Qwen 3.8",
+     "raw": "qwen3.8-max",
+     "org": "alibaba",
+     "company": "qwen",
+     "rating": 1261,
+     "votes": 1870,
+     "rank": 2
+    },
+    {
+     "model": "Claude Opus 4.6 Search",
+     "raw": "claude-opus-4-6-search",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1251,
+     "votes": 173191,
+     "rank": 3
+    },
+    {
+     "model": "GPT-5.5 Search",
+     "raw": "gpt-5.5-search",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1247,
+     "votes": 125957,
+     "rank": 4
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "claude-fable-5.1-high",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1246,
+     "votes": 12782,
+     "rank": 5
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "claude-opus-5-high",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1242,
+     "votes": 13285,
+     "rank": 6
+    },
+    {
+     "model": "GPT-6 Astra",
+     "raw": "gpt-6-astra-max",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1234,
+     "votes": 18483,
+     "rank": 7
+    },
+    {
+     "model": "GPT-6.1 Sol",
+     "raw": "gpt-6.1-sol-max",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1233,
+     "votes": 5555,
+     "rank": 8
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "vision",
+   "label": "Best vision",
+   "blurb": "Vision Arena",
+   "unit": "Elo",
+   "published": "2026-10-09",
+   "top": [
+    {
+     "model": "Claude Fable 5",
+     "raw": "claude-fable-5-high",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1324,
+     "votes": 14175,
+     "rank": 1
+    },
+    {
+     "model": "Claude Opus 5.5",
+     "raw": "claude-opus-5.5-high",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1321,
+     "votes": 2508,
+     "rank": 2
+    },
+    {
+     "model": "Claude Opus 5",
+     "raw": "claude-opus-5-high",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1319,
+     "votes": 16665,
+     "rank": 3
+    },
+    {
+     "model": "Claude Fable 5.1",
+     "raw": "claude-fable-5.1-max",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1318,
+     "votes": 4648,
+     "rank": 4
+    },
+    {
+     "model": "Claude Opus 4.7",
+     "raw": "claude-opus-4-7",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1316,
+     "votes": 23165,
+     "rank": 5
+    },
+    {
+     "model": "Gemini 3.7 Flash",
+     "raw": "gemini-3.7-flash-high",
+     "org": "google",
+     "company": "google",
+     "rating": 1316,
+     "votes": 4524,
+     "rank": 6
+    },
+    {
+     "model": "Claude Opus 4.6",
+     "raw": "claude-opus-4-6-high",
+     "org": "anthropic",
+     "company": "anthropic",
+     "rating": 1316,
+     "votes": 22304,
+     "rank": 7
+    },
+    {
+     "model": "Gemini 3.8 Flash",
+     "raw": "gemini-3.8-flash-high",
+     "org": "google",
+     "company": "google",
+     "rating": 1314,
+     "votes": 3792,
+     "rank": 8
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "image",
+   "label": "Best image model",
+   "blurb": "Text-to-image Arena",
+   "unit": "Elo",
+   "published": "2026-10-07",
+   "top": [
+    {
+     "model": "GPT Image 2.5 Sunburst",
+     "raw": "gpt-image-2.5-sunburst",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1425,
+     "votes": 17752,
+     "rank": 1
+    },
+    {
+     "model": "GPT Image 2.5 Flare",
+     "raw": "gpt-image-2.5-flare",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1398,
+     "votes": 16889,
+     "rank": 2
+    },
+    {
+     "model": "GPT Image 2",
+     "raw": "gpt-image-2 (medium)",
+     "org": "openai",
+     "company": "openai",
+     "rating": 1383,
+     "votes": 93334,
+     "rank": 3
+    },
+    {
+     "model": "Grok Imagine Image 2.0 (canvas)",
+     "raw": "grok-imagine-image-2.0 (canvas)",
+     "org": "xai",
+     "company": "xai",
+     "rating": 1334,
+     "votes": 3113,
+     "rank": 4
+    },
+    {
+     "model": "Mai Image 2.6",
+     "raw": "mai-image-2.6",
+     "org": "microsoft-ai",
+     "company": "microsoft",
+     "rating": 1332,
+     "votes": 25091,
+     "rank": 5
+    },
+    {
+     "model": "Gemini Nano Banana 2.1",
+     "raw": "gemini-nano-banana-2.1",
+     "org": "google",
+     "company": "google",
+     "rating": 1328,
+     "votes": 5310,
+     "rank": 6
+    },
+    {
+     "model": "Reve 2.1",
+     "raw": "reve-2.1",
+     "org": "reve",
+     "company": null,
+     "rating": 1302,
+     "votes": 8249,
+     "rank": 7
+    },
+    {
+     "model": "Grok Imagine Image 2.0 (20260801)",
+     "raw": "grok-imagine-image-2.0 (20260801)",
+     "org": "xai",
+     "company": "xai",
+     "rating": 1294,
+     "votes": 14483,
+     "rank": 8
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  },
+  {
+   "id": "video",
+   "label": "Best video model",
+   "blurb": "Text-to-video Arena",
+   "unit": "Elo",
+   "published": "2026-09-22",
+   "top": [
+    {
+     "model": "Gemini Omni 1.1 Flash",
+     "raw": "gemini-omni-1.1-flash",
+     "org": "google",
+     "company": "google",
+     "rating": 1516,
+     "votes": 1784,
+     "rank": 1
+    },
+    {
+     "model": "Gemini Omni Flash",
+     "raw": "gemini-omni-flash",
+     "org": "google",
+     "company": "google",
+     "rating": 1513,
+     "votes": 26576,
+     "rank": 2
+    },
+    {
+     "model": "Flux 3 Video",
+     "raw": "flux-3-video",
+     "org": "bfl",
+     "company": "bfl",
+     "rating": 1493,
+     "votes": 1302,
+     "rank": 3
+    },
+    {
+     "model": "Grok Imagine Video 1.5 Agent",
+     "raw": "grok-imagine-video-1.5-agent",
+     "org": "xai",
+     "company": "xai",
+     "rating": 1492,
+     "votes": 1218,
+     "rank": 4
+    },
+    {
+     "model": "Dreamina Seedance 2.0.720p",
+     "raw": "dreamina-seedance-2.0-720p",
+     "org": "bytedance",
+     "company": null,
+     "rating": 1479,
+     "votes": 56318,
+     "rank": 5
+    },
+    {
+     "model": "Wan3.0",
+     "raw": "wan3.0",
+     "org": "alibaba",
+     "company": "qwen",
+     "rating": 1476,
+     "votes": 2598,
+     "rank": 6
+    },
+    {
+     "model": "Dreamina Seedance 2.5.720p",
+     "raw": "dreamina-seedance-2.5-720p",
+     "org": "bytedance",
+     "company": null,
+     "rating": 1474,
+     "votes": 8001,
+     "rank": 7
+    },
+    {
+     "model": "Minimax H3",
+     "raw": "minimax-h3",
+     "org": "minimax",
+     "company": null,
+     "rating": 1460,
+     "votes": 11417,
+     "rank": 8
+    }
+   ],
+   "leaderSince": "2026-10-11",
+   "prevLeader": null
+  }
+ ],
+ "frontier": [
+  {
+   "slug": "claude-opus-5-5",
+   "model": "Claude Opus 5.5",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 2,
+     "rating": 1516,
+     "votes": 8300
+    },
+    "hard": {
+     "pos": 2,
+     "rating": 1535,
+     "votes": 5157
+    },
+    "coding": {
+     "pos": 1,
+     "rating": 1807,
+     "votes": 2775
+    },
+    "agent": {
+     "pos": 1,
+     "rating": 18.9,
+     "votes": 10551
+    }
+   },
+   "score": 97.4,
+   "rank": 1
+  },
+  {
+   "slug": "gpt-6-astra",
+   "model": "GPT-6 Astra",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 2,
+     "rating": 1777,
+     "votes": 6014
+    },
+    "agent": {
+     "pos": 2,
+     "rating": 14.1,
+     "votes": 13168
+    }
+   },
+   "score": 94.7,
+   "rank": 2
+  },
+  {
+   "slug": "gemini-4-argon",
+   "model": "Gemini 4 Argon",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 1,
+     "rating": 1532,
+     "votes": 4904
+    },
+    "hard": {
+     "pos": 1,
+     "rating": 1546,
+     "votes": 3129
+    },
+    "coding": {
+     "pos": 8,
+     "rating": 1678,
+     "votes": 1775
+    },
+    "agent": {
+     "pos": 5,
+     "rating": 13.2,
+     "votes": 30489
+    }
+   },
+   "score": 85.5,
+   "rank": 3
+  },
+  {
+   "slug": "claude-fable-5-1",
+   "model": "Claude Fable 5.1",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 3,
+     "rating": 1512,
+     "votes": 14590
+    },
+    "hard": {
+     "pos": 4,
+     "rating": 1526,
+     "votes": 8511
+    },
+    "coding": {
+     "pos": 5,
+     "rating": 1741,
+     "votes": 7503
+    },
+    "agent": {
+     "pos": 3,
+     "rating": 14,
+     "votes": 16374
+    }
+   },
+   "score": 85.5,
+   "rank": 4
+  },
+  {
+   "slug": "gpt-6-1-sol",
+   "model": "GPT-6.1 Sol",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 4,
+     "rating": 1755,
+     "votes": 2863
+    },
+    "agent": {
+     "pos": 4,
+     "rating": 13.6,
+     "votes": 13444
+    }
+   },
+   "score": 84.2,
+   "rank": 5
+  },
+  {
+   "slug": "claude-opus-5",
+   "model": "Claude Opus 5",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 4,
+     "rating": 1508,
+     "votes": 32495
+    },
+    "hard": {
+     "pos": 3,
+     "rating": 1526,
+     "votes": 21001
+    },
+    "coding": {
+     "pos": 6,
+     "rating": 1689,
+     "votes": 18310
+    },
+    "agent": {
+     "pos": 8,
+     "rating": 8.7,
+     "votes": 23770
+    }
+   },
+   "score": 77.6,
+   "rank": 6
+  },
+  {
+   "slug": "gpt-6-sol",
+   "model": "GPT-6 Sol",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 7,
+     "rating": 1683,
+     "votes": 4364
+    },
+    "agent": {
+     "pos": 7,
+     "rating": 10.3,
+     "votes": 7887
+    }
+   },
+   "score": 68.4,
+   "rank": 7
+  },
+  {
+   "slug": "muse-wonder",
+   "model": "Muse Wonder",
+   "org": "meta",
+   "orgName": "Meta",
+   "company": "meta",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 6,
+     "rating": 1501,
+     "votes": 3247
+    },
+    "hard": {
+     "pos": 7,
+     "rating": 1510,
+     "votes": 2018
+    },
+    "coding": {
+     "pos": 13,
+     "rating": 1650,
+     "votes": 1942
+    },
+    "agent": {
+     "pos": 11,
+     "rating": 4.9,
+     "votes": 7690
+    }
+   },
+   "score": 56.6,
+   "rank": 8
+  },
+  {
+   "slug": "claude-fable-5",
+   "model": "Claude Fable 5",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 8,
+     "rating": 1491,
+     "votes": 42004
+    },
+    "hard": {
+     "pos": 9,
+     "rating": 1507,
+     "votes": 27374
+    },
+    "coding": {
+     "pos": 19,
+     "rating": 1625,
+     "votes": 15612
+    },
+    "agent": {
+     "pos": 9,
+     "rating": 8.2,
+     "votes": 42608
+    }
+   },
+   "score": 46.1,
+   "rank": 9
+  },
+  {
+   "slug": "mimo-v2-6-pro",
+   "model": "MiMo V2.6 Pro",
+   "org": "xiaomi",
+   "orgName": "Xiaomi",
+   "company": null,
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 9,
+     "rating": 1491,
+     "votes": 4075
+    },
+    "hard": {
+     "pos": 6,
+     "rating": 1510,
+     "votes": 2624
+    },
+    "coding": {
+     "pos": 18,
+     "rating": 1625,
+     "votes": 4763
+    },
+    "agent": {
+     "pos": 13,
+     "rating": 4,
+     "votes": 27455
+    }
+   },
+   "score": 44.7,
+   "rank": 10
+  },
+  {
+   "slug": "muse-spark-1-3",
+   "model": "Muse Spark 1.3",
+   "org": "meta",
+   "orgName": "Meta",
+   "company": "meta",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 10,
+     "rating": 1490,
+     "votes": 17561
+    },
+    "hard": {
+     "pos": 11,
+     "rating": 1502,
+     "votes": 11392
+    },
+    "coding": {
+     "pos": 11,
+     "rating": 1658,
+     "votes": 9068
+    },
+    "agent": {
+     "pos": 14,
+     "rating": 3.8,
+     "votes": 73912
+    }
+   },
+   "score": 44.7,
+   "rank": 11
+  },
+  {
+   "slug": "claude-sonnet-5-5",
+   "model": "Claude Sonnet 5.5",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 26,
+     "rating": 1470,
+     "votes": 6831
+    },
+    "hard": {
+     "pos": 15,
+     "rating": 1493,
+     "votes": 4222
+    },
+    "coding": {
+     "pos": 3,
+     "rating": 1768,
+     "votes": 3182
+    },
+    "agent": {
+     "pos": 6,
+     "rating": 13,
+     "votes": 7560
+    }
+   },
+   "score": 39.5,
+   "rank": 12
+  },
+  {
+   "slug": "claude-opus-4-6",
+   "model": "Claude Opus 4.6",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 5,
+     "rating": 1502,
+     "votes": 81394
+    },
+    "hard": {
+     "pos": 5,
+     "rating": 1525,
+     "votes": 51834
+    },
+    "coding": {
+     "pos": 37,
+     "rating": 1547,
+     "votes": 19402
+    }
+   },
+   "score": 36,
+   "rank": 13
+  },
+  {
+   "slug": "gemini-3-8-flash",
+   "model": "Gemini 3.8 Flash",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 7,
+     "rating": 1499,
+     "votes": 37454
+    },
+    "hard": {
+     "pos": 8,
+     "rating": 1509,
+     "votes": 24169
+    },
+    "coding": {
+     "pos": 28,
+     "rating": 1585,
+     "votes": 10514
+    },
+    "agent": {
+     "pos": 15,
+     "rating": 3.7,
+     "votes": 37692
+    }
+   },
+   "score": 28.9,
+   "rank": 14
+  },
+  {
+   "slug": "muse-spark-1-2",
+   "model": "Muse Spark 1.2",
+   "org": "meta",
+   "orgName": "Meta",
+   "company": "meta",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 13,
+     "rating": 1484,
+     "votes": 8248
+    },
+    "hard": {
+     "pos": 17,
+     "rating": 1490,
+     "votes": 5255
+    }
+   },
+   "score": 26.3,
+   "rank": 15
+  },
+  {
+   "slug": "grok-4-7",
+   "model": "Grok 4.7",
+   "org": "xai",
+   "orgName": "xAI",
+   "company": "xai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 14,
+     "rating": 1639,
+     "votes": 5021
+    },
+    "agent": {
+     "pos": 16,
+     "rating": 3.2,
+     "votes": 15127
+    }
+   },
+   "score": 26.3,
+   "rank": 16
+  },
+  {
+   "slug": "qwen3-8",
+   "model": "Qwen 3.8",
+   "org": "alibaba",
+   "orgName": "Alibaba",
+   "company": "qwen",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 14,
+     "rating": 1483,
+     "votes": 27766
+    },
+    "hard": {
+     "pos": 12,
+     "rating": 1495,
+     "votes": 18366
+    },
+    "coding": {
+     "pos": 10,
+     "rating": 1672,
+     "votes": 3440
+    },
+    "agent": {
+     "pos": 25,
+     "rating": 1.8,
+     "votes": 68968
+    }
+   },
+   "score": 25,
+   "rank": 17
+  },
+  {
+   "slug": "claude-opus-4-7",
+   "model": "Claude Opus 4.7",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 11,
+     "rating": 1490,
+     "votes": 65116
+    },
+    "hard": {
+     "pos": 10,
+     "rating": 1506,
+     "votes": 43663
+    },
+    "coding": {
+     "pos": 34,
+     "rating": 1558,
+     "votes": 17932
+    }
+   },
+   "score": 16.7,
+   "rank": 18
+  },
+  {
+   "slug": "gemini-3-5-flash",
+   "model": "Gemini 3.5 Flash",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 15,
+     "rating": 1482,
+     "votes": 48486
+    },
+    "hard": {
+     "pos": 19,
+     "rating": 1488,
+     "votes": 32403
+    }
+   },
+   "score": 15.8,
+   "rank": 19
+  },
+  {
+   "slug": "kimi-k3",
+   "model": "Kimi K3",
+   "org": "moonshot",
+   "orgName": "Moonshot AI",
+   "company": "moonshot",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 21,
+     "rating": 1475,
+     "votes": 32795
+    },
+    "hard": {
+     "pos": 14,
+     "rating": 1494,
+     "votes": 21003
+    },
+    "coding": {
+     "pos": 12,
+     "rating": 1655,
+     "votes": 19220
+    },
+    "agent": {
+     "pos": 23,
+     "rating": 1.9,
+     "votes": 135415
+    }
+   },
+   "score": 13.2,
+   "rank": 20
+  },
+  {
+   "slug": "hy4",
+   "model": "Hy4",
+   "org": "tencent",
+   "orgName": "Tencent",
+   "company": null,
+   "open": true,
+   "boards": {
+    "coding": {
+     "pos": 16,
+     "rating": 1631,
+     "votes": 4802
+    },
+    "agent": {
+     "pos": 20,
+     "rating": 2.7,
+     "votes": 84828
+    }
+   },
+   "score": 10.5,
+   "rank": 21
+  },
+  {
+   "slug": "gpt-5-5",
+   "model": "GPT-5.5",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 24,
+     "rating": 1471,
+     "votes": 69401
+    },
+    "hard": {
+     "pos": 18,
+     "rating": 1489,
+     "votes": 45575
+    },
+    "agent": {
+     "pos": 17,
+     "rating": 3.1,
+     "votes": 54331
+    }
+   },
+   "score": 1.8,
+   "rank": 22
+  },
+  {
+   "slug": "gemini-3-7-flash",
+   "model": "Gemini 3.7 Flash",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 12,
+     "rating": 1487,
+     "votes": 27232
+    },
+    "hard": {
+     "pos": 13,
+     "rating": 1495,
+     "votes": 17784
+    },
+    "coding": {
+     "pos": 27,
+     "rating": 1591,
+     "votes": 12258
+    },
+    "agent": {
+     "pos": 31,
+     "rating": -0.7,
+     "votes": 54989
+    }
+   },
+   "score": -2,
+   "rank": 23
+  },
+  {
+   "slug": "gemini-3-6-flash",
+   "model": "Gemini 3.6 Flash",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 18,
+     "rating": 1479,
+     "votes": 36122
+    },
+    "hard": {
+     "pos": 23,
+     "rating": 1485,
+     "votes": 24166
+    }
+   },
+   "score": -2.6,
+   "rank": 24
+  },
+  {
+   "slug": "claude-sonnet-5",
+   "model": "Claude Sonnet 5",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 40,
+     "rating": 1541,
+     "votes": 15495
+    },
+    "agent": {
+     "pos": 12,
+     "rating": 4.6,
+     "votes": 33276
+    }
+   },
+   "score": -3.9,
+   "rank": 25
+  },
+  {
+   "slug": "glm-5-3",
+   "model": "GLM 5.3",
+   "org": "zai",
+   "orgName": "Z.ai",
+   "company": "zai",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 23,
+     "rating": 1471,
+     "votes": 22543
+    },
+    "hard": {
+     "pos": 20,
+     "rating": 1488,
+     "votes": 14242
+    },
+    "coding": {
+     "pos": 20,
+     "rating": 1621,
+     "votes": 9542
+    },
+    "agent": {
+     "pos": 24,
+     "rating": 1.8,
+     "votes": 86541
+    }
+   },
+   "score": -9.2,
+   "rank": 26
+  },
+  {
+   "slug": "gpt-5-6-sol",
+   "model": "GPT-5.6 Sol",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 38,
+     "rating": 1457,
+     "votes": 40442
+    },
+    "hard": {
+     "pos": 27,
+     "rating": 1483,
+     "votes": 26312
+    },
+    "agent": {
+     "pos": 10,
+     "rating": 7.1,
+     "votes": 36545
+    }
+   },
+   "score": -11.4,
+   "rank": 27
+  },
+  {
+   "slug": "gemini-3-pro",
+   "model": "Gemini 3 Pro",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 17,
+     "rating": 1479,
+     "votes": 42072
+    },
+    "hard": {
+     "pos": 34,
+     "rating": 1480,
+     "votes": 23192
+    }
+   },
+   "score": -17.1,
+   "rank": 28
+  },
+  {
+   "slug": "qwen3-8-flash-next",
+   "model": "Qwen 3.8 Flash Next",
+   "org": "alibaba",
+   "orgName": "Alibaba",
+   "company": "qwen",
+   "open": true,
+   "boards": {
+    "coding": {
+     "pos": 17,
+     "rating": 1630,
+     "votes": 8083
+    },
+    "agent": {
+     "pos": 35,
+     "rating": -2.9,
+     "votes": 98466
+    }
+   },
+   "score": -17.1,
+   "rank": 29
+  },
+  {
+   "slug": "gemini-3-1-pro",
+   "model": "Gemini 3.1 Pro",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 16,
+     "rating": 1480,
+     "votes": 127649
+    },
+    "hard": {
+     "pos": 25,
+     "rating": 1485,
+     "votes": 82971
+    },
+    "agent": {
+     "pos": 38,
+     "rating": -4,
+     "votes": 87236
+    }
+   },
+   "score": -18.4,
+   "rank": 30
+  },
+  {
+   "slug": "muse-spark-1-1",
+   "model": "Muse Spark 1.1",
+   "org": "meta",
+   "orgName": "Meta",
+   "company": "meta",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 19,
+     "rating": 1478,
+     "votes": 42810
+    },
+    "hard": {
+     "pos": 22,
+     "rating": 1486,
+     "votes": 28272
+    },
+    "coding": {
+     "pos": 38,
+     "rating": 1542,
+     "votes": 7990
+    }
+   },
+   "score": -18.4,
+   "rank": 31
+  },
+  {
+   "slug": "glm-5-3-flash",
+   "model": "GLM 5.3 Flash",
+   "org": "zai",
+   "orgName": "Z.ai",
+   "company": "zai",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 25,
+     "rating": 1471,
+     "votes": 32925
+    },
+    "hard": {
+     "pos": 16,
+     "rating": 1490,
+     "votes": 20935
+    },
+    "coding": {
+     "pos": 24,
+     "rating": 1605,
+     "votes": 17579
+    },
+    "agent": {
+     "pos": 32,
+     "rating": -1.2,
+     "votes": 87298
+    }
+   },
+   "score": -19.1,
+   "rank": 32
+  },
+  {
+   "slug": "mimo-v2-6-flash",
+   "model": "MiMo V2.6 Flash",
+   "org": "xiaomi",
+   "orgName": "Xiaomi",
+   "company": null,
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 40,
+     "rating": 1455,
+     "votes": 10917
+    },
+    "hard": {
+     "pos": 35,
+     "rating": 1479,
+     "votes": 6781
+    },
+    "coding": {
+     "pos": 15,
+     "rating": 1634,
+     "votes": 5016
+    },
+    "agent": {
+     "pos": 21,
+     "rating": 2.6,
+     "votes": 19620
+    }
+   },
+   "score": -19.7,
+   "rank": 33
+  },
+  {
+   "slug": "gpt-6-luna",
+   "model": "GPT-6 Luna",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 32,
+     "rating": 1578,
+     "votes": 20045
+    },
+    "agent": {
+     "pos": 18,
+     "rating": 3,
+     "votes": 163815
+    }
+   },
+   "score": -19.7,
+   "rank": 34
+  },
+  {
+   "slug": "deepseek-v4-1-flash",
+   "model": "Deepseek V4.1 Flash",
+   "org": "deepseek",
+   "orgName": "DeepSeek",
+   "company": "deepseek",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 33,
+     "rating": 1463,
+     "votes": 12793
+    },
+    "hard": {
+     "pos": 29,
+     "rating": 1482,
+     "votes": 8236
+    },
+    "coding": {
+     "pos": 21,
+     "rating": 1618,
+     "votes": 3540
+    },
+    "agent": {
+     "pos": 19,
+     "rating": 2.7,
+     "votes": 241716
+    }
+   },
+   "score": -24.3,
+   "rank": 35
+  },
+  {
+   "slug": "qwen3-7",
+   "model": "Qwen 3.7",
+   "org": "alibaba",
+   "orgName": "Alibaba",
+   "company": "qwen",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 20,
+     "rating": 1475,
+     "votes": 3934
+    },
+    "hard": {
+     "pos": 30,
+     "rating": 1482,
+     "votes": 2680
+    }
+   },
+   "score": -25,
+   "rank": 36
+  },
+  {
+   "slug": "grok-4-6",
+   "model": "Grok 4.6",
+   "org": "xai",
+   "orgName": "xAI",
+   "company": "xai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 22,
+     "rating": 1617,
+     "votes": 10179
+    },
+    "agent": {
+     "pos": 28,
+     "rating": 0.9,
+     "votes": 28868
+    }
+   },
+   "score": -26.3,
+   "rank": 37
+  },
+  {
+   "slug": "mimo-v2-5-pro",
+   "model": "MiMo V2.5 Pro",
+   "org": "xiaomi",
+   "orgName": "Xiaomi",
+   "company": null,
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 32,
+     "rating": 1465,
+     "votes": 75721
+    },
+    "hard": {
+     "pos": 21,
+     "rating": 1486,
+     "votes": 49426
+    }
+   },
+   "score": -27.6,
+   "rank": 38
+  },
+  {
+   "slug": "muse-spark",
+   "model": "Muse Spark",
+   "org": "meta",
+   "orgName": "Meta",
+   "company": "meta",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 22,
+     "rating": 1474,
+     "votes": 14150
+    },
+    "hard": {
+     "pos": 37,
+     "rating": 1474,
+     "votes": 9161
+    }
+   },
+   "score": -30.3,
+   "rank": 39
+  },
+  {
+   "slug": "glm-5-2",
+   "model": "GLM 5.2",
+   "org": "zai",
+   "orgName": "Z.ai",
+   "company": "zai",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 27,
+     "rating": 1470,
+     "votes": 49820
+    },
+    "hard": {
+     "pos": 33,
+     "rating": 1481,
+     "votes": 32443
+    },
+    "coding": {
+     "pos": 25,
+     "rating": 1605,
+     "votes": 16407
+    },
+    "agent": {
+     "pos": 22,
+     "rating": 2.3,
+     "votes": 87460
+    }
+   },
+   "score": -30.9,
+   "rank": 40
+  }
+ ],
+ "labs": [
+  {
+   "slug": "claude-opus-5-5",
+   "model": "Claude Opus 5.5",
+   "org": "anthropic",
+   "orgName": "Anthropic",
+   "company": "anthropic",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 2,
+     "rating": 1516,
+     "votes": 8300
+    },
+    "hard": {
+     "pos": 2,
+     "rating": 1535,
+     "votes": 5157
+    },
+    "coding": {
+     "pos": 1,
+     "rating": 1807,
+     "votes": 2775
+    },
+    "agent": {
+     "pos": 1,
+     "rating": 18.9,
+     "votes": 10551
+    }
+   },
+   "score": 97.4,
+   "rank": 1
+  },
+  {
+   "slug": "gpt-6-astra",
+   "model": "GPT-6 Astra",
+   "org": "openai",
+   "orgName": "OpenAI",
+   "company": "openai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 2,
+     "rating": 1777,
+     "votes": 6014
+    },
+    "agent": {
+     "pos": 2,
+     "rating": 14.1,
+     "votes": 13168
+    }
+   },
+   "score": 94.7,
+   "rank": 2
+  },
+  {
+   "slug": "gemini-4-argon",
+   "model": "Gemini 4 Argon",
+   "org": "google",
+   "orgName": "Google",
+   "company": "google",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 1,
+     "rating": 1532,
+     "votes": 4904
+    },
+    "hard": {
+     "pos": 1,
+     "rating": 1546,
+     "votes": 3129
+    },
+    "coding": {
+     "pos": 8,
+     "rating": 1678,
+     "votes": 1775
+    },
+    "agent": {
+     "pos": 5,
+     "rating": 13.2,
+     "votes": 30489
+    }
+   },
+   "score": 85.5,
+   "rank": 3
+  },
+  {
+   "slug": "muse-wonder",
+   "model": "Muse Wonder",
+   "org": "meta",
+   "orgName": "Meta",
+   "company": "meta",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 6,
+     "rating": 1501,
+     "votes": 3247
+    },
+    "hard": {
+     "pos": 7,
+     "rating": 1510,
+     "votes": 2018
+    },
+    "coding": {
+     "pos": 13,
+     "rating": 1650,
+     "votes": 1942
+    },
+    "agent": {
+     "pos": 11,
+     "rating": 4.9,
+     "votes": 7690
+    }
+   },
+   "score": 56.6,
+   "rank": 8
+  },
+  {
+   "slug": "mimo-v2-6-pro",
+   "model": "MiMo V2.6 Pro",
+   "org": "xiaomi",
+   "orgName": "Xiaomi",
+   "company": null,
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 9,
+     "rating": 1491,
+     "votes": 4075
+    },
+    "hard": {
+     "pos": 6,
+     "rating": 1510,
+     "votes": 2624
+    },
+    "coding": {
+     "pos": 18,
+     "rating": 1625,
+     "votes": 4763
+    },
+    "agent": {
+     "pos": 13,
+     "rating": 4,
+     "votes": 27455
+    }
+   },
+   "score": 44.7,
+   "rank": 10
+  },
+  {
+   "slug": "grok-4-7",
+   "model": "Grok 4.7",
+   "org": "xai",
+   "orgName": "xAI",
+   "company": "xai",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 14,
+     "rating": 1639,
+     "votes": 5021
+    },
+    "agent": {
+     "pos": 16,
+     "rating": 3.2,
+     "votes": 15127
+    }
+   },
+   "score": 26.3,
+   "rank": 16
+  },
+  {
+   "slug": "qwen3-8",
+   "model": "Qwen 3.8",
+   "org": "alibaba",
+   "orgName": "Alibaba",
+   "company": "qwen",
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 14,
+     "rating": 1483,
+     "votes": 27766
+    },
+    "hard": {
+     "pos": 12,
+     "rating": 1495,
+     "votes": 18366
+    },
+    "coding": {
+     "pos": 10,
+     "rating": 1672,
+     "votes": 3440
+    },
+    "agent": {
+     "pos": 25,
+     "rating": 1.8,
+     "votes": 68968
+    }
+   },
+   "score": 25,
+   "rank": 17
+  },
+  {
+   "slug": "kimi-k3",
+   "model": "Kimi K3",
+   "org": "moonshot",
+   "orgName": "Moonshot AI",
+   "company": "moonshot",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 21,
+     "rating": 1475,
+     "votes": 32795
+    },
+    "hard": {
+     "pos": 14,
+     "rating": 1494,
+     "votes": 21003
+    },
+    "coding": {
+     "pos": 12,
+     "rating": 1655,
+     "votes": 19220
+    },
+    "agent": {
+     "pos": 23,
+     "rating": 1.9,
+     "votes": 135415
+    }
+   },
+   "score": 13.2,
+   "rank": 20
+  },
+  {
+   "slug": "hy4",
+   "model": "Hy4",
+   "org": "tencent",
+   "orgName": "Tencent",
+   "company": null,
+   "open": true,
+   "boards": {
+    "coding": {
+     "pos": 16,
+     "rating": 1631,
+     "votes": 4802
+    },
+    "agent": {
+     "pos": 20,
+     "rating": 2.7,
+     "votes": 84828
+    }
+   },
+   "score": 10.5,
+   "rank": 21
+  },
+  {
+   "slug": "glm-5-3",
+   "model": "GLM 5.3",
+   "org": "zai",
+   "orgName": "Z.ai",
+   "company": "zai",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 23,
+     "rating": 1471,
+     "votes": 22543
+    },
+    "hard": {
+     "pos": 20,
+     "rating": 1488,
+     "votes": 14242
+    },
+    "coding": {
+     "pos": 20,
+     "rating": 1621,
+     "votes": 9542
+    },
+    "agent": {
+     "pos": 24,
+     "rating": 1.8,
+     "votes": 86541
+    }
+   },
+   "score": -9.2,
+   "rank": 26
+  },
+  {
+   "slug": "deepseek-v4-1-flash",
+   "model": "Deepseek V4.1 Flash",
+   "org": "deepseek",
+   "orgName": "DeepSeek",
+   "company": "deepseek",
+   "open": true,
+   "boards": {
+    "overall": {
+     "pos": 33,
+     "rating": 1463,
+     "votes": 12793
+    },
+    "hard": {
+     "pos": 29,
+     "rating": 1482,
+     "votes": 8236
+    },
+    "coding": {
+     "pos": 21,
+     "rating": 1618,
+     "votes": 3540
+    },
+    "agent": {
+     "pos": 19,
+     "rating": 2.7,
+     "votes": 241716
+    }
+   },
+   "score": -24.3,
+   "rank": 35
+  },
+  {
+   "slug": "ernie-5-1",
+   "model": "Ernie 5.1",
+   "org": "baidu",
+   "orgName": "Baidu",
+   "company": null,
+   "open": false,
+   "boards": {
+    "overall": {
+     "pos": 30,
+     "rating": 1468,
+     "votes": 39468
+    },
+    "hard": {
+     "pos": 32,
+     "rating": 1481,
+     "votes": 25664
+    }
+   },
+   "score": -50,
+   "rank": 46
+  },
+  {
+   "slug": "step-5",
+   "model": "Step 5",
+   "org": "stepfun",
+   "orgName": "StepFun",
+   "company": null,
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 33,
+     "rating": 1565,
+     "votes": 4424
+    },
+    "agent": {
+     "pos": 33,
+     "rating": -1.4,
+     "votes": 13807
+    }
+   },
+   "score": -50,
+   "rank": 51
+  },
+  {
+   "slug": "mistral-large-4",
+   "model": "Mistral Large 4",
+   "org": "mistral",
+   "orgName": "Mistral",
+   "company": "mistral",
+   "open": false,
+   "boards": {
+    "coding": {
+     "pos": 39,
+     "rating": 1542,
+     "votes": 2536
+    },
+    "agent": {
+     "pos": 39,
+     "rating": -4,
+     "votes": 14030
+    }
+   },
+   "score": -50,
+   "rank": 52
+  }
+ ],
+ "history": {
+  "overall": [
+   {
+    "model": "Gemini 4 Argon",
+    "company": "google",
+    "since": "2026-10-11"
+   }
+  ],
+  "coding": [
+   {
+    "model": "Claude Opus 5.5",
+    "company": "anthropic",
+    "since": "2026-10-11"
+   }
+  ],
+  "agent": [
+   {
+    "model": "Claude Opus 5.5",
+    "company": "anthropic",
+    "since": "2026-10-11"
+   }
+  ],
+  "open": [
+   {
+    "model": "MiMo V2.6 Pro",
+    "company": null,
+    "since": "2026-10-11"
+   }
+  ],
+  "hard": [
+   {
+    "model": "Gemini 4 Argon",
+    "company": "google",
+    "since": "2026-10-11"
+   }
+  ],
+  "math": [
+   {
+    "model": "Gemini 4 Argon",
+    "company": "google",
+    "since": "2026-10-11"
+   }
+  ],
+  "writing": [
+   {
+    "model": "Claude Opus 5.5",
+    "company": "anthropic",
+    "since": "2026-10-11"
+   }
+  ],
+  "search": [
+   {
+    "model": "GPT-5.6 Sol",
+    "company": "openai",
+    "since": "2026-10-11"
+   }
+  ],
+  "vision": [
+   {
+    "model": "Claude Fable 5",
+    "company": "anthropic",
+    "since": "2026-10-11"
+   }
+  ],
+  "image": [
+   {
+    "model": "GPT Image 2.5 Sunburst",
+    "company": "openai",
+    "since": "2026-10-11"
+   }
+  ],
+  "video": [
+   {
+    "model": "Gemini Omni 1.1 Flash",
+    "company": "google",
+    "since": "2026-10-11"
+   }
+  ]
+ }
+}
