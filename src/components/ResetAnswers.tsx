@@ -1,6 +1,7 @@
 import { fmtDate } from "@/lib/format";
 import { resetFacts, resetFaq, resetQA, resetToday } from "@/lib/resetSeo";
 import { Section } from "./Blocks";
+import { NotifyButton } from "./NotifyButton";
 
 type Lab = "openai" | "anthropic";
 
@@ -15,6 +16,7 @@ export function ResetStatus({ lab = "openai", name }: { lab?: Lab; name: string 
       <span className="text-sm text-muted">Last reset {fmtDate(last.date)}</span>
       {coming ? <span className="text-sm font-bold text-accent">Next reset announced for {fmtDate(coming.date)}</span>
         : nextGuess ? <span className="text-sm text-muted">Next likely around {fmtDate(nextGuess, false)} (estimate)</span> : null}
+      <span className="w-full pt-1 sm:ml-auto sm:w-auto sm:pt-0"><NotifyButton topic={lab === "anthropic" ? "claude" : "codex"} name={name} /></span>
     </div>
   );
 }
