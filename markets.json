@@ -1,0 +1,1832 @@
+{
+ "generatedAt": "2026-10-24T21:52:40.660Z",
+ "source": "Polymarket",
+ "markets": [
+  {
+   "id": "841230",
+   "slug": "which-company-has-the-best-ai-model-end-of-october",
+   "title": "Which company has the best AI model end of October?",
+   "url": "https://polymarket.com/event/which-company-has-the-best-ai-model-end-of-october",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-company-has-best-ai-model-end-of-september-MmASwbTkwKHi.jpg",
+   "volume": 3428998,
+   "volume24h": 54729,
+   "endDate": "2026-10-31T16:00:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Google",
+     "yes": 0.9015,
+     "change": 0.0265,
+     "volume": 765485.17468
+    },
+    {
+     "name": "Anthropic",
+     "yes": 0.08,
+     "change": -0.025,
+     "volume": 734643.6659419998
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.0055,
+     "change": -0.0015,
+     "volume": 430297.9539679999
+    }
+   ],
+   "priority": 0
+  },
+  {
+   "id": "556382",
+   "slug": "which-company-has-best-ai-model-end-of-2026",
+   "title": "Which company has best AI model end of 2026?",
+   "url": "https://polymarket.com/event/which-company-has-best-ai-model-end-of-2026",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-company-has-best-ai-model-end-of-september-MmASwbTkwKHi.jpg",
+   "volume": 2960184,
+   "volume24h": 17278,
+   "endDate": "2026-12-31T17:00:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Anthropic",
+     "yes": 0.495,
+     "change": null,
+     "volume": 407618.298735
+    },
+    {
+     "name": "Google",
+     "yes": 0.405,
+     "change": null,
+     "volume": 362353.5878900001
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.0585,
+     "change": -0.001,
+     "volume": 235514.477302
+    },
+    {
+     "name": "Meta",
+     "yes": 0.0135,
+     "change": 0.0005,
+     "volume": 210512.88944199996
+    },
+    {
+     "name": "xAI",
+     "yes": 0.011,
+     "change": 0.001,
+     "volume": 191995.05954099994
+    },
+    {
+     "name": "Alibaba",
+     "yes": 0.0065,
+     "change": 0.0025,
+     "volume": 175258.06839100004
+    },
+    {
+     "name": "Moonshot",
+     "yes": 0.0055,
+     "change": null,
+     "volume": 185722.40040399999
+    }
+   ],
+   "priority": 0
+  },
+  {
+   "id": "1040632",
+   "slug": "which-company-has-the-best-ai-model-end-of-november",
+   "title": "Which company has the best AI model end of November?",
+   "url": "https://polymarket.com/event/which-company-has-the-best-ai-model-end-of-november",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-company-has-best-ai-model-end-of-september-MmASwbTkwKHi.jpg",
+   "volume": 404446,
+   "volume24h": 12350,
+   "endDate": "2026-12-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Google",
+     "yes": 0.555,
+     "change": -0.015,
+     "volume": 76124.052677
+    },
+    {
+     "name": "Anthropic",
+     "yes": 0.38,
+     "change": 0.02,
+     "volume": 71470.97705799999
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.033,
+     "change": 0.0075,
+     "volume": 29270.214701999997
+    },
+    {
+     "name": "Meta",
+     "yes": 0.0115,
+     "change": -0.0025,
+     "volume": 31787.573885
+    }
+   ],
+   "priority": 0
+  },
+  {
+   "id": "549546",
+   "slug": "next-google-gemini-pro-model-released-byptptpt",
+   "title": "Next Google Gemini Pro Model released by...?",
+   "url": "https://polymarket.com/event/next-google-gemini-pro-model-released-byptptpt",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gemini-3pt0-released-by-Jgab86ADS9yM.png",
+   "volume": 1662795,
+   "volume24h": 159,
+   "endDate": "2026-11-01T03:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "October 31",
+     "yes": 0.0215,
+     "change": -0.003,
+     "volume": 181175.06813600002
+    },
+    {
+     "name": "November 30",
+     "yes": 0.08,
+     "change": 0.005,
+     "volume": 10203.155361000001
+    },
+    {
+     "name": "December 31",
+     "yes": 0.17,
+     "change": 0.01,
+     "volume": 8557.108291
+    }
+   ],
+   "priority": 2
+  },
+  {
+   "id": "868080",
+   "slug": "when-will-the-next-google-gemini-pro-model-be-released-20260817144359068",
+   "title": "When will the next Google Gemini Pro model be released?",
+   "url": "https://polymarket.com/event/when-will-the-next-google-gemini-pro-model-be-released-20260817144359068",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gemini-3pt0-released-by-Jgab86ADS9yM.png",
+   "volume": 317888,
+   "volume24h": 1023,
+   "endDate": "2026-11-01T23:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "October 26–November 1",
+     "yes": 0.0065,
+     "change": -0.028,
+     "volume": 12324.513986999997
+    },
+    {
+     "name": "No release by November 1",
+     "yes": 0.977,
+     "change": 0.018,
+     "volume": 169584.52728900002
+    }
+   ],
+   "priority": 2
+  },
+  {
+   "id": "488234",
+   "slug": "next-google-gemini-pro-model-arena-debut",
+   "title": "Next Google Gemini Pro Model: Arena Debut?",
+   "url": "https://polymarket.com/event/next-google-gemini-pro-model-arena-debut",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gemini-3pt0-released-by-Jgab86ADS9yM.png",
+   "volume": 313536,
+   "volume24h": 3856,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "1470+",
+     "yes": 0.34,
+     "change": 0.025,
+     "volume": 655.024376
+    },
+    {
+     "name": "1480+",
+     "yes": 0.2495,
+     "change": 0.0265,
+     "volume": 62092.96447099999
+    },
+    {
+     "name": "1490+",
+     "yes": 0.25,
+     "change": 0.017,
+     "volume": 72955.543343
+    },
+    {
+     "name": "1495+",
+     "yes": 0.235,
+     "change": 0.005,
+     "volume": 54700.561442
+    },
+    {
+     "name": "1500+",
+     "yes": 0.19,
+     "change": -0.03,
+     "volume": 64498.56731300001
+    },
+    {
+     "name": "1510+",
+     "yes": 0.1505,
+     "change": -0.0615,
+     "volume": 58632.85876
+    }
+   ],
+   "priority": 2
+  },
+  {
+   "id": "770183",
+   "slug": "next-google-gemini-pro-model-humanitys-last-exam-debut-20260729192434644",
+   "title": "Next Google Gemini Pro Model: Humanity’s Last Exam Debut?",
+   "url": "https://polymarket.com/event/next-google-gemini-pro-model-humanitys-last-exam-debut-20260729192434644",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/gemini-3pt0-released-by-Jgab86ADS9yM.png",
+   "volume": 115581,
+   "volume24h": 482,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "40%+",
+     "yes": 0.2615,
+     "change": 0.0165,
+     "volume": 16578.307376
+    },
+    {
+     "name": "45%+",
+     "yes": 0.265,
+     "change": 0.02,
+     "volume": 20743.302299
+    },
+    {
+     "name": "50%+",
+     "yes": 0.27,
+     "change": 0.02,
+     "volume": 42095.27041799999
+    },
+    {
+     "name": "55%+",
+     "yes": 0.1,
+     "change": -0.035,
+     "volume": 36163.725221
+    }
+   ],
+   "priority": 2
+  },
+  {
+   "id": "965173",
+   "slug": "gpt-astra-6pt1-released-byptptpt",
+   "title": "GPT Astra 6.1+ released by...?",
+   "url": "https://polymarket.com/event/gpt-astra-6pt1-released-byptptpt",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/when-will-gpt-5-be-released-vIPhU76RogZc.jpg",
+   "volume": 376491,
+   "volume24h": 9729,
+   "endDate": "2026-12-31T23:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "October 31",
+     "yes": 0.09,
+     "change": 0.02,
+     "volume": 111330.53012800001
+    },
+    {
+     "name": "November 15",
+     "yes": 0.37,
+     "change": -0.02,
+     "volume": 3546.78889
+    },
+    {
+     "name": "November 30",
+     "yes": 0.65,
+     "change": -0.11,
+     "volume": 7228.681790999999
+    },
+    {
+     "name": "December 15",
+     "yes": 0.77,
+     "change": -0.02,
+     "volume": 2948.5317569999997
+    },
+    {
+     "name": "December 31",
+     "yes": 0.84,
+     "change": null,
+     "volume": 87127.821461
+    }
+   ],
+   "priority": 3
+  },
+  {
+   "id": "850712",
+   "slug": "next-openai-gpt-terra-5pt7-released-byptptpt",
+   "title": "Next OpenAI GPT Terra (5.7+) released by...?",
+   "url": "https://polymarket.com/event/next-openai-gpt-terra-5pt7-released-byptptpt",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/when-will-gpt-5-be-released-vIPhU76RogZc.jpg",
+   "volume": 96516,
+   "volume24h": 11310,
+   "endDate": "2026-12-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "October 26",
+     "yes": 0.125,
+     "change": -0.015,
+     "volume": 7878.372307
+    },
+    {
+     "name": "October 27",
+     "yes": 0.176,
+     "change": -0.019,
+     "volume": 1481.305464
+    },
+    {
+     "name": "October 28",
+     "yes": 0.24,
+     "change": -0.14,
+     "volume": 1751.370083
+    },
+    {
+     "name": "October 29",
+     "yes": 0.385,
+     "change": -0.035,
+     "volume": 3289.9194159999997
+    },
+    {
+     "name": "October 30",
+     "yes": 0.405,
+     "change": -0.075,
+     "volume": 5639.05848
+    },
+    {
+     "name": "October 31",
+     "yes": 0.41,
+     "change": -0.13,
+     "volume": 19397.239138999998
+    },
+    {
+     "name": "November 30",
+     "yes": 0.812,
+     "change": 0.0225,
+     "volume": 18505.373940000005
+    }
+   ],
+   "priority": 3
+  },
+  {
+   "id": "956789",
+   "slug": "next-fable-model-5pt2-released-byptptpt",
+   "title": "Next Fable Model (5.2+) released by...?",
+   "url": "https://polymarket.com/event/next-fable-model-5pt2-released-byptptpt",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/claude-4pt7-released-by-LSHFPBEUsncm.png",
+   "volume": 974316,
+   "volume24h": 28508,
+   "endDate": "2026-12-31T23:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "October 24",
+     "yes": 0.007,
+     "change": -0.0275,
+     "volume": 142683.191853
+    },
+    {
+     "name": "October 26",
+     "yes": 0.063,
+     "change": -0.014,
+     "volume": 11626.616081
+    },
+    {
+     "name": "October 27",
+     "yes": 0.225,
+     "change": 0.04,
+     "volume": 13156.774289
+    },
+    {
+     "name": "October 28",
+     "yes": 0.255,
+     "change": 0.055,
+     "volume": 8862.692923
+    },
+    {
+     "name": "October 29",
+     "yes": 0.27,
+     "change": 0.055,
+     "volume": 38111.80343899999
+    },
+    {
+     "name": "October 30",
+     "yes": 0.28,
+     "change": 0.06,
+     "volume": 11920.073302
+    },
+    {
+     "name": "October 31",
+     "yes": 0.2995,
+     "change": 0.0815,
+     "volume": 339972.08475300006
+    },
+    {
+     "name": "December 31",
+     "yes": 0.939,
+     "change": 0.007,
+     "volume": 35322.260924
+    }
+   ],
+   "priority": 4
+  },
+  {
+   "id": "1121372",
+   "slug": "next-fable-model-5pt2-released-onptptpt-20261002",
+   "title": "Next Fable Model (5.2+) released on...?",
+   "url": "https://polymarket.com/event/next-fable-model-5pt2-released-onptptpt-20261002",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/claude-4pt7-released-by-LSHFPBEUsncm.png",
+   "volume": 331857,
+   "volume24h": 26412,
+   "endDate": "2026-11-01T03:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "October 24",
+     "yes": 0.0055,
+     "change": -0.0535,
+     "volume": 14658.239975999997
+    },
+    {
+     "name": "October 25",
+     "yes": 0.006,
+     "change": -0.001,
+     "volume": 11927.584939000002
+    },
+    {
+     "name": "October 26",
+     "yes": 0.0465,
+     "change": 0.015,
+     "volume": 8303.243707999998
+    },
+    {
+     "name": "October 27",
+     "yes": 0.148,
+     "change": 0.036,
+     "volume": 29077.177504000003
+    },
+    {
+     "name": "October 28",
+     "yes": 0.03,
+     "change": 0.003,
+     "volume": 8054.180446000001
+    },
+    {
+     "name": "October 29",
+     "yes": 0.032,
+     "change": -0.0005,
+     "volume": 12332.529929000002
+    },
+    {
+     "name": "October 30",
+     "yes": 0.0125,
+     "change": 0.0075,
+     "volume": 7377.563952
+    },
+    {
+     "name": "October 31",
+     "yes": 0.016,
+     "change": 0.0115,
+     "volume": 14254.028529
+    }
+   ],
+   "priority": 4
+  },
+  {
+   "id": "1105146",
+   "slug": "next-fable-model-5pt2-text-arena-debut-20260928",
+   "title": "Next Fable Model (5.2+): Text Arena Debut?",
+   "url": "https://polymarket.com/event/next-fable-model-5pt2-text-arena-debut-20260928",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/claude-4pt7-released-by-LSHFPBEUsncm.png",
+   "volume": 63309,
+   "volume24h": 640,
+   "endDate": "2027-07-01T03:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "1500+",
+     "yes": 0.926,
+     "change": -0.0065,
+     "volume": 8846.174938999999
+    },
+    {
+     "name": "1510+",
+     "yes": 0.79,
+     "change": null,
+     "volume": 20833.805405
+    },
+    {
+     "name": "1520+",
+     "yes": 0.545,
+     "change": -0.015,
+     "volume": 11668.640361999998
+    },
+    {
+     "name": "1530+",
+     "yes": 0.355,
+     "change": 0.01,
+     "volume": 14710.694644
+    },
+    {
+     "name": "1540+",
+     "yes": 0.16,
+     "change": -0.035,
+     "volume": 7249.403187999999
+    }
+   ],
+   "priority": 4
+  },
+  {
+   "id": "67081",
+   "slug": "openai-announces-it-has-achieved-agi-before-2027",
+   "title": "OpenAI announces it has achieved AGI before 2027?",
+   "url": "https://polymarket.com/event/openai-announces-it-has-achieved-agi-before-2027",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/openai-announces-it-has-achieved-agi-in-2025-xKDwO2QRBchw.jpg",
+   "volume": 334841,
+   "volume24h": 1204,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": true,
+   "outcomes": [
+    {
+     "name": "Yes",
+     "yes": 0.11,
+     "change": 0.015,
+     "volume": 334841.110945
+    },
+    {
+     "name": "No",
+     "yes": 0.89,
+     "change": null,
+     "volume": 334841.110945
+    }
+   ],
+   "priority": 6
+  },
+  {
+   "id": "68543",
+   "slug": "openai-ipo-by",
+   "title": "OpenAI IPO by...?",
+   "url": "https://polymarket.com/event/openai-ipo-by",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/openai-ipo-by-qeh3ouQDANVw.jpg",
+   "volume": 3098794,
+   "volume24h": 3660,
+   "endDate": "2027-07-01T03:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "December 31, 2026",
+     "yes": 0.0355,
+     "change": -0.0005,
+     "volume": 1087989.4532599999
+    },
+    {
+     "name": "March 31, 2027",
+     "yes": 0.205,
+     "change": 0.01,
+     "volume": 6652.253946999998
+    },
+    {
+     "name": "June 30, 2027",
+     "yes": 0.395,
+     "change": 0.03,
+     "volume": 8767.685167
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "548858",
+   "slug": "anthropic-ipo-closing-market-cap-higher-strikes",
+   "title": "Anthropic IPO Closing Market Cap",
+   "url": "https://polymarket.com/event/anthropic-ipo-closing-market-cap-higher-strikes",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-ipo-closing-market-cap-jdfele1g0krx.png",
+   "volume": 2285225,
+   "volume24h": 75344,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "<$1.25T",
+     "yes": 0.055,
+     "change": 0.015,
+     "volume": 183278.440411
+    },
+    {
+     "name": "$1.25–$1.5T",
+     "yes": 0.0915,
+     "change": -0.009,
+     "volume": 187639.29358
+    },
+    {
+     "name": "$1.5–$1.75T",
+     "yes": 0.1845,
+     "change": 0.0055,
+     "volume": 238359.367837
+    },
+    {
+     "name": "$1.75–$2.0T",
+     "yes": 0.29,
+     "change": 0.005,
+     "volume": 377084.071726
+    },
+    {
+     "name": "$2.0–$2.25T",
+     "yes": 0.1915,
+     "change": -0.006,
+     "volume": 511692.377654
+    },
+    {
+     "name": "$2.25–$2.5T",
+     "yes": 0.105,
+     "change": null,
+     "volume": 332664.25750200014
+    },
+    {
+     "name": "$2.5–$2.75T",
+     "yes": 0.0305,
+     "change": -0.004,
+     "volume": 143472.64560100003
+    },
+    {
+     "name": "$2.75–$3.0T",
+     "yes": 0.0155,
+     "change": -0.003,
+     "volume": 85637.16566900001
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "193337",
+   "slug": "openai-ipo-closing-market-cap-above",
+   "title": "OpenAI IPO closing market cap above ___ ?",
+   "url": "https://polymarket.com/event/openai-ipo-closing-market-cap-above",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/openai-ipo-closing-market-cap-RiLs850YpL5k.png",
+   "volume": 1567203,
+   "volume24h": 206,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "$800B",
+     "yes": 0.7295,
+     "change": -0.009,
+     "volume": 128310.71464500001
+    },
+    {
+     "name": "$1T",
+     "yes": 0.64,
+     "change": null,
+     "volume": 1057901.3915610001
+    },
+    {
+     "name": "$1.2T",
+     "yes": 0.495,
+     "change": -0.11,
+     "volume": 250678.271889
+    },
+    {
+     "name": "$1.4T",
+     "yes": 0.465,
+     "change": -0.1,
+     "volume": 74211.106221
+    },
+    {
+     "name": "$1.6T",
+     "yes": 0.32,
+     "change": 0.06,
+     "volume": 56101.664540999984
+    },
+    {
+     "name": "$1.8T",
+     "yes": 0.37,
+     "change": 0.205,
+     "volume": 0
+    },
+    {
+     "name": "$2T",
+     "yes": 0.29,
+     "change": 0.12,
+     "volume": 0
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "428957",
+   "slug": "anthropic-ipo-closing-market-cap-979",
+   "title": "Anthropic IPO Closing Market Cap (Middle Brackets)",
+   "url": "https://polymarket.com/event/anthropic-ipo-closing-market-cap-979",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-ipo-closing-market-cap-jdfele1g0krx.png",
+   "volume": 568387,
+   "volume24h": 3912,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "<0.6T",
+     "yes": 0.0105,
+     "change": 0.002,
+     "volume": 22854.172319999994
+    },
+    {
+     "name": "0.9–1.2T",
+     "yes": 0.012,
+     "change": -0.0015,
+     "volume": 30323.149021999994
+    },
+    {
+     "name": "1.2–1.5T",
+     "yes": 0.0665,
+     "change": -0.0135,
+     "volume": 45784.036324000015
+    },
+    {
+     "name": "1.5–1.8T",
+     "yes": 0.235,
+     "change": -0.014,
+     "volume": 87342.47332300001
+    },
+    {
+     "name": "1.8T+",
+     "yes": 0.595,
+     "change": null,
+     "volume": 293515.70441899996
+    },
+    {
+     "name": "No IPO by December 31, 2027",
+     "yes": 0.0395,
+     "change": null,
+     "volume": 58680.199223999996
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "200252",
+   "slug": "openai-ipo-closing-market-cap-554",
+   "title": "OpenAI IPO Closing Market Cap",
+   "url": "https://polymarket.com/event/openai-ipo-closing-market-cap-554",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/openai-ipo-closing-market-cap-RiLs850YpL5k.png",
+   "volume": 567747,
+   "volume24h": 1255,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "<500B",
+     "yes": 0.0225,
+     "change": null,
+     "volume": 43889.08546299999
+    },
+    {
+     "name": "500–750B",
+     "yes": 0.022,
+     "change": null,
+     "volume": 30335.407215000003
+    },
+    {
+     "name": "750B–1T",
+     "yes": 0.0295,
+     "change": null,
+     "volume": 72302.188958
+    },
+    {
+     "name": "1T–1.25T",
+     "yes": 0.06,
+     "change": null,
+     "volume": 100344.293433
+    },
+    {
+     "name": "1.25T–1.5T",
+     "yes": 0.115,
+     "change": -0.005,
+     "volume": 77678.076382
+    },
+    {
+     "name": "1.5T+",
+     "yes": 0.374,
+     "change": null,
+     "volume": 146426.71290700004
+    },
+    {
+     "name": "No IPO by December 31, 2027",
+     "yes": 0.2985,
+     "change": -0.029,
+     "volume": 96771.00176800002
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "197776",
+   "slug": "anthropic-ipo-closing-market-cap-119",
+   "title": "Anthropic IPO Closing Market Cap (Lower Brackets)",
+   "url": "https://polymarket.com/event/anthropic-ipo-closing-market-cap-119",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-ipo-closing-market-cap-jdfele1g0krx.png",
+   "volume": 527641,
+   "volume24h": 0,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "200–300B",
+     "yes": 0.005,
+     "change": null,
+     "volume": 32122.555942000003
+    },
+    {
+     "name": "400–600B",
+     "yes": 0.0105,
+     "change": null,
+     "volume": 33208.620086
+    },
+    {
+     "name": "600B+",
+     "yes": 0.9605,
+     "change": -0.004,
+     "volume": 63277.458786999996
+    },
+    {
+     "name": "No IPO by December 31, 2027",
+     "yes": 0.03,
+     "change": 0.001,
+     "volume": 48915.03243
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "875723",
+   "slug": "in-which-month-will-anthropic-ipo",
+   "title": "In which month will Anthropic IPO?",
+   "url": "https://polymarket.com/event/in-which-month-will-anthropic-ipo",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-ipo-closing-market-cap-jdfele1g0krx.png",
+   "volume": 442710,
+   "volume24h": 9209,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "November 2026",
+     "yes": 0.6415,
+     "change": null,
+     "volume": 105554.3927
+    },
+    {
+     "name": "December 2026",
+     "yes": 0.164,
+     "change": 0.0045,
+     "volume": 61244.47951799999
+    },
+    {
+     "name": "January 2027",
+     "yes": 0.115,
+     "change": 0.023,
+     "volume": 17352.277825
+    },
+    {
+     "name": "April 2027",
+     "yes": 0.023,
+     "change": 0.0005,
+     "volume": 10703.072684
+    },
+    {
+     "name": "March 2027",
+     "yes": 0.0175,
+     "change": null,
+     "volume": 11410.513750000002
+    },
+    {
+     "name": "February 2027",
+     "yes": 0.0165,
+     "change": 0.0015,
+     "volume": 10469.093085999999
+    },
+    {
+     "name": "May 2027",
+     "yes": 0.0125,
+     "change": -0.002,
+     "volume": 10110.430666999999
+    },
+    {
+     "name": "No IPO before 2028",
+     "yes": 0.007,
+     "change": null,
+     "volume": 17190.537288
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "193867",
+   "slug": "will-anthropic-or-openai-ipo-first",
+   "title": "Will Anthropic or OpenAI IPO first?",
+   "url": "https://polymarket.com/event/will-anthropic-or-openai-ipo-first",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/g-7b367ede47.png",
+   "volume": 437890,
+   "volume24h": 950,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": true,
+   "outcomes": [
+    {
+     "name": "Anthropic",
+     "yes": 0.9505,
+     "change": -0.0005,
+     "volume": 437890.34752099996
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.0495,
+     "change": null,
+     "volume": 437890.34752099996
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "875763",
+   "slug": "what-will-anthropics-ipo-valuation-be",
+   "title": "What will Anthropic's IPO valuation be?",
+   "url": "https://polymarket.com/event/what-will-anthropics-ipo-valuation-be",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-ipo-closing-market-cap-jdfele1g0krx.png",
+   "volume": 212427,
+   "volume24h": 5660,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "$1.50–$1.75T",
+     "yes": 0.575,
+     "change": 0.1415,
+     "volume": 35580.700762
+    },
+    {
+     "name": "$1.75–$2.00T",
+     "yes": 0.225,
+     "change": -0.12,
+     "volume": 87881.17082099999
+    },
+    {
+     "name": "$2.00–$2.25T",
+     "yes": 0.0455,
+     "change": -0.0175,
+     "volume": 43194.866697
+    },
+    {
+     "name": "$2.25–$2.50T",
+     "yes": 0.036,
+     "change": null,
+     "volume": 13398.975036999998
+    },
+    {
+     "name": "$1.25–$1.50T",
+     "yes": 0.025,
+     "change": -0.031,
+     "volume": 11377.247181
+    },
+    {
+     "name": "$2.50T+",
+     "yes": 0.021,
+     "change": -0.002,
+     "volume": 8277.804090000001
+    },
+    {
+     "name": "No IPO by December 31, 2027",
+     "yes": 0.014,
+     "change": -0.01,
+     "volume": 6118.230791000001
+    },
+    {
+     "name": "<$1.25T",
+     "yes": 0.0075,
+     "change": null,
+     "volume": 7153.2321870000005
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "145689",
+   "slug": "perplexity-ipo-closing-market-cap",
+   "title": "Perplexity IPO Closing Market Cap",
+   "url": "https://polymarket.com/event/perplexity-ipo-closing-market-cap",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/perplexity-ipo-closing-market-cap-anTspp_8FLb0.jpg",
+   "volume": 150218,
+   "volume24h": 147,
+   "endDate": "2028-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "<20B",
+     "yes": 0.0735,
+     "change": null,
+     "volume": 5177.284377
+    },
+    {
+     "name": "20B–30B",
+     "yes": 0.0395,
+     "change": null,
+     "volume": 8151.592263
+    },
+    {
+     "name": "30B–40B",
+     "yes": 0.033,
+     "change": null,
+     "volume": 5261.951649
+    },
+    {
+     "name": "40B–50B",
+     "yes": 0.0245,
+     "change": -0.0005,
+     "volume": 4689.203153
+    },
+    {
+     "name": "50B–75B",
+     "yes": 0.105,
+     "change": 0.013,
+     "volume": 7153.373531
+    },
+    {
+     "name": "75B–100B",
+     "yes": 0.046,
+     "change": null,
+     "volume": 4579.760998999999
+    },
+    {
+     "name": "100B+",
+     "yes": 0.0265,
+     "change": null,
+     "volume": 5682.990398
+    },
+    {
+     "name": "No IPO before 2028",
+     "yes": 0.63,
+     "change": -0.075,
+     "volume": 109522.03114999997
+    }
+   ],
+   "priority": 7
+  },
+  {
+   "id": "500753",
+   "slug": "will-anthropics-valuation-hit-by-december-31",
+   "title": "Will Anthropic’s valuation hit __ by December 31?",
+   "url": "https://polymarket.com/event/will-anthropics-valuation-hit-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-ipo-closing-market-cap-jdfele1g0krx.png",
+   "volume": 6077839,
+   "volume24h": 10597,
+   "endDate": "2027-01-05T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "↓$600B",
+     "yes": 0.03,
+     "change": 0.0025,
+     "volume": 52350.702496
+    },
+    {
+     "name": "↓$700B",
+     "yes": 0.037,
+     "change": null,
+     "volume": 78440.773907
+    },
+    {
+     "name": "↓$800B",
+     "yes": 0.054,
+     "change": -0.001,
+     "volume": 159084.09153
+    },
+    {
+     "name": "↑$1.5T",
+     "yes": 0.935,
+     "change": null,
+     "volume": 288245.778798
+    },
+    {
+     "name": "↑$1.75T",
+     "yes": 0.775,
+     "change": -0.03,
+     "volume": 735030.048561
+    },
+    {
+     "name": "↑$2.0T",
+     "yes": 0.62,
+     "change": 0.015,
+     "volume": 871072.8704209999
+    },
+    {
+     "name": "↑$2.25T",
+     "yes": 0.33,
+     "change": -0.035,
+     "volume": 2405.823177
+    },
+    {
+     "name": "↑$2.5T",
+     "yes": 0.255,
+     "change": null,
+     "volume": 504655.21103099996
+    }
+   ],
+   "priority": 8
+  },
+  {
+   "id": "500775",
+   "slug": "will-openais-valuation-hit-by-december-31",
+   "title": "Will OpenAI's valuation hit __ by December 31?",
+   "url": "https://polymarket.com/event/will-openais-valuation-hit-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-openai-release-a-new-frontier-model-by-december-13-sPNirq9Ogx-3.png",
+   "volume": 1337089,
+   "volume24h": 2059,
+   "endDate": "2027-01-05T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "↓$500B",
+     "yes": 0.0375,
+     "change": 0.001,
+     "volume": 63822.58203599999
+    },
+    {
+     "name": "↓$600B",
+     "yes": 0.0435,
+     "change": null,
+     "volume": 61298.11255600001
+    },
+    {
+     "name": "↓$700B",
+     "yes": 0.0405,
+     "change": -0.003,
+     "volume": 63721.636608
+    },
+    {
+     "name": "↓$750B",
+     "yes": 0.06,
+     "change": null,
+     "volume": 134069.241248
+    },
+    {
+     "name": "↓$800B",
+     "yes": 0.05,
+     "change": null,
+     "volume": 112092.09014200002
+    },
+    {
+     "name": "↑$1.3T",
+     "yes": 0.715,
+     "change": 0.025,
+     "volume": 2284.946689
+    },
+    {
+     "name": "↑$1.35T",
+     "yes": 0.48,
+     "change": -0.145,
+     "volume": 1925.980873
+    },
+    {
+     "name": "↑$1.4T",
+     "yes": 0.365,
+     "change": -0.1,
+     "volume": 408.950785
+    }
+   ],
+   "priority": 8
+  },
+  {
+   "id": "500808",
+   "slug": "will-databricks-valuation-hit-by-december-31",
+   "title": "Will Databricks' valuation hit __ by December 31?",
+   "url": "https://polymarket.com/event/will-databricks-valuation-hit-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-databricks-valuation-hit-by-june-30-628IVTLWm_Aj.png",
+   "volume": 152982,
+   "volume24h": 233,
+   "endDate": "2027-01-05T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "↓$125B",
+     "yes": 0.04,
+     "change": -0.001,
+     "volume": 12914.113866
+    },
+    {
+     "name": "↓$130B",
+     "yes": 0.0335,
+     "change": -0.004,
+     "volume": 7545.6278
+    },
+    {
+     "name": "↓$135B",
+     "yes": 0.0265,
+     "change": null,
+     "volume": 13484.749379
+    },
+    {
+     "name": "↓$140B",
+     "yes": 0.0345,
+     "change": null,
+     "volume": 11968.716556000003
+    },
+    {
+     "name": "↑$200B",
+     "yes": 0.755,
+     "change": 0.025,
+     "volume": 10379.357065
+    },
+    {
+     "name": "↑$215B",
+     "yes": 0.655,
+     "change": -0.025,
+     "volume": 198.1
+    },
+    {
+     "name": "↑$225B",
+     "yes": 0.16,
+     "change": -0.005,
+     "volume": 10586.376183999997
+    },
+    {
+     "name": "↑$250B",
+     "yes": 0.185,
+     "change": 0.02,
+     "volume": 16765.242110999996
+    }
+   ],
+   "priority": 8
+  },
+  {
+   "id": "502667",
+   "slug": "anthropic-vs-openai-higher-valuation-on-december-31",
+   "title": "Anthropic vs OpenAI - higher valuation on December 31?",
+   "url": "https://polymarket.com/event/anthropic-vs-openai-higher-valuation-on-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/anthropic-vs-openai-larger-valuation-on-june-30-oZABetS_3M1U.jpg",
+   "volume": 99540,
+   "volume24h": 22,
+   "endDate": "2027-01-05T04:59:00Z",
+   "binary": true,
+   "outcomes": [
+    {
+     "name": "Anthropic",
+     "yes": 0.93,
+     "change": 0.005,
+     "volume": 99539.623483
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.07,
+     "change": null,
+     "volume": 99539.623483
+    }
+   ],
+   "priority": 8
+  },
+  {
+   "id": "500825",
+   "slug": "will-perplexitys-valuation-hit-by-december-31",
+   "title": "Will Perplexity's valuation hit __ by December 31?",
+   "url": "https://polymarket.com/event/will-perplexitys-valuation-hit-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-perplexitys-valuation-hit-by-june-30-2CIE1BfzOdNz.png",
+   "volume": 78078,
+   "volume24h": 120,
+   "endDate": "2027-01-01T13:00:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "↓$12.5B",
+     "yes": 0.022,
+     "change": 0.0035,
+     "volume": 10126.186914000004
+    },
+    {
+     "name": "↓$15B",
+     "yes": 0.075,
+     "change": null,
+     "volume": 13026.783517
+    },
+    {
+     "name": "↑$22.5B",
+     "yes": 0.625,
+     "change": -0.005,
+     "volume": 12184.012188999997
+    },
+    {
+     "name": "↑$25B",
+     "yes": 0.46,
+     "change": 0.045,
+     "volume": 11063.372032000001
+    },
+    {
+     "name": "↑$30B",
+     "yes": 0.185,
+     "change": null,
+     "volume": 8340.124957999999
+    },
+    {
+     "name": "↑$40B",
+     "yes": 0.045,
+     "change": null,
+     "volume": 6960.944779
+    },
+    {
+     "name": "↑$50B",
+     "yes": 0.046,
+     "change": -0.0015,
+     "volume": 6174.701933
+    }
+   ],
+   "priority": 8
+  },
+  {
+   "id": "336534",
+   "slug": "will-any-ai-model-reach-coding-arena-score-by-december-31",
+   "title": "Will any AI model reach ___ Coding Arena Score by December 31?",
+   "url": "https://polymarket.com/event/will-any-ai-model-reach-coding-arena-score-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-company-has-the-best-coding-ai-model-end-of-april-K6BTi-oBO1z1.jpg",
+   "volume": 239190,
+   "volume24h": 105,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "1560",
+     "yes": 0.445,
+     "change": -0.03,
+     "volume": 123578.88338099999
+    },
+    {
+     "name": "1580",
+     "yes": 0.195,
+     "change": 0.005,
+     "volume": 76163.05407899998
+    },
+    {
+     "name": "1600",
+     "yes": 0.063,
+     "change": null,
+     "volume": 39448.169297
+    }
+   ],
+   "priority": 9
+  },
+  {
+   "id": "138745",
+   "slug": "chatbot-arena-how-high-will-ai-score-by-december-31",
+   "title": "Will any AI model reach ___ Overall Arena Score by December 31?",
+   "url": "https://polymarket.com/event/chatbot-arena-how-high-will-ai-score-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-company-has-best-ai-model-end-of-september-MmASwbTkwKHi.jpg",
+   "volume": 224496,
+   "volume24h": 115,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "↑ 1540",
+     "yes": 0.5065,
+     "change": 0.0115,
+     "volume": 7153.409734
+    },
+    {
+     "name": "↑ 1550",
+     "yes": 0.32,
+     "change": -0.035,
+     "volume": 54562.67456900001
+    },
+    {
+     "name": "↑ 1600",
+     "yes": 0.1275,
+     "change": null,
+     "volume": 26816.455219
+    },
+    {
+     "name": "↑ 1650",
+     "yes": 0.043,
+     "change": 0.0025,
+     "volume": 9640.390583
+    },
+    {
+     "name": "↑ 1700",
+     "yes": 0.0275,
+     "change": -0.008,
+     "volume": 9410.009261
+    }
+   ],
+   "priority": 9
+  },
+  {
+   "id": "336508",
+   "slug": "will-any-ai-model-reach-math-arena-score-by-december-31",
+   "title": "Will any AI model reach ___ Math Arena Score by December 31?",
+   "url": "https://polymarket.com/event/will-any-ai-model-reach-math-arena-score-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/math-d67c0ea7f4.png",
+   "volume": 144233,
+   "volume24h": 0,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "1575",
+     "yes": 0.405,
+     "change": -0.005,
+     "volume": 59097.38921499999
+    },
+    {
+     "name": "1600",
+     "yes": 0.074,
+     "change": -0.0015,
+     "volume": 16530.962145999998
+    }
+   ],
+   "priority": 9
+  },
+  {
+   "id": "428400",
+   "slug": "which-companies-will-have-a-1-ai-model-by-december-31",
+   "title": "Which companies will have a #1 AI model by December 31?",
+   "url": "https://polymarket.com/event/which-companies-will-have-a-1-ai-model-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-companies-will-have-a-1-ai-model-this-year--UQI9JDBhaSv.jpg",
+   "volume": 222944,
+   "volume24h": 942,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Anthropic",
+     "yes": 0.62,
+     "change": -0.085,
+     "volume": 2461.27527
+    },
+    {
+     "name": "Meta",
+     "yes": 0.12,
+     "change": 0.005,
+     "volume": 24864.240361999997
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.115,
+     "change": -0.015,
+     "volume": 41291.022511999996
+    },
+    {
+     "name": "xAI",
+     "yes": 0.09,
+     "change": 0.02,
+     "volume": 11252.892908
+    },
+    {
+     "name": "DeepSeek",
+     "yes": 0.055,
+     "change": null,
+     "volume": 25499.307114000003
+    },
+    {
+     "name": "Baidu",
+     "yes": 0.05,
+     "change": null,
+     "volume": 3772.4734519999997
+    },
+    {
+     "name": "Amazon",
+     "yes": 0.0475,
+     "change": -0.0005,
+     "volume": 9204.129187
+    },
+    {
+     "name": "Alibaba",
+     "yes": 0.045,
+     "change": null,
+     "volume": 5666.019525
+    }
+   ],
+   "priority": 10
+  },
+  {
+   "id": "841241",
+   "slug": "which-company-has-1-ai-model-end-of-october-style-control-on",
+   "title": "Which company has #1 AI model end of October? (Style Control On)",
+   "url": "https://polymarket.com/event/which-company-has-1-ai-model-end-of-october-style-control-on",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/which-company-has-top-ai-model-end-of-september-rg060DKa_VSI.jpg",
+   "volume": 85300,
+   "volume24h": 2822,
+   "endDate": "2026-10-31T16:00:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Google",
+     "yes": 0.846,
+     "change": 0.0145,
+     "volume": 13412.126807999999
+    },
+    {
+     "name": "Anthropic",
+     "yes": 0.058,
+     "change": -0.043,
+     "volume": 39390.592982
+    },
+    {
+     "name": "Meta",
+     "yes": 0.048,
+     "change": 0.0215,
+     "volume": 5916.185422999999
+    },
+    {
+     "name": "OpenAI",
+     "yes": 0.0175,
+     "change": -0.0135,
+     "volume": 5995.425214
+    },
+    {
+     "name": "Moonshot",
+     "yes": 0.0055,
+     "change": 0.0005,
+     "volume": 2998.7954999999997
+    }
+   ],
+   "priority": 10
+  },
+  {
+   "id": "841209",
+   "slug": "best-chinese-ai-company-end-of-october",
+   "title": "Best Chinese AI Company end of October?",
+   "url": "https://polymarket.com/event/best-chinese-ai-company-end-of-october",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/best-chinese-ai-company-end-of-april-a_9taJMfZn2f.jpg",
+   "volume": 317102,
+   "volume24h": 20473,
+   "endDate": "2026-10-31T16:00:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Xiaomi",
+     "yes": 0.598,
+     "change": 0.079,
+     "volume": 46010.185145
+    },
+    {
+     "name": "Moonshot",
+     "yes": 0.29,
+     "change": -0.085,
+     "volume": 61122.110012000005
+    },
+    {
+     "name": "Alibaba",
+     "yes": 0.08,
+     "change": -0.005,
+     "volume": 70727.03055699999
+    },
+    {
+     "name": "Z.ai",
+     "yes": 0.0085,
+     "change": -0.0045,
+     "volume": 27398.707066
+    }
+   ],
+   "priority": 11
+  },
+  {
+   "id": "333737",
+   "slug": "will-a-chinese-company-have-the-best-ai-model-by-december-31",
+   "title": "Will a Chinese company have a top ___ AI model by December 31?",
+   "url": "https://polymarket.com/event/will-a-chinese-company-have-the-best-ai-model-by-december-31",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/best-chinese-ai-company-end-of-april-a_9taJMfZn2f.jpg",
+   "volume": 282986,
+   "volume24h": 914,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "#1",
+     "yes": 0.075,
+     "change": null,
+     "volume": 104624.10053799998
+    },
+    {
+     "name": "#3",
+     "yes": 0.25,
+     "change": -0.01,
+     "volume": 79071.16560800001
+    }
+   ],
+   "priority": 11
+  },
+  {
+   "id": "663848",
+   "slug": "us-government-removes-public-access-to-a-major-chinese-ai-model-in-2026-20260703203328223",
+   "title": "US Government removes public access to a major Chinese AI model in 2026?",
+   "url": "https://polymarket.com/event/us-government-removes-public-access-to-a-major-chinese-ai-model-in-2026-20260703203328223",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/us-government-bans-another-chinese-ai-model-in-2026-20260702231024525-5km1oNHX48Mm.jpg",
+   "volume": 98203,
+   "volume24h": 53,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": true,
+   "outcomes": [
+    {
+     "name": "Yes",
+     "yes": 0.205,
+     "change": null,
+     "volume": 98203.48174799998
+    },
+    {
+     "name": "No",
+     "yes": 0.795,
+     "change": null,
+     "volume": 98203.48174799998
+    }
+   ],
+   "priority": 11
+  },
+  {
+   "id": "841210",
+   "slug": "second-best-chinese-ai-company-end-of-october",
+   "title": "Second-Best Chinese AI Company end of October?",
+   "url": "https://polymarket.com/event/second-best-chinese-ai-company-end-of-october",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/best-chinese-ai-company-end-of-april-a_9taJMfZn2f.jpg",
+   "volume": 75320,
+   "volume24h": 2662,
+   "endDate": "2026-10-31T16:00:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "Alibaba",
+     "yes": 0.25,
+     "change": 0.045,
+     "volume": 16592.460374000002
+    },
+    {
+     "name": "Moonshot",
+     "yes": 0.275,
+     "change": 0.043,
+     "volume": 23854.657366
+    },
+    {
+     "name": "Baidu",
+     "yes": 0.022,
+     "change": -0.007,
+     "volume": 3083.263282
+    },
+    {
+     "name": "Z.ai",
+     "yes": 0.05,
+     "change": null,
+     "volume": 9181.657661000001
+    },
+    {
+     "name": "Xiaomi",
+     "yes": 0.3005,
+     "change": -0.0885,
+     "volume": 8188.592901999999
+    },
+    {
+     "name": "DeepSeek",
+     "yes": 0.035,
+     "change": -0.007,
+     "volume": 2297.662708
+    },
+    {
+     "name": "ByteDance",
+     "yes": 0.0315,
+     "change": 0.0085,
+     "volume": 2461.831708
+    },
+    {
+     "name": "MiniMax",
+     "yes": 0.026,
+     "change": -0.006,
+     "volume": 3551.8732080000004
+    }
+   ],
+   "priority": 11
+  },
+  {
+   "id": "740933",
+   "slug": "highest-claude-score-on-humanitys-last-exam-in-2026-20260723190836285",
+   "title": "Highest Claude score on Humanity’s Last Exam in 2026?",
+   "url": "https://polymarket.com/event/highest-claude-score-on-humanitys-last-exam-in-2026-20260723190836285",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/claude-4pt7-released-by-LSHFPBEUsncm.png",
+   "volume": 172023,
+   "volume24h": 205,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "60%+",
+     "yes": 0.31,
+     "change": 0.005,
+     "volume": 66792.732181
+    },
+    {
+     "name": "65%+",
+     "yes": 0.195,
+     "change": 0.065,
+     "volume": 42359.232122
+    },
+    {
+     "name": "70%+",
+     "yes": 0.085,
+     "change": -0.005,
+     "volume": 8961.421325000001
+    },
+    {
+     "name": "75%+",
+     "yes": 0.0615,
+     "change": -0.0085,
+     "volume": 2536.879151
+    }
+   ],
+   "priority": 12
+  },
+  {
+   "id": "740935",
+   "slug": "highest-grok-score-on-humanitys-last-exam-in-2026-20260723191502948",
+   "title": "Highest Grok score on Humanity’s Last Exam in 2026?",
+   "url": "https://polymarket.com/event/highest-grok-score-on-humanitys-last-exam-in-2026-20260723191502948",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-spacexai-have-the-best-text-to-image-ai-at-the-end-of-july-2026-20260715013-sDKidBNrmQqb.png",
+   "volume": 166421,
+   "volume24h": 606,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "42%+",
+     "yes": 0.71,
+     "change": 0.12,
+     "volume": 373.903864
+    },
+    {
+     "name": "45%+",
+     "yes": 0.597,
+     "change": 0.0395,
+     "volume": 65771.605491
+    },
+    {
+     "name": "50%+",
+     "yes": 0.375,
+     "change": -0.005,
+     "volume": 38953.58006600001
+    },
+    {
+     "name": "55%+",
+     "yes": 0.43,
+     "change": 0.215,
+     "volume": 37248.244959999996
+    },
+    {
+     "name": "60%+",
+     "yes": 0.135,
+     "change": 0.005,
+     "volume": 20997.513601
+    },
+    {
+     "name": "65%+",
+     "yes": 0.05,
+     "change": -0.001,
+     "volume": 3076.6441830000003
+    }
+   ],
+   "priority": 12
+  },
+  {
+   "id": "740958",
+   "slug": "highest-openai-score-on-humanitys-last-exam-in-2026-20260723225144062",
+   "title": "Highest OpenAI score on Humanity’s Last Exam in 2026?",
+   "url": "https://polymarket.com/event/highest-openai-score-on-humanitys-last-exam-in-2026-20260723225144062",
+   "image": "https://polymarket-upload.s3.us-east-2.amazonaws.com/will-openai-have-the-top-ai-model-on-february-28-3eaAmSON076D.jpg",
+   "volume": 145925,
+   "volume24h": 277,
+   "endDate": "2027-01-01T04:59:00Z",
+   "binary": false,
+   "outcomes": [
+    {
+     "name": "55%+",
+     "yes": 0.79,
+     "change": -0.01,
+     "volume": 41926.19456
+    },
+    {
+     "name": "60%+",
+     "yes": 0.16,
+     "change": -0.015,
+     "volume": 56103.23106800001
+    },
+    {
+     "name": "65%+",
+     "yes": 0.075,
+     "change": null,
+     "volume": 24069.916887
+    },
+    {
+     "name": "70%+",
+     "yes": 0.065,
+     "change": null,
+     "volume": 6496.241394000001
+    }
+   ],
+   "priority": 12
+  }
+ ]
+}
