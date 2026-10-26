@@ -10,6 +10,7 @@ import { BrandMark } from "@/components/Logo";
 import { TimeAgo } from "@/components/TimeAgo";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { Track } from "@/components/site/Track";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { PointsToast, SignInModal, UsernamePrompt, UserMenu } from "@/components/auth/UserUI";
 
 export const metadata: Metadata = {
@@ -111,6 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <PointsToast />
         </AuthProvider>
       </body>
+      <GoogleAnalytics gaId="G-44XSN0VVMZ" />
     </html>
   );
 }

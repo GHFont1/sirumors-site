@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Privacy Policy", description: "What 
 
 export default function PrivacyPage() {
   return (
-    <Prose kicker="Legal" title="Privacy Policy" updated="October 12, 2026" intro="We collect as little as we can. We do not sell your information and we do not use advertising trackers.">
+    <Prose kicker="Legal" title="Privacy Policy" updated="October 26, 2026" intro="We collect as little as we can. We do not sell your information and we do not use advertising trackers.">
       <h2>What we collect</h2>
       <ul className="space-y-2">
         <li><strong>Visits.</strong> When you view a page we record the page address, the website that referred you (its domain only), whether it is the first page of your visit, and whether you are on a phone or a computer. We do not record your IP address, set cookies for this, or link it to you.</li>
@@ -19,10 +19,10 @@ export default function PrivacyPage() {
       <p>To run the site, send the emails you asked for, show your follows and notifications, run the forums, answer messages, keep the site secure and understand which pages are useful. We do not sell or rent personal information and we do not use it for advertising.</p>
 
       <h2>Storage on your device</h2>
-      <p>If you sign in, your browser keeps your sign-in session in local storage so you stay signed in. We also keep a small flag in session storage, cleared when you close the tab, so a visit is counted once. We do not use advertising or cross-site tracking cookies.</p>
+      <p>If you sign in, your browser keeps your sign-in session in local storage so you stay signed in. We also keep a small flag in session storage, cleared when you close the tab, so a visit is counted once. We also use Google Analytics, which sets first-party cookies, to see which pages are useful and how visitors move through the site. We do not use advertising or cross-site tracking cookies.</p>
 
       <h2>Who processes it for us</h2>
-      <p>We use a small number of service providers to run SI Rumors: website hosting (GitHub Pages), our database and sign-in service (Supabase), and email delivery (Resend). They process data only to provide these services to us. Pages may display images hosted by the companies we cover and embedded videos from YouTube (using its privacy-enhanced mode), which those services load directly.</p>
+      <p>We use a small number of service providers to run SI Rumors: website hosting (GitHub Pages), our database and sign-in service (Supabase), email delivery (Resend) and site analytics (Google Analytics, which receives the pages you view, your device and browser type and your approximate location, and gives us aggregate reports only; you can opt out with <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer" target="_blank">Google&apos;s opt-out add-on</a> or by blocking cookies). They process data only to provide these services to us. Pages may display images hosted by the companies we cover and embedded videos from YouTube (using its privacy-enhanced mode), which those services load directly.</p>
 
       <h2>How long we keep it</h2>
       <p>Visit counts are kept in aggregate form for as long as they are useful. Email subscriptions are kept until you unsubscribe. Account data is kept until you ask us to delete your account. Contact messages are kept as long as needed to handle your request.</p>
