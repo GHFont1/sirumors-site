@@ -11,6 +11,7 @@ import { TimeAgo } from "@/components/TimeAgo";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { Track } from "@/components/site/Track";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import { PointsToast, SignInModal, UsernamePrompt, UserMenu } from "@/components/auth/UserUI";
 
 export const metadata: Metadata = {
@@ -113,6 +114,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </AuthProvider>
       </body>
       <GoogleAnalytics gaId="G-44XSN0VVMZ" />
+      {/* Microsoft Clarity project z3rak34tq1 (heatmaps, session replays). */}
+      <Script id="clarity" strategy="afterInteractive">{`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","z3rak34tq1");`}</Script>
     </html>
   );
 }

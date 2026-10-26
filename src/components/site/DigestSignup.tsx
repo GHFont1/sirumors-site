@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { sb } from "@/lib/supabase";
+import { sendGAEvent } from "@next/third-parties/google";
 
 /** "Get the daily digest" box: email only, confirmed by a link we send. */
 export function DigestSignup({ source, compact }: { source: string; compact?: boolean }) {
@@ -11,7 +12,9 @@ export function DigestSignup({ source, compact }: { source: string; compact?: bo
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { setState("bad"); return; }
     setState("busy");
     const { data, error } = await sb().rpc("subscribe_digest", { p_email: email, p_source: source });
-    setState(!error && data ? "done" : "bad");
+    const ok = !error && !!data;
+    setState(ok ? "done" : "bad");
+    if (ok) sendGAEvent("event", "sign_up", { method: "digest", source });
   };
   return (
     <section className={compact ? "" : "card p-4"}>

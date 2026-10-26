@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { sb } from "@/lib/supabase";
+import { sendGAEvent } from "@next/third-parties/google";
 
 // Push alerts for resets. The public key pairs with VAPID_PRIVATE_KEY used by scripts/reset-push.mjs.
 const VAPID_PUBLIC = "BBQzd9dEHGIE55eRYPtW2kZASxU7zcS7tU9swYqN_Fr_AfD0HJb098FL6CGgZ7wbv_xAiOAqpmbaDh886C04YYg";
@@ -47,6 +48,7 @@ export function NotifyButton({ topic = "codex", name = "Codex" }: { topic?: "cod
       await save(sub, topics);
       writeTopics(topics);
       setState("on");
+      sendGAEvent("event", "alert_on", { topic });
     } catch { setState("error"); }
   }
 
