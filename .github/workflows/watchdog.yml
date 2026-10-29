@@ -99,5 +99,5 @@ jobs:
           msg="The daily digest for $today has not gone out (last: '$day'). Rerunning the update workflow; see the 'Alerts, release threads and emails' step log."
           if [ -z "$open" ]; then gh issue create -R "$REPO" --label digest --title "Daily digest did not go out" --body "$msg"; else gh issue comment "$open" -R "$REPO" --body "$msg"; fi
           gh workflow run update.yml -R "$REPO"
-          # Recovery is under way and tracked in the incident issue; the Mac fixer lane sirumors-update escalates.
+          # Recovery is under way and tracked in the digest issue.
           exit 0
