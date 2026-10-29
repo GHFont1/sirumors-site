@@ -51,7 +51,8 @@ jobs:
             gh issue comment "$open" -R "$REPO" --body "Still failing: ${{ steps.live.outputs.detail }}. Re-running update."
           fi
           gh workflow run update.yml -R "$REPO"
-          exit 1
+          # Recovery is under way and tracked in the incident issue; the Mac fixer lane sirumors-update escalates.
+          exit 0
 
   copy:
     # Our own story write-ups come from the copywriter lane on the Mac (com.sirumors.copywriter).
@@ -98,4 +99,5 @@ jobs:
           msg="The daily digest for $today has not gone out (last: '$day'). Rerunning the update workflow; see the 'Alerts, release threads and emails' step log."
           if [ -z "$open" ]; then gh issue create -R "$REPO" --label digest --title "Daily digest did not go out" --body "$msg"; else gh issue comment "$open" -R "$REPO" --body "$msg"; fi
           gh workflow run update.yml -R "$REPO"
-          exit 1
+          # Recovery is under way and tracked in the incident issue; the Mac fixer lane sirumors-update escalates.
+          exit 0
