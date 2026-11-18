@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { boardsPublished, companyBySlug, frontier, labBest } from "@/lib/data";
-import { LabList } from "@/components/Boards";
+import { LabList, RecentFrontierLaunches } from "@/components/Boards";
 import { fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
 
@@ -18,7 +18,8 @@ export default function ModelsPage() {
     <>
       <div className="kicker">SI Rankings</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Best frontier models <span className="grad-text">right now</span></h1>
-      <p className="mt-1 max-w-2xl text-muted">One list, in order. Each model&apos;s score is its average placing on Arena&apos;s overall, hard-problem, coding and agent boards (100 = #1 everywhere). Tap a model for its reference page.</p>
+      <p className="mt-1 max-w-2xl text-muted">One list, in order. Each model&apos;s score is its average placing on Arena&apos;s overall, hard-problem, coding and agent boards (100 = #1 on every qualifying board it appears on). Tap a model for its reference page.</p>
+      <div className="mt-4"><RecentFrontierLaunches /></div>
       {!frontier.length && <p className="card mt-6 p-6 text-sm text-muted">Rankings are loading. Check back shortly.</p>}
       <div className="card mt-6 overflow-x-auto">
         <table className="w-full text-sm">

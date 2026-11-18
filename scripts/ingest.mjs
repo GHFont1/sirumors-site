@@ -499,7 +499,16 @@ function detectReleases(allItems, store) {
       const date = (c.official ? c.official.publishedAt : ds[Math.min(1, ds.length - 1)]).slice(0, 10);
       if (prev && prev.date <= date && !(c.official && prev.source === "news")) continue;
       const name = d.prefix ? d.prefix + c.version : (line.name.split(" ")[0] === "OpenAI" ? "GPT-" : `${line.name.replace(/^(xAI|Meta|Tesla|Google) /, "")} `) + c.version;
-      have.set(k, { line: line.id, name, version: c.version, date, source: c.official ? "official" : "news", evidence: { title: c.first.title, url: c.first.url, source: c.first.source } });
+      let models;
+      if (c.official && line.id === "openai-gpt") {
+        const title = c.official.title.replace(/[‑–]/g, "-");
+        const family = title.match(/\bGPT[- ](\d+(?:\.\d+)?)\s+(Astra|Sol)(?:\s+(?:and|&)\s+(Astra|Sol))?\b/i);
+        if (family && family[1] === c.version) {
+          models = [...new Set(family.slice(2).filter(Boolean).map((variant) => `GPT-${c.version} ${variant[0].toUpperCase()}${variant.slice(1).toLowerCase()}`))];
+        }
+      }
+      if (c.official && ["claude-opus", "claude-fable", "claude-sonnet", "claude-haiku"].includes(line.id)) models = [name];
+      have.set(k, { line: line.id, name, models, version: c.version, date, source: c.official ? "official" : "news", evidence: { title: c.first.title, url: c.first.url, source: c.first.source } });
     }
   }
   // A news-only release inside the window where we read the lab's own posts is not
@@ -514,9 +523,10 @@ function detectReleases(allItems, store) {
 }
 
 function buildReleases(store) {
+  const pinned = new Set(SEED.releases.filter((r) => r.source === "official").map((r) => `${r.line}:${r.version}`));
   const all = [
-    ...SEED.releases.map((r) => ({ ...r, source: "seed" })),
-    ...store.detected.filter((r) => !r.unverified),
+    ...SEED.releases.map((r) => ({ source: "seed", ...r })),
+    ...store.detected.filter((r) => !r.unverified && !pinned.has(`${r.line}:${r.version}`)),
   ];
   const lines = SEED.lines.map((l) => {
     const rel = all.filter((r) => r.line === l.id).sort((a, b) => a.date.localeCompare(b.date));

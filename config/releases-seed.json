@@ -249,6 +249,19 @@
         "pattern": "\\bCursor (\\d+(?:\\.\\d+)?)\\b",
         "prefix": "Cursor "
       }
+    },
+    {
+      "id": "claude-fable",
+      "name": "Claude Fable",
+      "company": "anthropic",
+      "kind": "model",
+      "detect": {
+        "sources": [
+          "anthropic"
+        ],
+        "pattern": "\\bClaude Fable (\\d+(?:\\.\\d+)?)\\b",
+        "launchWords": true
+      }
     }
   ],
   "releases": [
@@ -610,6 +623,37 @@
         "title": "Today we're starting to test an early version of our V8 model with our community",
         "url": "https://x.com/midjourney/status/2034015403542974793",
         "source": "Midjourney on X"
+      }
+    },
+    {
+      "line": "openai-gpt",
+      "version": "6.2",
+      "name": "GPT-6.2 Astra and Sol",
+      "date": "2026-11-17",
+      "source": "official",
+      "models": [
+        "GPT-6.2 Astra",
+        "GPT-6.2 Sol"
+      ],
+      "evidence": {
+        "title": "Introducing GPT-6.2 Astra and Sol",
+        "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/",
+        "source": "OpenAI"
+      }
+    },
+    {
+      "line": "claude-fable",
+      "version": "5.2",
+      "name": "Claude Fable 5.2",
+      "date": "2026-11-09",
+      "source": "official",
+      "models": [
+        "Claude Fable 5.2"
+      ],
+      "evidence": {
+        "title": "Introducing Claude Fable 5.2 and Claude Mythos 5.2",
+        "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+        "source": "Anthropic"
       }
     }
   ]

@@ -6,18 +6,18 @@ import { useEffect, useRef, useState } from "react";
 export type Tab = { href: string; label: string; logo?: string; mono?: string };
 
 const NAV = [
-  { href: "/", label: "Live updates" },
-  { href: "/rankings/", label: "Rankings" },
-  { href: "/resets/", label: "Resets" },
-  { href: "/codex/", label: "Codex" },
-  { href: "/claude/", label: "Claude" },
+  { href: "/", label: "Live" },
+  { href: "/models/", label: "Models" },
   { href: "/releases/", label: "Releases" },
-  { href: "/rumors/", label: "Rumors" },
-  { href: "/odds/", label: "Odds" },
+  { href: "/resets/", label: "Resets" },
 ];
 const MORE = [
+  { href: "/rumors/", label: "Rumors" },
+  { href: "/rankings/", label: "Rankings by category" },
+  { href: "/codex/", label: "Codex tracker" },
+  { href: "/claude/", label: "Claude tracker" },
+  { href: "/odds/", label: "Odds" },
   { href: "/news/", label: "All news" },
-  { href: "/models/", label: "Best AI models" },
   { href: "/videos/", label: "Videos" },
   { href: "/trends/", label: "Trends" },
   { href: "/people/", label: "People to follow" },
@@ -38,15 +38,17 @@ function Menu({ label, active, children }: { label: string; active: boolean; chi
   useEffect(() => {
     if (!pos) return;
     const off = (e: Event) => { if (!panel.current?.contains(e.target as Node) && !btn.current?.contains(e.target as Node)) setPos(null); };
+    const escape = (e: KeyboardEvent) => { if (e.key === "Escape") { setPos(null); btn.current?.focus(); } };
+    document.addEventListener("keydown", escape);
     document.addEventListener("pointerdown", off);
     window.addEventListener("scroll", off, true);
-    return () => { document.removeEventListener("pointerdown", off); window.removeEventListener("scroll", off, true); };
+    return () => { document.removeEventListener("keydown", escape); document.removeEventListener("pointerdown", off); window.removeEventListener("scroll", off, true); };
   }, [pos]);
   return (
     <>
       <button ref={btn} type="button" aria-expanded={!!pos}
         onClick={() => { const r = btn.current!.getBoundingClientRect(); setPos(pos ? null : { top: r.bottom + 6, left: Math.max(8, Math.min(r.left, window.innerWidth - 248)) }); }}
-        className="shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-semibold transition-colors" style={linkStyle(active || !!pos)}>
+        className="shrink-0 rounded-lg px-1.5 sm:px-2.5 py-1.5 text-sm font-semibold transition-colors" style={linkStyle(active || !!pos)}>
         {label} <span aria-hidden className="text-[10px]">▾</span>
       </button>
       {pos && (
@@ -65,21 +67,18 @@ export function MainNav({ companies, logos }: { companies: Tab[]; logos: Record<
     <nav aria-label="Sections" className="no-scrollbar -mx-1 flex items-center gap-0.5 overflow-x-auto">
       {NAV.map((n) => {
         const active = n.href === "/" ? path === "/" : path.startsWith(n.href);
-        return <Link key={n.href} href={n.href} className="shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-semibold transition-colors" style={linkStyle(active)}>{n.label}</Link>;
+        return <Link key={n.href} href={n.href} className="shrink-0 rounded-lg px-1.5 sm:px-2.5 py-1.5 text-sm font-semibold transition-colors" style={linkStyle(active)}>{n.label}</Link>;
       })}
-      <Menu label="Companies" active={path.startsWith("/c/") || path.startsWith("/t/")}>
-        {(close) => companies.map((t) => (
-          <Link key={t.href} href={t.href} onClick={close} className={item}>
-            {t.logo && logos[t.logo] ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={`/logos/${t.logo}.png`} alt="" width={18} height={18} className="rounded-[4px] bg-white" />
-            ) : <span aria-hidden className="w-[18px] text-center">{t.mono ?? "•"}</span>}
-            {t.label}
-          </Link>
-        ))}
-      </Menu>
-      <Menu label="More" active={MORE.some((m) => path.startsWith(m.href))}>
-        {(close) => MORE.map((m) => <Link key={m.href} href={m.href} onClick={close} className={item}>{m.label}</Link>)}
+      <Menu label="More" active={MORE.some((m) => path.startsWith(m.href)) || companies.some((t) => path.startsWith(t.href))}>
+        {(close) => <>
+          {MORE.map((m) => <Link key={m.href} href={m.href} onClick={close} className={item}>{m.label}</Link>)}
+          <details className="border-t border-line">
+            <summary className="cursor-pointer px-2.5 py-2 text-sm font-semibold">Companies and topics</summary>
+            {companies.map((t) => <Link key={t.href} href={t.href} onClick={close} className={item}>
+              {t.logo && logos[t.logo] && <img src={`/logos/${t.logo}.png`} alt="" width={18} height={18} />}{t.label}
+            </Link>)}
+          </details>
+        </>}
       </Menu>
     </nav>
   );
