@@ -16,12 +16,12 @@ export default function Home() {
         <div>
           <div className="kicker">Independent AI intelligence</div>
           <h1 className="mt-1 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">AI releases, rumors and resets</h1>
-          <p className="mt-2 max-w-xl text-muted">The newest useful changes first, every one written up here in plain words.</p>
+          <p className="mt-2 max-w-xl text-muted">Track model launches, check whether your AI usage limits reset, and see who reported each rumor.</p>
         </div>
-        <div className="flex shrink-0 gap-2">
-          <Link href="/models/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Best AI models</Link>
-          <Link href="/resets/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Resets</Link>
-          <Link href="/codex/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Codex reset</Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/models/" className="rounded-lg px-4 py-2 text-sm font-bold text-white" style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))" }}>Compare AI models</Link>
+          <Link href="/resets/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Usage resets</Link>
+          <Link href="/releases/" className="rounded-lg border border-line bg-surface px-4 py-2 text-sm font-bold hover:border-accent">Release calendar</Link>
         </div>
       </section>
 

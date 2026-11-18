@@ -25,7 +25,7 @@ await Promise.all(Array.from({ length: 3 }, async () => {
   for (let a = queue.shift(); a; a = queue.shift()) {
     try {
       const list = await timeline(a.handle, a.pages ?? (seen.has(a.handle) ? 2 : 6));
-      for (const t of list) store[t.id] = { ...t, company: a.company, name: a.name };
+      for (const t of list) store[t.id] = { ...store[t.id], ...t, company: a.company, name: a.name };
       fetched += list.length;
       if (list.length) seen.add(a.handle);
       log(`${a.handle}: ${list.length} tweets`);
@@ -58,7 +58,7 @@ try {
 try {
   const labx = JSON.parse(readFileSync(join(DATA, "labx.json"), "utf8"));
   for (const t of Object.values(labx.tweets ?? {})) {
-    if (/reset/i.test(t.text)) store[t.id] = { id: t.id, handle: t.handle, at: t.at, text: t.text, url: t.url, company: t.company, name: t.name, lab: true };
+    if (/reset/i.test(t.text)) store[t.id] = { ...store[t.id], id: t.id, handle: t.handle, at: t.at, text: t.text, url: t.url, company: t.company, name: t.name, lab: true };
   }
 } catch (e) { log(`labx.json unreadable: ${e.message}`); }
 // Tweets stored before every lab was tracked are Tibo's or the tracker's.
