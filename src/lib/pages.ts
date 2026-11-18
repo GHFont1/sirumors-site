@@ -100,15 +100,15 @@ export function pageItems(): PageItem[] {
   // Resets: our own text from the reset record.
   const resets = resetHistory();
   for (const r of resets) {
-    const prev = resets.find((x) => x.company === r.company && x.date < r.date);
+    const prev = resets.find((x) => x.company === r.company && x.status === "done" && x.date < r.date);
     const gap = prev ? daysBetween(prev.date.slice(0, 10), r.date.slice(0, 10)) : null;
     const by = r.byName ?? (r.by === "thsottiaux" ? "Tibo" : `@${r.by}`);
     out.push({
       id: r.id, kind: "reset", seoTitle: resetPageTitle(r), badge: r.status === "coming" ? "Reset coming" : r.banked ? "Banked reset" : "Reset",
-      headline: r.title, dek: `${r.product} usage limits${r.status === "coming" ? " are about to reset" : " were reset"}${r.banked ? ", as a reset you can save and use later" : ""}.`,
+      headline: r.title, dek: `On ${fmtDate(r.date)}, ${by} reported ${r.status === "coming" ? "an upcoming usage limit reset" : r.banked ? "a banked reset subscribers could save for later" : "a usage limit reset"} for ${r.product}.`,
       body: [
         `${by} posted on X on ${fmtDate(r.date)}${r.status === "coming" ? " that a reset is on the way" : " that usage limits were reset"}${r.banked ? ". This one is banked: subscribers can keep it and use it when they want" : ""}.`,
-        prev ? `The last ${r.product} reset before this was on ${fmtDate(prev.date)}, ${gap === 0 ? "the same day" : `${gap} days earlier`}.` : `This is the first ${r.product} reset we have on record.`,
+        prev ? `The last ${r.product} reset before this was on ${fmtDate(prev.date)}, ${gap === 0 ? "the same day" : `${gap} days earlier`}.` : `No earlier completed ${r.product} reset appears in our records.`,
       ],
       date: r.date, company: r.company, companies: [r.company], topics: ["codex"], people: [], outlets: [`${by} on X`], ours: true,
       quote: { text: r.quote, by: `${by} on X` },

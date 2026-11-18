@@ -37,6 +37,9 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   const co = p.company ? companyBySlug(p.company) : undefined;
   const more = related(p);
   const tone = TONE[p.kind];
+  const resetHub = p.company === "openai" ? { href: "/codex/", name: "Codex reset tracker" }
+    : p.company === "anthropic" ? { href: "/claude/", name: "Claude reset tracker" }
+    : { href: "/resets/", name: "AI usage reset tracker" };
   const discuss = `/forums/new/?c=${p.kind === "rumor" ? "rumors" : "general"}&title=${encodeURIComponent(p.headline.slice(0, 150))}&link=${encodeURIComponent(pagePath(p.id))}`;
   // NewsArticle markup so search engines read it as our own article.
   const ld = {
@@ -64,6 +67,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
           <Logo slug={co.slug} name={co.name} size={22} /> {co.name}
         </Link>
       )}
+
+      {p.kind === "reset" && <p className="mt-4 text-sm"><Link className="font-bold text-accent hover:underline" href={resetHub.href}>Check the latest status in the {resetHub.name} →</Link></p>}
 
       {p.youtubeId ? (
         <div className="mt-6 aspect-video overflow-hidden rounded-xl border border-line bg-black">

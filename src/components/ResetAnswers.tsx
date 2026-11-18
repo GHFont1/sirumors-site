@@ -12,9 +12,9 @@ export function ResetStatus({ lab = "openai", name }: { lab?: Lab; name: string 
   const yes = resetToday(lab);
   return (
     <div className="card mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 p-4" style={{ borderColor: yes ? "var(--good)" : undefined }}>
-      <span className="text-lg font-extrabold tracking-tight">{name} reset today? <span style={{ color: yes ? "var(--good)" : "var(--muted)" }}>{yes ? "Yes" : "No"}</span></span>
+      <span className="text-lg font-extrabold tracking-tight">{name} reset today? <span style={{ color: yes ? "var(--good)" : "var(--muted)" }}>{yes ? "Yes" : "None recorded"}</span></span>
       <span className="text-sm text-muted">Last reset {fmtDate(last.date)}</span>
-      {coming ? <span className="text-sm font-bold text-accent">Next reset announced for {fmtDate(coming.date)}</span>
+      {coming ? <span className="text-sm font-bold text-accent">Reset announcement posted {fmtDate(coming.announcedAt || coming.date)}</span>
         : nextGuess ? <span className="text-sm text-muted">Next likely around {fmtDate(nextGuess, false)} (estimate)</span> : null}
       <span className="w-full pt-1 sm:ml-auto sm:w-auto sm:pt-0"><NotifyButton topic={lab === "anthropic" ? "claude" : "codex"} name={name} /></span>
     </div>

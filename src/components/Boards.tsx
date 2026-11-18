@@ -217,13 +217,13 @@ export function LabResets({ items }: { items: XReset[] }) {
     <div className="grid grid-cols-2 gap-2">
       {RESET_LABS.map(([slug, product]) => {
         const last = items.find((r) => r.company === slug && r.status === "done");
-        const coming = items.find((r) => r.company === slug && r.status === "coming" && (!last || r.date > last.date));
+        const coming = items.find((r) => r.company === slug && r.status === "coming" && Date.parse(r.date) > NOW - 86400000 && (!last || r.date > last.date));
         const r = coming ?? last;
         const inner = (
           <>
             <span className="flex items-center gap-1.5 text-[11px] font-bold text-muted"><Logo slug={slug} name={product} size={16} />{product}</span>
-            <span className="mt-1 block text-lg font-extrabold leading-tight tracking-tight">{coming ? `Coming ${fmtDate(coming.date, false)}` : last ? ago(last.date) : "None yet"}</span>
-            <span className="block text-[10.5px] text-faint">{coming ? "announced" : last ? `last reset · ${fmtDate(last.date, false)}` : "no reset posted on X"}</span>
+            <span className="mt-1 block text-lg font-extrabold leading-tight tracking-tight">{coming ? `Reset pending` : last ? ago(last.date) : "None yet"}</span>
+            <span className="block text-[10.5px] text-faint">{coming ? `announced ${fmtDate(coming.announcedAt || coming.date, false)}` : last ? `last reset · ${fmtDate(last.date, false)}` : "no reset posted on X"}</span>
           </>
         );
         return r ? (
