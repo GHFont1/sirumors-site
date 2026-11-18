@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NOW, allReleases, frontier, markets, resetHistory, upcoming } from "@/lib/data";
-import { FrontierList, LabResets, MarketCard, ReleaseFeed, ResetList } from "@/components/Boards";
+import { FrontierList, RecentFrontierLaunches, LabResets, MarketCard, ReleaseFeed, ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
 import { DigestSignup } from "@/components/site/DigestSignup";
@@ -25,11 +25,12 @@ export function Sidebar() {
   return (
     <aside className="space-y-4">
       <Side title="Best frontier models" href="/models/" linkLabel="Full ranking">
+        <RecentFrontierLaunches />
         <FrontierList items={frontier} limit={10} />
       </Side>
 
       <Side title="Latest releases" href="/releases/" linkLabel="Release log">
-        <ReleaseFeed items={allReleases()} limit={7} />
+        <ReleaseFeed items={allReleases()} limit={12} />
         {next && (
           <div className="mt-2 flex items-center gap-2.5 rounded-lg border border-dashed border-line p-2.5">
             <Logo slug={next.company} name={next.name} size={22} />

@@ -73,6 +73,7 @@ export type Video = {
 };
 
 export type Release = {
+  models?: string[];
   line: string;
   name: string;
   version: string;
@@ -273,5 +274,5 @@ export function resetHistory(company?: string): XReset[] {
 export function releaseFor(model: string) {
   const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9.]+/g, " ").trim();
   const want = norm(model) + " ";
-  return allReleases().filter((r) => want.startsWith(norm(r.name) + " ")).sort((a, b) => b.name.length - a.name.length)[0];
+  return allReleases().filter((r) => [r.name, ...(r.models ?? [])].some((name) => want.startsWith(norm(name) + " "))).sort((a, b) => b.name.length - a.name.length)[0];
 }

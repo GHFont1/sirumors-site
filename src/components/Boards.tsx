@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NOW, companyBySlug, type Board, type FrontierModel, type Market, type XReset } from "@/lib/data";
+import { NOW, allReleases, boardsPublished, frontier, companyBySlug, type Board, type FrontierModel, type Market, type XReset } from "@/lib/data";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "./Logo";
 
@@ -105,6 +105,20 @@ export function RankBoard({ b, rows = 5, compactCard = false }: { b: Board; rows
 }
 
 /** The frontier list: one ranked line per model, each opening its reference page. */
+export function RecentFrontierLaunches() {
+  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const ranked = new Set(frontier.map((m) => normalize(m.model)));
+  const launches = allReleases().filter((r) => r.source === "official" && r.page && NOW - Date.parse(r.date) <= 30 * 86400000 && Date.parse(r.date) <= NOW)
+    .flatMap((r) => (r.models ?? []).filter((name) => !ranked.has(normalize(name))).map((name) => ({ name, href: r.page!, date: r.date })));
+  return <div className="mb-3 text-xs text-muted">
+    <p>Arena rankings{boardsPublished && ` · ${fmtDate(boardsPublished)}`}</p>
+    {launches.length > 0 && <div className="mt-2 rounded-lg bg-chip p-3">
+      <p className="mb-1 font-semibold text-text">New releases without a place on this list</p>
+      {launches.map((m) => <Link key={m.name} href={m.href} className="flex justify-between gap-2 py-1 hover:text-accent"><strong>{m.name}</strong><span>{fmtDate(m.date, false)}</span></Link>)}
+    </div>}
+  </div>;
+}
+
 export function FrontierList({ items, limit = 10 }: { items: FrontierModel[]; limit?: number }) {
   if (!items.length) return <p className="py-3 text-sm text-muted">Rankings are loading.</p>;
   return (

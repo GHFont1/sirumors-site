@@ -66,18 +66,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_LD) }} />
         <AuthProvider>
         <header className="sticky top-0 z-30 border-b border-line backdrop-blur-md" style={{ background: "color-mix(in srgb, var(--bg) 88%, transparent)" }}>
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 py-3 sm:flex-nowrap sm:px-5">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 py-3 md:flex-nowrap sm:px-5">
             <Link href="/" className="flex items-center gap-2.5" aria-label="SI Rumors home">
               <BrandMark size={30} />
               <span className="text-xl font-extrabold tracking-tight">
                 <span className="grad-text">SI</span>Rumors
               </span>
             </Link>
-            <div className="ml-auto flex items-center gap-4 sm:order-last">
+            <div className="ml-auto flex shrink-0 items-center gap-4 whitespace-nowrap md:order-last">
               <span className="hidden items-center gap-1.5 text-xs text-muted lg:flex"><span className="live-dot" /> Updated <TimeAgo iso={generatedAt} built={built} /></span>
               <UserMenu />
             </div>
-            <div className="w-full min-w-0 sm:w-auto"><MainNav companies={tabs} logos={logos} /></div>
+            <div className="w-full min-w-0 md:w-auto"><MainNav companies={tabs} logos={logos} /></div>
           </div>
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-16 pt-6 sm:px-5">{children}</main>
