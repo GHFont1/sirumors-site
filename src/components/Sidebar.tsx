@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NOW, allReleases, frontier, markets, resetHistory, upcoming } from "@/lib/data";
+import { NOW, labAnnouncements, allReleases, frontier, markets, resetHistory, upcoming } from "@/lib/data";
 import { FrontierList, RecentFrontierLaunches, LabResets, MarketCard, ReleaseFeed, ResetList } from "@/components/Boards";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
@@ -30,6 +30,10 @@ export function Sidebar() {
       </Side>
 
       <Side title="Latest releases" href="/releases/" linkLabel="Release log">
+        {labAnnouncements.length > 0 && <Link href={`/releases/#lab-${labAnnouncements[0].id}`} className="mb-2 block rounded-lg bg-chip p-3 hover:text-accent">
+          <span className="block text-xs text-muted">Latest lab announcement · {fmtDate(labAnnouncements[0].date, false)}</span>
+          <span className="text-sm font-semibold">{labAnnouncements[0].title}</span>
+        </Link>}
         <ReleaseFeed items={allReleases()} limit={12} />
         {next && (
           <div className="mt-2 flex items-center gap-2.5 rounded-lg border border-dashed border-line p-2.5">

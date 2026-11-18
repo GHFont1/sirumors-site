@@ -101,3 +101,14 @@ jobs:
           gh workflow run update.yml -R "$REPO"
           # Recovery is under way and tracked in the digest issue.
           exit 0
+
+  launches:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+      - name: Compare official announcements with the live release tracker and model board
+        run: node scripts/audit-launch-coverage.mjs
