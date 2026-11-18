@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { NOW, companyBySlug, pageId, pagePath } from "@/lib/data";
+import { NOW, companyBySlug, pageId, pagePath, resetHistory } from "@/lib/data";
 import { pageById, pageItems, related } from "@/lib/pages";
 import { fmtDate } from "@/lib/format";
 import { Logo } from "@/components/Logo";
@@ -57,6 +57,12 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
       "@type": "ListItem", position: i + 1, name, item: `https://sirumors.com${path}`,
     })),
   };
+  const history = p.kind === "reset" ? resetHistory(p.company) : [];
+  const index = history.findIndex((event) => event.id === p.id);
+  const neighbors = index < 0 ? [] : [
+    { label: "Previous event", event: history[index + 1] },
+    { label: "Next event", event: history[index - 1] },
+  ].filter(({ event }) => event);
   const discuss = `/forums/new/?c=${p.kind === "rumor" ? "rumors" : "general"}&title=${encodeURIComponent(p.headline.slice(0, 150))}&link=${encodeURIComponent(pagePath(p.id))}`;
   // NewsArticle markup so search engines read it as our own article.
   const ld = {
@@ -92,6 +98,13 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
       )}
 
       {p.kind === "reset" && <p className="mt-4 text-sm"><Link className="font-bold text-accent hover:underline" href={resetHub.href}>Check the latest status in the {resetHub.name} →</Link></p>}
+
+      {neighbors.length > 0 && <nav aria-label="Reset history" className="mt-4 grid gap-2 sm:grid-cols-2">
+        {neighbors.map(({ label, event }) => <Link href={event.url} key={event.id} className="card p-3 hover:border-accent">
+          <span className="block text-xs text-muted">{label} · {fmtDate(event.date)}</span>
+          <span className="mt-1 block text-sm font-semibold">{event.title}</span>
+        </Link>)}
+      </nav>}
 
       {p.youtubeId ? (
         <div className="mt-6 aspect-video overflow-hidden rounded-xl border border-line bg-black">
