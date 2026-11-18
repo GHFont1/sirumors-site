@@ -50,7 +50,7 @@ function storyItem(s: Story, also: Story[]): PageItem {
   const badge = rumor ? ({ confirmed: "Confirmed", strong: "Strong rumor", developing: "Rumor", whisper: "Rumor" } as const)[s.status!] : s.type === "official" ? "Official" : major.length >= 3 ? "Big story" : "News";
   const facts: [string, string][] = [["Published", fmtDate(s.publishedAt)]];
   if (s.type === "official") facts.push(["Source", s.source]);
-  else if (major.length) facts.push(["Reported by", major.join(", ")]);
+  else if (major.length) facts.push(["Reported by", `${major.length} major ${major.length === 1 ? "outlet" : "outlets"}`]);
   if (rumor) facts.push(["Confidence", `${s.confidence ?? 0}/100`]);
   return {
     id: `s-${s.id}`, kind: rumor ? "rumor" : "story", badge,

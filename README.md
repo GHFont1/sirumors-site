@@ -34,3 +34,8 @@ npm run build && npx serve out
 - A company, topic or person: `config/entities.json` (keywords drive tagging). Add a logo with `npm run logos`.
 - A source: `config/sources.json` (`feeds`, `newsQueries`, `youtube`, `githubRepos`, `blockSources`).
 - A product line for release tracking: `config/releases-seed.json` (`detect.pattern` finds new versions).
+
+
+## Measure reset search traffic
+
+On the Mac with the site's Search Console access, run `node scripts/reset-search-report.mjs YYYY-MM-DD`. The read-only report compares the 28 days ending on that date with the preceding 28 days. It groups the three tracker pages separately from individual reset records. Both groups use page-level impressions, which can count multiple results from the same site in one search.
