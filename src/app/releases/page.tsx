@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { NOW, allReleases, companyBySlug, releaseLines, upcoming } from "@/lib/data";
+import { NOW, labAnnouncements, allReleases, companyBySlug, releaseLines, upcoming } from "@/lib/data";
 import { fmtDate } from "@/lib/format";
 import { NextUpCard, Section } from "@/components/Blocks";
 import { Bars, ReleaseTimeline } from "@/components/Charts";
@@ -42,6 +42,15 @@ export default function ReleasesPage() {
           </p>
         )}
       </Section>
+
+      {labAnnouncements.length > 0 && <Section title="Official lab announcements">
+        <ul className="card divide-y divide-line px-4">
+          {labAnnouncements.map((item) => <li key={item.id} id={`lab-${item.id}`} className="py-3">
+            <p className="text-xs text-muted">{item.lab} · <time dateTime={item.date}>{fmtDate(item.date)}</time></p>
+            <p className="mt-1 font-semibold">{item.title}</p>
+          </li>)}
+        </ul>
+      </Section>}
 
       <Section title="Timeline" kicker="All product lines, last 3 years">
         <div className="card p-4">

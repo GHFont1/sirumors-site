@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NOW, allReleases, boardsPublished, frontier, companyBySlug, type Board, type FrontierModel, type Market, type XReset } from "@/lib/data";
+import { NOW, labAnnouncements, allReleases, boardsPublished, frontier, companyBySlug, type Board, type FrontierModel, type Market, type XReset } from "@/lib/data";
 import { daysBetween, fmtDate } from "@/lib/format";
 import { Logo } from "./Logo";
 
@@ -110,10 +110,19 @@ export function RecentFrontierLaunches() {
   const ranked = new Set(frontier.map((m) => normalize(m.model)));
   const launches = allReleases().filter((r) => r.source === "official" && r.page && NOW - Date.parse(r.date) <= 30 * 86400000 && Date.parse(r.date) <= NOW)
     .flatMap((r) => (r.models ?? []).filter((name) => !ranked.has(normalize(name))).map((name) => ({ name, href: r.page!, date: r.date })));
+  const seen = new Set([...ranked, ...launches.map((m) => normalize(m.name))]);
+  for (const item of labAnnouncements) {
+    for (const name of item.models ?? []) {
+      if (seen.has(normalize(name))) continue;
+      launches.push({ name, date: item.date, href: `/releases/#lab-${item.id}` });
+      seen.add(normalize(name));
+    }
+  }
+  launches.sort((a, b) => b.date.localeCompare(a.date));
   return <div className="mb-3 text-xs text-muted">
     <p>Arena rankings{boardsPublished && ` · ${fmtDate(boardsPublished)}`}</p>
     {launches.length > 0 && <div className="mt-2 rounded-lg bg-chip p-3">
-      <p className="mb-1 font-semibold text-text">New releases without a place on this list</p>
+      <p className="mb-1 font-semibold text-text">Recently announced · outside this ranking</p>
       {launches.map((m) => <Link key={m.name} href={m.href} className="flex justify-between gap-2 py-1 hover:text-accent"><strong>{m.name}</strong><span>{fmtDate(m.date, false)}</span></Link>)}
     </div>}
   </div>;

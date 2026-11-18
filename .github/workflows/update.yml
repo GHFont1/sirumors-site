@@ -79,6 +79,10 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: node scripts/notify.mjs --data data
 
+      - name: Collect first-party lab announcements
+        continue-on-error: true
+        run: node scripts/collect-lab-announcements.mjs
+
       - name: Save data
         working-directory: data
         run: |

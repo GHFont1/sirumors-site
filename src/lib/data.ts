@@ -134,6 +134,7 @@ const rumorsData = load<{ rumors: Story[] }>("rumors.json", { rumors: [] });
 rumorsData.rumors.forEach(ownPage);
 const videosData = load<{ videos: Video[] }>("videos.json", { videos: [] });
 for (const v of videosData.videos) { v.youtubeId = v.id; v.url = pagePath(`v-${v.id}`); }
+export const labAnnouncements = load<{ id: string; lab: string; models?: string[]; title: string; date: string; url: string }[]>("lab-announcements.json", []);
 const releasesData = load<{ lines: ReleaseLine[] }>("releases.json", { lines: [] });
 for (const l of releasesData.lines) for (const r of l.releases) r.page = pagePath(`r-${l.id}-${r.version}`);
 const githubData = load<{ repos: Repo[] }>("github.json", { repos: [] });
