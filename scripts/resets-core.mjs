@@ -46,6 +46,8 @@ export function classify(t) {
   if (t.curated) return "done";
   if (!/reset/i.test(t.text) || NOT.test(t.text)) return null;
   if (t.company !== "openai" || !["thsottiaux", "codexresets_"].includes(t.handle)) return GEN.test(t.text) && !/\?\s*$/.test(t.text.trim()) ? "done" : null;
+  // Tibo closed the October 20 campaign update with this explicit completion.
+  if (t.handle === "thsottiaux" && /^day \d+\s*\/.*\band reset\. enjoy\.?(?:\s|$)/i.test(t.text)) return "done";
   if (DONE.test(t.text)) return "done";
   if (SOON.test(t.text)) return "soon";
   return null;

@@ -6,8 +6,8 @@ import { credLabel } from "@/lib/major";
 import { FeedFilter } from "@/components/FeedFilter";
 
 export const metadata: Metadata = {
-  title: "AI News: Only What Matters",
-  description: "The AI news that matters: lab launches and announcements, stories verified by major outlets, and rumors with real backing. Written by SI Rumors.",
+  title: "AI News, Lab Announcements and Rumors",
+  description: "Follow AI launches and announcements from the labs, compare coverage from major outlets, and filter the news by company.",
   alternates: { canonical: "/news/" },
 };
 
@@ -16,8 +16,8 @@ export default function NewsPage() {
   return (
     <>
       <div className="kicker">News feed</div>
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">The news that matters</h1>
-      <p className="mt-1 max-w-2xl text-muted">Lab launches and announcements, stories verified by major outlets, and rumors with real backing. No commentary, no filler.</p>
+      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">AI news and lab announcements</h1>
+      <p className="mt-1 max-w-2xl text-muted">Browse announcements, reporting and rumors by company and source type.</p>
       <div className="mt-6">
         <FeedFilter items={items} companies={companies.map((c) => ({ slug: c.slug, name: c.name, logo: existsSync(join(process.cwd(), "public/logos", `${c.slug}.png`)) }))} />
       </div>

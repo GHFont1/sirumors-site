@@ -54,6 +54,6 @@ export function isMajor(s: Story) {
 export function credLabel(s: Story, folded: Story[] = []) {
   if (s.type === "official") return "Official";
   const m = new Set([s, ...folded].flatMap(majorOutlets)).size;
-  if (m) return `Verified · ${m} major ${m === 1 ? "outlet" : "outlets"}`;
-  return s.isRumor ? "Unconfirmed" : "Verified";
+  if (m) return `Reported by ${m} major ${m === 1 ? "outlet" : "outlets"}`;
+  return s.isRumor ? "Unconfirmed" : "Reported";
 }

@@ -29,6 +29,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 const isoDate = (d: string) => new Date(d.length === 10 ? d + "T12:00:00Z" : d).toISOString();
 
+const SECTIONS = {
+  release: ["Release tracker", "/releases/"], reset: ["Usage resets", "/resets/"],
+  rumor: ["Rumors", "/rumors/"], story: ["AI news", "/news/"],
+  update: ["Latest updates", "/"], video: ["Videos", "/videos/"],
+} as const;
+
 const TONE: Record<string, string> = { release: "var(--good)", reset: "var(--accent-2)", rumor: "var(--rumor)", story: "var(--accent)", update: "var(--accent)", video: "var(--accent)" };
 
 export default async function ItemPage({ params }: { params: Promise<{ id: string }> }) {
@@ -37,6 +43,20 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   const co = p.company ? companyBySlug(p.company) : undefined;
   const more = related(p);
   const tone = TONE[p.kind];
+  const resetHub = p.company === "openai" ? { href: "/codex/", name: "Codex reset tracker" }
+    : p.company === "anthropic" ? { href: "/claude/", name: "Claude reset tracker" }
+    : { href: "/resets/", name: "AI usage reset tracker" };
+  const [sectionName, sectionPath] = SECTIONS[p.kind];
+  const crumbs = [
+    ...(sectionPath === "/" ? [] : [{ name: "SI Rumors", path: "/" }]),
+    { name: sectionName, path: sectionPath }, { name: p.headline, path: pagePath(p.id) },
+  ];
+  const breadcrumb = {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: crumbs.map(({ name, path }, i) => ({
+      "@type": "ListItem", position: i + 1, name, item: `https://sirumors.com${path}`,
+    })),
+  };
   const discuss = `/forums/new/?c=${p.kind === "rumor" ? "rumors" : "general"}&title=${encodeURIComponent(p.headline.slice(0, 150))}&link=${encodeURIComponent(pagePath(p.id))}`;
   // NewsArticle markup so search engines read it as our own article.
   const ld = {
@@ -52,7 +72,13 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] [&>*]:min-w-0">
     <article className="max-w-3xl">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([ld, breadcrumb]).replace(/</g, "\\u003c") }} />
+      <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap gap-2 text-sm text-muted">
+        {crumbs.slice(0, -1).map(({ name, path }, i) => <span key={path}>
+          {i > 0 && <span aria-hidden="true" className="mr-2">/</span>}
+          <Link className="hover:text-accent hover:underline" href={path}>{name}</Link>
+        </span>)}
+      </nav>
       <div className="flex flex-wrap items-center gap-2 text-xs">
         <span className="rounded-full border px-2.5 py-0.5 font-bold uppercase tracking-wider" style={{ color: tone, borderColor: `color-mix(in srgb, ${tone} 55%, transparent)`, background: `color-mix(in srgb, ${tone} 10%, transparent)` }}>{p.badge}</span>
         <span className="text-faint">{fmtDate(p.date)} · <TimeAgo iso={p.date} built={NOW} /></span>
@@ -64,6 +90,8 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
           <Logo slug={co.slug} name={co.name} size={22} /> {co.name}
         </Link>
       )}
+
+      {p.kind === "reset" && <p className="mt-4 text-sm"><Link className="font-bold text-accent hover:underline" href={resetHub.href}>Check the latest status in the {resetHub.name} →</Link></p>}
 
       {p.youtubeId ? (
         <div className="mt-6 aspect-video overflow-hidden rounded-xl border border-line bg-black">

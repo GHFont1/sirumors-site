@@ -49,8 +49,8 @@ function storyItem(s: Story, also: Story[]): PageItem {
   const rumor = s.isRumor && s.status;
   const badge = rumor ? ({ confirmed: "Confirmed", strong: "Strong rumor", developing: "Rumor", whisper: "Rumor" } as const)[s.status!] : s.type === "official" ? "Official" : major.length >= 3 ? "Big story" : "News";
   const facts: [string, string][] = [["Published", fmtDate(s.publishedAt)]];
-  if (s.type === "official") facts.push(["Source", "The company itself"]);
-  else if (major.length) facts.push(["Verified by", major.length === 1 ? "1 major outlet" : `${major.length} major outlets`]);
+  if (s.type === "official") facts.push(["Source", s.source]);
+  else if (major.length) facts.push(["Reported by", major.join(", ")]);
   if (rumor) facts.push(["Confidence", `${s.confidence ?? 0}/100`]);
   return {
     id: `s-${s.id}`, kind: rumor ? "rumor" : "story", badge,
@@ -100,15 +100,15 @@ export function pageItems(): PageItem[] {
   // Resets: our own text from the reset record.
   const resets = resetHistory();
   for (const r of resets) {
-    const prev = resets.find((x) => x.company === r.company && x.date < r.date);
+    const prev = resets.find((x) => x.company === r.company && x.status === "done" && x.date < r.date);
     const gap = prev ? daysBetween(prev.date.slice(0, 10), r.date.slice(0, 10)) : null;
     const by = r.byName ?? (r.by === "thsottiaux" ? "Tibo" : `@${r.by}`);
     out.push({
       id: r.id, kind: "reset", seoTitle: resetPageTitle(r), badge: r.status === "coming" ? "Reset coming" : r.banked ? "Banked reset" : "Reset",
-      headline: r.title, dek: `${r.product} usage limits${r.status === "coming" ? " are about to reset" : " were reset"}${r.banked ? ", as a reset you can save and use later" : ""}.`,
+      headline: r.title, dek: `On ${fmtDate(r.date)}, ${by} reported ${r.status === "coming" ? "an upcoming usage limit reset" : r.banked ? "a banked reset subscribers could save for later" : "a usage limit reset"} for ${r.product}.`,
       body: [
         `${by} posted on X on ${fmtDate(r.date)}${r.status === "coming" ? " that a reset is on the way" : " that usage limits were reset"}${r.banked ? ". This one is banked: subscribers can keep it and use it when they want" : ""}.`,
-        prev ? `The last ${r.product} reset before this was on ${fmtDate(prev.date)}, ${gap === 0 ? "the same day" : `${gap} days earlier`}.` : `This is the first ${r.product} reset we have on record.`,
+        prev ? `The last ${r.product} reset before this was on ${fmtDate(prev.date)}, ${gap === 0 ? "the same day" : `${gap} days earlier`}.` : `No earlier completed ${r.product} reset appears in our records.`,
       ],
       date: r.date, company: r.company, companies: [r.company], topics: ["codex"], people: [], outlets: [`${by} on X`], ours: true,
       quote: { text: r.quote, by: `${by} on X` },

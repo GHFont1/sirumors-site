@@ -12,6 +12,11 @@ if (feed.items.length < 100) { console.error(`feed has only ${feed.items.length}
 const rk = existsSync("data/rankings.json") ? JSON.parse(readFileSync("data/rankings.json", "utf8")) : { boards: [] };
 const mk = existsSync("data/markets.json") ? JSON.parse(readFileSync("data/markets.json", "utf8")) : { markets: [] };
 const xr = existsSync("data/xresets.json") ? JSON.parse(readFileSync("data/xresets.json", "utf8")) : { events: [] };
+// This indexed campaign announcement once disappeared when source ingestion dropped its classification.
+const octoberReset = "x-2112432076767289678";
+if (xr.tweets?.[octoberReset.slice(2)] && !existsSync(`out/n/${octoberReset}/index.html`)) {
+  throw new Error("The October 20 Codex reset source is present but its article is missing");
+}
 if (xr.events.length < 3) { console.error(`only ${xr.events.length} resets from X`); process.exit(1); }
 if (new Set(xr.events.map((e) => e.company ?? "openai")).size < 2) { console.error("resets cover fewer than 2 labs"); process.exit(1); }
 if ((rk.frontier ?? []).length < 5) { console.error(`only ${(rk.frontier ?? []).length} frontier models`); process.exit(1); }
