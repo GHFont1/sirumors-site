@@ -11,14 +11,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/models/" },
 };
 
-const COLS: [string, string][] = [["overall", "Overall"], ["hard", "Hard"], ["coding", "Coding"], ["agent", "Agents"]];
+const COLS: [string, string][] = [["coding", "Coding"], ["agent", "Agents"], ["overall", "Chat"], ["hard", "Hard chat"]];
 
 export default function ModelsPage() {
   return (
     <>
       <div className="kicker">SI Rankings</div>
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Best frontier models <span className="grad-text">right now</span></h1>
-      <p className="mt-1 max-w-2xl text-muted">One list, in order. Each model&apos;s score is its average placing on Arena&apos;s overall, hard-problem, coding and agent boards (100 = #1 on every qualifying board it appears on). Tap a model for its reference page.</p>
+      <p className="mt-1 max-w-2xl text-muted">One list, in order. Each model is scored on the work it finishes: Arena&apos;s coding and agent boards (100 = the leader on both). Chat-vote placings are shown beside it but don&apos;t change the score. Tap a model for its reference page.</p>
       <div className="mt-4"><RecentFrontierLaunches /></div>
       {!frontier.length && <p className="card mt-6 p-6 text-sm text-muted">Rankings are loading. Check back shortly.</p>}
       <div className="card mt-6 overflow-x-auto">
@@ -59,7 +59,7 @@ export default function ModelsPage() {
           <div className="card mt-3 p-2 sm:p-3"><LabList items={labBest} /></div>
         </>
       )}
-      <p className="mt-3 text-xs text-faint">Source: Arena (arena.ai) public leaderboards{boardsPublished ? `, published ${fmtDate(boardsPublished)}` : ""}. A model must be on at least two of the four boards. &ldquo;—&rdquo; means it isn&apos;t on that board, so it&apos;s judged on the rest.</p>
+      <p className="mt-3 text-xs text-faint">Source: Arena (arena.ai) public leaderboards{boardsPublished ? `, published ${fmtDate(boardsPublished)}` : ""}. A model must be on both the coding and agent boards. Score is by rating, not place: 100 matches the board leader, 0 matches the 20th model. Overall and hard-problem columns are chat votes, shown for reference only; &ldquo;—&rdquo; means the model isn&apos;t on that board.</p>
     </>
   );
 }

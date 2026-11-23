@@ -14,7 +14,7 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const m = frontierBySlug((await params).slug);
-  return m ? { title: `${m.model}: #${m.rank} Frontier AI Model, Rankings and Release`, description: `How ${m.model} by ${m.orgName} ranks right now: #${m.rank} on the frontier list, its placing for overall, hard prompts, coding and agents, when it was released and the latest news.`, alternates: { canonical: `/models/${m.slug}/` } } : {};
+  return m ? { title: `${m.model}: #${m.rank} Frontier AI Model, Rankings and Release`, description: `How ${m.model} by ${m.orgName} ranks right now: #${m.rank} on the frontier list, its placing for coding, agents, overall chat and hard prompts, when it was released and the latest news.`, alternates: { canonical: `/models/${m.slug}/` } } : {};
 }
 
 const BOARD_NAMES: Record<string, string> = { overall: "Overall", hard: "Hard problems", coding: "Coding", agent: "Agents" };
@@ -81,7 +81,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
 
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Frontier rank" value={`#${m.rank}`} sub={`of ${frontier.length} tracked`} tone="accent" />
-        <Stat label="Frontier score" value={Math.round(m.score)} sub="100 = #1 on every board" />
+        <Stat label="Frontier score" value={Math.round(m.score)} sub="100 = leads coding and agents" />
         <Stat label="Best placing" value={`#${Math.min(...Object.values(m.boards).map((b) => b.pos))}`} sub={BOARD_NAMES[Object.entries(m.boards).sort((a, b) => a[1].pos - b[1].pos)[0][0]]} />
         <Stat label="Released" value={rel ? fmtDate(rel.date, false) : "—"} sub={rel ? `${rel.name}${rel.date ? ` · ${new Date(rel.date).getUTCFullYear()}` : ""}` : "Not in the release tracker yet"} />
       </div>
@@ -89,7 +89,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
       <Section title="Benchmarks" kicker={`${m.model} against the field`}>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <div className="card p-4 md:col-span-2">
-            <div className="mb-3 flex items-baseline justify-between gap-3"><span className="text-sm font-bold">Frontier score</span><span className="text-[11px] text-faint">Average placing, 100 = #1 everywhere</span></div>
+            <div className="mb-3 flex items-baseline justify-between gap-3"><span className="text-sm font-bold">Frontier score</span><span className="text-[11px] text-faint">Coding and agent boards, 100 = leads both</span></div>
             <BarChart unit="" rows={(() => {
               const top = frontier.slice(0, 8).map((f) => ({ label: f.model, value: Math.round(f.score), pos: f.rank, me: f.slug === m.slug, slug: f.slug }));
               return top.some((r) => r.me) ? top : [...top, { label: m.model, value: Math.round(m.score), pos: m.rank, me: true }];

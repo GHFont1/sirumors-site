@@ -144,7 +144,7 @@ export const xresets = xresetsData.events.map((r) => ({ ...r, sourceUrl: r.url, 
 export const xresetsAt = xresetsData.fetchedAt ?? "";
 const historyData = load<{ days: Record<string, DayCounts> }>("history.json", { days: {} });
 export type RankRow = { model: string; raw: string; org: string; company: string | null; rating: number; votes: number; rank: number };
-/** One model on the frontier list: its average placing across overall, hard prompts, coding and agents. */
+/** One model on the frontier list: scored on the coding and agent boards (scripts/frontier.mjs); overall and hard-prompt placings are display only. */
 export type FrontierModel = { rank: number; slug: string; model: string; org: string; orgName: string; company: string | null; open: boolean; score: number; boards: Record<string, { pos: number; rating: number; votes: number }> };
 export type Board = { id: string; label: string; blurb: string; unit: string; published: string; top: RankRow[]; leaderSince?: string; prevLeader?: string | null };
 export type Outcome = { name: string; yes: number; change: number | null; volume: number };
