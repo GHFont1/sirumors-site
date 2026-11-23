@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 25
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url || steps.deploy_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -111,7 +111,16 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
+      # GitHub sometimes lists the uploaded artifact a little late; deploy-pages then finds
+      # none and fails (every run from 14:10 UTC on 2026-11-23). Wait and try once more.
       - id: deploy
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - name: Wait for the Pages artifact to be listed
+        if: steps.deploy.outcome == 'failure'
+        run: sleep 90
+      - id: deploy_retry
+        if: steps.deploy.outcome == 'failure'
         uses: actions/deploy-pages@v4
 
       - name: Tell Bing and IndexNow about new pages
