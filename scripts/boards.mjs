@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { parquetReadObjects } from "hyparquet";
+import { ORG, base, pretty, frontierList } from "./frontier.mjs";
 
 const DATA = process.argv.includes("--data") ? process.argv[process.argv.indexOf("--data") + 1] : "data";
 const log = (...a) => console.log("[boards]", ...a);
@@ -37,12 +38,6 @@ const BOARDS = [
   { id: "image", label: "Best image model", blurb: "Text-to-image Arena", cfg: "text_to_image", cat: "overall" },
   { id: "video", label: "Best video model", blurb: "Text-to-video Arena", cfg: "text_to_video", cat: "overall" },
 ];
-
-const ORG = { google: "google", anthropic: "anthropic", openai: "openai", xai: "xai", meta: "meta", deepseek: "deepseek", mistral: "mistral", microsoft: "microsoft", nvidia: "nvidia", alibaba: "qwen", amazon: "amazon", apple: "apple", spacexai: "xai", moonshot: "moonshot", zai: "zai", "microsoft-ai": "microsoft", bfl: "bfl" };
-// One row per model: drop effort/size suffixes so "-high" and "-max" variants collapse.
-const base = (m) => m.toLowerCase().replace(/\s*\((high|max|low|medium|xhigh|thinking)\)/g, "").replace(/\s+/g, "-").replace(/[-_ ](high|max|low|medium|xhigh|thinking|reasoning|preview|exp|experimental|latest|\d{8}|\d{4}-\d{2}-\d{2})\b/g, "").replace(/[-_ ](high|max|low|medium|thinking)$/g, "");
-const pretty = (m) => base(m).split(/[-_]/).map((w) => (/^\d/.test(w) ? w : w === "gpt" ? "GPT" : w.length <= 2 ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1))).join(" ")
-  .replace(/(\d) (\d)/g, "$1.$2").replace(/^GPT (\d)/, "GPT-$1").replace(/\bGlm\b/, "GLM").replace(/\bMimo\b/, "MiMo").replace(/\bQwen(\d)/, "Qwen $1").replace(/\bOss\b/, "OSS");
 
 async function rankings() {
   const cache = {};
@@ -93,37 +88,6 @@ async function rankings() {
   const labs = all.filter((m) => !seenOrg.has(m.org) && seenOrg.add(m.org));
   write("rankings.json", { generatedAt: new Date().toISOString(), published, source: "Arena (arena.ai) leaderboards via Hugging Face", boards, frontier, labs, history });
   log(`rankings: ${boards.length} boards, published ${published}`);
-}
-
-// The frontier list: one ranked list of the best models across the boards that test
-// raw capability (overall, hard prompts, coding, agents). On each board a model scores
-// 100 for #1 down to 0 for #20 by its placing; its frontier score is the average over
-// the boards it is on (at least two). Models missing from a board (GPT-6 Astra is not
-// on the text board) are judged on the rest.
-const ORG_NAME = { google: "Google", anthropic: "Anthropic", openai: "OpenAI", xai: "xAI", meta: "Meta", deepseek: "DeepSeek", mistral: "Mistral", alibaba: "Alibaba", xiaomi: "Xiaomi", moonshot: "Moonshot AI", zai: "Z.ai", tencent: "Tencent", baidu: "Baidu", amazon: "Amazon", microsoft: "Microsoft", nvidia: "NVIDIA", minimax: "MiniMax", bytedance: "ByteDance", stepfun: "StepFun" };
-const FRONTIER = [["overall", "text", "overall"], ["hard", "text", "hard_prompts"], ["coding", "webdev", "overall"], ["agent", "agent", "overall"]];
-function frontierList(cache) {
-  const models = new Map();
-  for (const [id, cfg, cat] of FRONTIER) {
-    if (!cache[cfg]) continue;
-    const seen = new Set();
-    const list = [];
-    for (const r of cache[cfg].filter((r) => r.category === cat).sort((x, y) => y.rating - x.rating)) {
-      const k = base(r.model_name).replace(/-search$/, "");
-      if (seen.has(k)) continue;
-      seen.add(k);
-      list.push({ k, r });
-    }
-    list.slice(0, 40).forEach(({ k, r }, i) => {
-      const m = models.get(k) ?? { slug: k.replace(/\./g, "-"), model: pretty(r.model_name), org: String(r.organization ?? "").toLowerCase(), orgName: ORG_NAME[String(r.organization ?? "").toLowerCase()] ?? String(r.organization ?? ""), company: ORG[String(r.organization ?? "").toLowerCase()] ?? null, open: !/proprietary/i.test(r.license ?? ""), boards: {} };
-      m.boards[id] = { pos: i + 1, rating: cfg === "agent" ? Math.round(r.rating * 10) / 10 : Math.round(r.rating), votes: r.vote_count, norm: 1 - i / 19 };
-      models.set(k, m);
-    });
-  }
-  return [...models.values()].filter((m) => Object.keys(m.boards).length >= 2)
-    .map((m) => ({ ...m, score: Math.round(1000 * Object.values(m.boards).reduce((a, b) => a + Math.max(-0.5, b.norm), 0) / Object.keys(m.boards).length) / 10 }))
-    .sort((a, b) => b.score - a.score)
-    .map((m, i) => ({ ...m, rank: i + 1, boards: Object.fromEntries(Object.entries(m.boards).map(([k, v]) => [k, { pos: v.pos, rating: v.rating, votes: v.votes }])) }));
 }
 
 // ---------- Prediction markets ----------
